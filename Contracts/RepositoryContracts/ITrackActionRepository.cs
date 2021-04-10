@@ -10,7 +10,7 @@ namespace Contracts
     public interface ITrackActionRepository
     {
         Task<List<TrackAction>> GetTrackActions(int trackId, bool trackChanges);
-        Task<TrackAction> GetTrackActionAsync(int trackId,int trackActionId, bool trackChanges);
+        Task<TrackAction> GetTrackActionAsync(int trackActionId, bool trackChanges);
         void CreateTrackAction(int trackId, TrackAction trackAction);
         void DeleteTrackAction(TrackAction trackAction);
         void UpdateTrackAction(TrackAction trackAction);

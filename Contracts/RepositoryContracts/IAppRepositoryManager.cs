@@ -1,5 +1,4 @@
-﻿using Domain.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Contracts
 {
@@ -7,7 +6,7 @@ namespace Contracts
     {
         IStudentRepository StudentRepository { get; }
         ITrackActionRepository TrackActionRepository { get; }
-       
+
         Task SaveAsync();
     }
 }
