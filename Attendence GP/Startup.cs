@@ -1,5 +1,4 @@
-
-using Domain.Models;
+using Attendence_GP.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -23,8 +22,19 @@ namespace Attendence_GP
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<AttendContext>(options => options.UseSqlServer(_configuration.GetConnectionString("tahaConn")));
-;       }
+            
+            services.ConfigureDbContext(_configuration);
+            services.ConfigureCors();
+            services.ConfigureRepositoryManager();
+            services.AddAutoMapper(typeof(Startup));
+            services.ConfigureStudentService();
+            services.AddControllers(config =>
+            {
+                config.ReturnHttpNotAcceptable = true;
+            });//.AddXmlDataContractSerializerFormatters();
+            //AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
+
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -33,15 +43,12 @@ namespace Attendence_GP
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors("CorsPolicy");
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllers();
             });
         }
     }
