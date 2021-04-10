@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    public class TrackActionRepository : AppRepository<TrackAction>,ITrackActionRepository
+    public class TrackActionRepository : AppRepository<TrackAction>, ITrackActionRepository
     {
-        public TrackActionRepository(AttendContext context) : base(context)
+        public TrackActionRepository(ITIAttendanceContext context) : base(context)
         {
         }
 
@@ -22,15 +22,15 @@ namespace Repository
         }
 
         public void DeleteTrackAction(TrackAction trackAction) => Delete(trackAction);
-        
 
-        public async Task<TrackAction> GetTrackActionAsync(int trackId, int trackActionId, bool trackChanges)=>
-            await FindByCondition(e => e.TrackId == trackId && e.Id == trackActionId, trackChanges).SingleOrDefaultAsync();
+
+        public async Task<TrackAction> GetTrackActionAsync(int trackActionId, bool trackChanges) =>
+            await FindByCondition(e => e.Id == trackActionId, trackChanges).SingleOrDefaultAsync();
 
         public async Task<List<TrackAction>> GetTrackActions(int trackId, bool trackChanges) =>
             await FindByCondition(e => e.TrackId == trackId, trackChanges).ToListAsync();
 
         public void UpdateTrackAction(TrackAction trackAction) => Update(trackAction);
-        
+
     }
 }

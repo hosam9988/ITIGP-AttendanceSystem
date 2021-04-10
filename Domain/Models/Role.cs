@@ -9,12 +9,12 @@ namespace Domain.Models
     {
         public Role()
         {
-            Employees = new HashSet<Employee>();
+            Emplyees = new HashSet<Emplyee>();
         }
 
         public int Id { get; set; }
-        public string RoleName { get; set; }
+        public string Role1 { get; set; }
 
-        public virtual ICollection<Employee> Employees { get; set; }
+        public virtual ICollection<Emplyee> Emplyees { get; set; }
     }
 }

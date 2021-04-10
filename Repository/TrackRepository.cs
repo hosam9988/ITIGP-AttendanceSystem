@@ -10,7 +10,7 @@ namespace Repository
 {
     public class TrackRepository : AppRepository<Track>, ITrackRepository
     {
-        public TrackRepository(AttendContext context) : base(context)
+        public TrackRepository(ITIAttendanceContext context) : base(context)
         {
         }
 
@@ -18,7 +18,7 @@ namespace Repository
 
 
         public void DeleteTrack(Track track) => Delete(track);
-        
+
 
         public Task<Track> GetTrackAsync(int track, bool trackChanges)
         {

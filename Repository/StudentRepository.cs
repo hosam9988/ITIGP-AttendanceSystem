@@ -11,21 +11,21 @@ namespace Repository
 {
     public class StudentRepository : AppRepository<Student>, IStudentRepository
     {
-        public StudentRepository(AttendContext context) : base(context)
+        public StudentRepository(ITIAttendanceContext context) : base(context)
         {
         }
 
         public void CreateStudent(int trackActionId, Student student)
         {
             student.TrackActionId = trackActionId;
-            Create(student); 
+            Create(student);
         }
 
         public void DeleteStudent(Student student) => Delete(student);
-        
-       
 
-        public async Task<Student> GetStudentAsync(int trackActionId, int studentId, bool trackChanges)=>  
+
+
+        public async Task<Student> GetStudentAsync(int trackActionId, int studentId, bool trackChanges) =>
             await FindByCondition(e => e.TrackActionId == trackActionId && e.Id == studentId, trackChanges).SingleOrDefaultAsync();
 
 
@@ -35,6 +35,6 @@ namespace Repository
 
 
         public void UpdateStudent(Student student) => Update(student);
-        
+
     }
 }

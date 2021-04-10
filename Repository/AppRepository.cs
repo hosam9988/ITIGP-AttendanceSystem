@@ -9,8 +9,8 @@ namespace Repository
 {
     public class AppRepository<T> : IAppRepository<T> where T : class
     {
-        protected readonly AttendContext _context;
-        public AppRepository(AttendContext context)
+        protected readonly ITIAttendanceContext _context;
+        public AppRepository(ITIAttendanceContext context)
         {
             _context = context;
         }

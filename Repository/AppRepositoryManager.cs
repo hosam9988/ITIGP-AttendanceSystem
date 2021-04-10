@@ -7,17 +7,17 @@ namespace Repository
 {
     public class AppRepositoryManager : IAppRepositoryManager
     {
-        private readonly AttendContext _context;
+        private readonly ITIAttendanceContext _context;
         private IStudentRepository _studentRepository;
         private ITrackActionRepository _trackActionRepository;
-        
 
-        public AppRepositoryManager(AttendContext context)
+
+        public AppRepositoryManager(ITIAttendanceContext context)
         {
             _context = context;
         }
 
-        public IStudentRepository StudentRepository
+        public ITrackActionRepository TrackActionRepository
         {
             get
             {
@@ -26,7 +26,7 @@ namespace Repository
             }
         }
 
-        public ITrackActionRepository TrackActionRepository
+        public IStudentRepository StudentRepository
         {
             get
             {
@@ -37,6 +37,6 @@ namespace Repository
 
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
-        
+
     }
 }
