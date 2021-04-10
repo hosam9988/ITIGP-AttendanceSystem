@@ -7,19 +7,31 @@ using System.Linq.Expressions;
 
 namespace Repository
 {
-    public class AppRepository<T>:IAppRepository<T> where T : class
+    public class AppRepository<T> : IAppRepository<T> where T : class
     {
         protected readonly AttendContext _context;
         public AppRepository(AttendContext context)
         {
             _context = context;
         }
-        
-        public void Create(T entity) => _context.Set<T>().Add(entity);
 
-        public void Delete(T entity) => _context.Set<T>().Remove(entity);
+        public void Create(T entity)
+        {
+            _context.Set<T>().Add(entity);
+            _context.SaveChanges();
+        }
 
-        public void Update(T entity) => _context.Set<T>().Update(entity);
+        public void Delete(T entity)
+        {
+            _context.Set<T>().Remove(entity);
+            _context.SaveChanges();
+        }
+
+        public void Update(T entity)
+        {
+            _context.Set<T>().Update(entity);
+            _context.SaveChanges();
+        }
 
         public IQueryable<T> FindAll(bool trackChanges) =>
             !trackChanges ? _context.Set<T>().AsNoTracking() : _context.Set<T>();
