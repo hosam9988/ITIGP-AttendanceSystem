@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Contracts.ServicesContracts;
 using Domain.Models;
+using Domain.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services;
@@ -42,6 +43,14 @@ namespace Attendence_GP.Controllers
             
             var student = await _studentServices.GetStudent(trackActionId, studentId, false);
             return Ok(student);
+        }
+
+        [HttpPut("{studentId}")]
+        
+        public async Task<IActionResult> UpdateStudentForTrack(int trackActionId, int studentId, [FromBody] UpdateStudentVM student)
+        {
+            await _studentServices.Update(trackActionId, studentId, student);
+            return NoContent();
         }
     }
 }

@@ -13,7 +13,8 @@ namespace Attendence_GP.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<StudentViewModel, Student>().ReverseMap();//.ForMember(sVm=>sVm.Name, opt=>opt.MapFrom(st=>st.Name));
+            CreateMap<StudentViewModel, Student>().ReverseMap();
+            CreateMap<UpdateStudentVM, Student>().ReverseMap();
         }
     }
 }

@@ -42,9 +42,10 @@ namespace Services
             return studentsViewModel.ToList();
         }
 
-        public async Task Update(int trackActionId, int id, Student student)
+        public async Task Update(int trackActionId, int id, UpdateStudentVM student)
         {
-            _repositoryManager.StudentRepository.UpdateStudent(student);
+            var studentEntity = await  _repositoryManager.StudentRepository.GetStudentAsync(trackActionId, id, trackChanges: true);
+             _mapper.Map(student, studentEntity);
             await _repositoryManager.SaveAsync();
 
         }
