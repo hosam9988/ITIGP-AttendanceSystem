@@ -29,6 +29,7 @@ namespace Attendence_GP
             services.ConfigureStudentService();
             services.ConfigureTrackActionsService();
             services.AddControllers();
+            services.ConfigureSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,6 +40,10 @@ namespace Attendence_GP
                 app.UseDeveloperExceptionPage();
             }
             app.UseCors("CorsPolicy");
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                     "Attendance v1"));
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

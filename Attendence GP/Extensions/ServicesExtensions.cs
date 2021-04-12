@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Contracts.ServicesContracts;
+using Microsoft.OpenApi.Models;
 
 namespace Attendence_GP.Extensions
 {
@@ -43,6 +44,11 @@ namespace Attendence_GP.Extensions
             services.AddScoped<IStudentServices, StudentServices>(); 
         public static void ConfigureTrackActionsService(this IServiceCollection services) =>
             services.AddScoped<ITrackActionServices, TrackActionServices>();
+        public static void ConfigureSwagger(this IServiceCollection services) =>
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Attendance", Version = "v1" });
+            });
 
 
 

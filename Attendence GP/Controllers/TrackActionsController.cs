@@ -49,7 +49,6 @@ namespace Attendence_GP.Controllers
             return NoContent();
         }
 
-
         [HttpDelete("{trackActionId}")]
 
         public async Task<IActionResult> DeleteStudentForTrack(int trackId, int trackActionId)
