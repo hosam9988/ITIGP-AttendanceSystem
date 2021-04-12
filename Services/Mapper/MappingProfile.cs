@@ -13,7 +13,8 @@ namespace Services.Mapper
     {
         public MappingProfile()
         {
-            CreateMap<StudentViewModel, Student>().ReverseMap();//.ForMember(sVm=>sVm.Name, opt=>opt.MapFrom(st=>st.Name));
+            CreateMap<Student, StudentViewModel>().ReverseMap();
+            CreateMap<UpdateStudentVM, Student>().ReverseMap();
         }
     }
 }
