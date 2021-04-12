@@ -6,12 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Repository;
 using Services;
 using Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Contracts.ServicesContracts;
+using Microsoft.OpenApi.Models;
 
 namespace Attendence_GP.Extensions
 {
@@ -30,7 +26,11 @@ namespace Attendence_GP.Extensions
         public static void ConfigureIISintegration(this IServiceCollection services) =>
             services.Configure<IISOptions>(options => { });
 
-
+        public static void ConfigureSwagger(this IServiceCollection services) =>
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Attendance", Version = "v1" });
+            });
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration) =>
             services.AddDbContext<ITIAttendanceContext>(
