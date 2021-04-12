@@ -40,7 +40,9 @@ namespace Attendence_GP.Extensions
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
             services.AddScoped<IAppRepositoryManager, AppRepositoryManager>();
         public static void ConfigureStudentService(this IServiceCollection services) =>
-            services.AddScoped<IStudentServices, StudentServices>();
+            services.AddScoped<IStudentServices, StudentServices>(); 
+        public static void ConfigureTrackActionsService(this IServiceCollection services) =>
+            services.AddScoped<ITrackActionServices, TrackActionServices>();
 
 
 
