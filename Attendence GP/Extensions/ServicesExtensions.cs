@@ -43,14 +43,7 @@ namespace Attendence_GP.Extensions
             services.AddScoped<IStudentServices, StudentServices>(); 
         public static void ConfigureTrackActionsService(this IServiceCollection services) =>
             services.AddScoped<ITrackActionServices, TrackActionServices>();
-        public static void ConfigureSwagger(this IServiceCollection services) =>
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Attendance", Version = "v1" });
-            });
-
-
-
+        
         //public static void ConfigureIdentity(this IServiceCollection services)
         //{
         //    var builder = services.AddIdentityCore<User>(us =>
