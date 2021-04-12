@@ -13,7 +13,8 @@ namespace Contracts.ServicesContracts
         Task Create(int trackActionId, Student student);
         Task Update(int trackActionId, int id, UpdateStudentVM student);
         Task Delete(int trackActionId, int id);
-        Task<StudentViewModel> GetStudent(int trackActionId, int id, bool trackChanges);
-        Task<List<StudentViewModel>> GetStudentsForTrack(int trackActionId, bool trackChanges);
+        Task<StudentViewModel> GetStudent(int trackActionId, int id);
+        Task<List<StudentViewModel>> GetStudentsForTrack(int trackActionId);
+        Task<List<Student>> GetStudents(int trackActionId);
     }
 }

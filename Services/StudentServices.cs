@@ -29,16 +29,18 @@ namespace Services
 
 
 
-        public Task Delete(int trackActionId, int id)
+        public async Task Delete(int trackActionId, int id)
         {
-            throw new NotImplementedException();
+            var student = await  _repositoryManager.StudentRepository.GetStudentAsync(trackActionId, id, false);
+            _repositoryManager.StudentRepository.DeleteStudent(student);
+            await _repositoryManager.SaveAsync();
         }
 
 
-        public async Task<List<StudentViewModel>> GetStudentsForTrack(int trackActionId, bool trackChanges)
+        public async Task<List<StudentViewModel>> GetStudentsForTrack(int trackActionId)
         {
             var students = await _repositoryManager.StudentRepository.GetStudents(trackActionId, trackChanges: false);
-            var studentsViewModel = _mapper.Map<IEnumerable<StudentViewModel>>(students);
+            var studentsViewModel = _mapper.Map<List<StudentViewModel>>(students);
             return studentsViewModel.ToList();
         }
 
@@ -47,19 +49,21 @@ namespace Services
             var studentEntity = await  _repositoryManager.StudentRepository.GetStudentAsync(trackActionId, id, trackChanges: true);
              _mapper.Map(student, studentEntity);
             await _repositoryManager.SaveAsync();
-
         }
 
         
-        public async Task<StudentViewModel> GetStudent(int trackActionId, int id, bool trackChanges)
+        public async Task<StudentViewModel> GetStudent(int trackActionId, int id)
         {
             var student = await _repositoryManager.StudentRepository.GetStudentAsync(trackActionId, id, trackChanges: false);
             var studentsViewModel = _mapper.Map<StudentViewModel>(student);
             return studentsViewModel;
         }
-        
 
-
+        public async Task<List<Student>> GetStudents(int trackActionId)
+        {
+            var students = await _repositoryManager.StudentRepository.GetStudents(trackActionId, trackChanges: false);
+            return  students;
+        }
     }
 }
 
