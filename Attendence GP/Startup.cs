@@ -40,6 +40,10 @@ namespace Attendence_GP
                 app.UseDeveloperExceptionPage();
             }
             app.UseCors("CorsPolicy");
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                     "Attendance v1"));
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
