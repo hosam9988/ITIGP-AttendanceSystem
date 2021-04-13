@@ -14,8 +14,13 @@ namespace Repository
         {
         }
 
-        public void CreateTrack(Track track) => Create(track);
+        
 
+        public void CreateTrack(int programId, Track track)
+        {
+            track.ProgramId = programId;
+            Create(track);
+        }
 
         public void DeleteTrack(Track track) => Delete(track);
 
@@ -25,7 +30,12 @@ namespace Repository
             throw new NotImplementedException();
         }
 
-        public Task<List<Track>> GetTracks(bool trackChanges)
+        public Task<Track> GetTrackAsync(int programId, int track, bool trackChanges)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Track>> GetTracks(int programId, bool trackChanges)
         {
             throw new NotImplementedException();
         }
@@ -34,5 +44,6 @@ namespace Repository
         {
             throw new NotImplementedException();
         }
+
     }
 }
