@@ -39,6 +39,7 @@ namespace Attendence_GP.Extensions
 
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
             services.AddScoped<IAppRepositoryManager, AppRepositoryManager>();
+
         public static void ConfigureServicesManager(this IServiceCollection services) =>
             services.AddScoped<IServicesManager, ServicesManager>(); 
        

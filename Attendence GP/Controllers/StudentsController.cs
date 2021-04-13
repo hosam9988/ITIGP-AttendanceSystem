@@ -23,6 +23,7 @@ namespace Attendence_GP.Controllers
             await _manager.StudentServices.Create(trackActionId, student);
         }
 
+        #region Read
         [HttpGet]
         public async Task<IActionResult> GetStudentsForTrack(int trackActionId)
         {
@@ -36,6 +37,7 @@ namespace Attendence_GP.Controllers
             var student = await _manager.StudentServices.GetStudent(trackActionId, studentId);
             return Ok(student);
         }
+        #endregion
 
         [HttpPut("{studentId}")]
         
