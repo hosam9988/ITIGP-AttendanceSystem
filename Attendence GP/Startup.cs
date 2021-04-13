@@ -30,6 +30,8 @@ namespace Attendence_GP
             services.ConfigureTrackActionsService();
             services.AddControllers();
             services.ConfigureSwagger();
+            services.ConfigureIISintegration();
+            services.ConfigureTracksService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +46,12 @@ namespace Attendence_GP
             app.UseSwaggerUI(c =>
             c.SwaggerEndpoint("/swagger/v1/swagger.json",
                      "Attendance v1"));
+            app.UseReDoc(c =>
+            {
+                c.DocumentTitle = "REDOC API Documentation";
+                c.SpecUrl = "/swagger/v1/swagger.json";
+            });
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

@@ -10,6 +10,7 @@ namespace Repository
         private readonly ITIAttendanceContext _context;
         private IStudentRepository _studentRepository;
         private ITrackActionRepository _trackActionRepository;
+        private ITrackRepository _trackRepository;
 
 
         public AppRepositoryManager(ITIAttendanceContext context)
@@ -35,6 +36,14 @@ namespace Repository
             }
         }
 
+        public ITrackRepository TrackRepository
+        {
+            get
+            {
+                if (_trackRepository == null) _trackRepository = new TrackRepository(_context);
+                return _trackRepository;
+            }
+        }
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
 

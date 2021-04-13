@@ -17,7 +17,7 @@ namespace Domain.Models
         public DateTime CreateDate { get; set; }
         public DateTime? ResponseDate { get; set; }
 
-        public virtual Emplyee ResponseByNavigation { get; set; }
+        public virtual Employee ResponseByNavigation { get; set; }
         public virtual Student Student { get; set; }
     }
 }

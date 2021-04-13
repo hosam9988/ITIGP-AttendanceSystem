@@ -54,7 +54,7 @@ namespace Attendence_GP.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Emplyee",
+                name: "Employee",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
@@ -67,11 +67,11 @@ namespace Attendence_GP.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Emplyee", x => x.ID);
+                    table.PrimaryKey("PK_Employee", x => x.ID);
                     table.ForeignKey(
                         name: "FK_Emplyee_Emplyee",
                         column: x => x.Created_By,
-                        principalTable: "Emplyee",
+                        principalTable: "Employee",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -126,7 +126,7 @@ namespace Attendence_GP.Migrations
                     table.ForeignKey(
                         name: "FK_Student_Emplyee",
                         column: x => x.Created_By,
-                        principalTable: "Emplyee",
+                        principalTable: "Employee",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -153,7 +153,7 @@ namespace Attendence_GP.Migrations
                     table.ForeignKey(
                         name: "FK_Attendees_Emplyee",
                         column: x => x.Created_By,
-                        principalTable: "Emplyee",
+                        principalTable: "Employee",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -185,7 +185,7 @@ namespace Attendence_GP.Migrations
                     table.ForeignKey(
                         name: "FK_Permission_Emplyee",
                         column: x => x.Response_by,
-                        principalTable: "Emplyee",
+                        principalTable: "Employee",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -202,13 +202,13 @@ namespace Attendence_GP.Migrations
                 column: "Created_By");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Emplyee_Created_By",
-                table: "Emplyee",
+                name: "IX_Employee_Created_By",
+                table: "Employee",
                 column: "Created_By");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Emplyee_Role_id",
-                table: "Emplyee",
+                name: "IX_Employee_Role_id",
+                table: "Employee",
                 column: "Role_id");
 
             migrationBuilder.CreateIndex(
@@ -254,7 +254,7 @@ namespace Attendence_GP.Migrations
                 name: "Student");
 
             migrationBuilder.DropTable(
-                name: "Emplyee");
+                name: "Employee");
 
             migrationBuilder.DropTable(
                 name: "Track_Action");

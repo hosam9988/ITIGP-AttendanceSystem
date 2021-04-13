@@ -18,7 +18,7 @@ namespace Domain.Models
         }
 
         public virtual DbSet<Attendance> Attendances { get; set; }
-        public virtual DbSet<Emplyee> Emplyees { get; set; }
+        public virtual DbSet<Employee> Emplyees { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Program> Programs { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
@@ -63,9 +63,9 @@ namespace Domain.Models
                     .HasConstraintName("FK_Attendees_Student");
             });
 
-            modelBuilder.Entity<Emplyee>(entity =>
+            modelBuilder.Entity<Employee>(entity =>
             {
-                entity.ToTable("Emplyee");
+                entity.ToTable("Employee");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
@@ -200,7 +200,9 @@ namespace Domain.Models
                     .HasForeignKey(d => d.TrackActionId)
                     .HasConstraintName("FK_Student_Track_Action");
             });
-
+            modelBuilder.Entity<Student>()
+                 .HasIndex(st => st.Ssn)
+                   .IsUnique();
             modelBuilder.Entity<Track>(entity =>
             {
                 entity.ToTable("Track");

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Attendence_GP.Migrations
 {
     [DbContext(typeof(ITIAttendanceContext))]
-    [Migration("20210410221613_initial")]
-    partial class initial
+    [Migration("20210412221608_updateSSNtoBeUnique")]
+    partial class updateSSNtoBeUnique
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,7 +49,7 @@ namespace Attendence_GP.Migrations
                     b.ToTable("Attendances");
                 });
 
-            modelBuilder.Entity("Domain.Models.Emplyee", b =>
+            modelBuilder.Entity("Domain.Models.Employee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -85,7 +85,7 @@ namespace Attendence_GP.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Emplyee");
+                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("Domain.Models.Permission", b =>
@@ -224,6 +224,9 @@ namespace Attendence_GP.Migrations
 
                     b.HasIndex("CreatedBy");
 
+                    b.HasIndex("Ssn")
+                        .IsUnique();
+
                     b.HasIndex("TrackActionId");
 
                     b.ToTable("Student");
@@ -287,7 +290,7 @@ namespace Attendence_GP.Migrations
 
             modelBuilder.Entity("Domain.Models.Attendance", b =>
                 {
-                    b.HasOne("Domain.Models.Emplyee", "CreatedByNavigation")
+                    b.HasOne("Domain.Models.Employee", "CreatedByNavigation")
                         .WithMany("Attendances")
                         .HasForeignKey("CreatedBy")
                         .HasConstraintName("FK_Attendees_Emplyee")
@@ -304,9 +307,9 @@ namespace Attendence_GP.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("Domain.Models.Emplyee", b =>
+            modelBuilder.Entity("Domain.Models.Employee", b =>
                 {
-                    b.HasOne("Domain.Models.Emplyee", "CreatedByNavigation")
+                    b.HasOne("Domain.Models.Employee", "CreatedByNavigation")
                         .WithMany("InverseCreatedByNavigation")
                         .HasForeignKey("CreatedBy")
                         .HasConstraintName("FK_Emplyee_Emplyee")
@@ -325,7 +328,7 @@ namespace Attendence_GP.Migrations
 
             modelBuilder.Entity("Domain.Models.Permission", b =>
                 {
-                    b.HasOne("Domain.Models.Emplyee", "ResponseByNavigation")
+                    b.HasOne("Domain.Models.Employee", "ResponseByNavigation")
                         .WithMany("Permissions")
                         .HasForeignKey("ResponseBy")
                         .HasConstraintName("FK_Permission_Emplyee");
@@ -343,7 +346,7 @@ namespace Attendence_GP.Migrations
 
             modelBuilder.Entity("Domain.Models.Student", b =>
                 {
-                    b.HasOne("Domain.Models.Emplyee", "CreatedByNavigation")
+                    b.HasOne("Domain.Models.Employee", "CreatedByNavigation")
                         .WithMany("Students")
                         .HasForeignKey("CreatedBy")
                         .HasConstraintName("FK_Student_Emplyee");
@@ -380,7 +383,7 @@ namespace Attendence_GP.Migrations
                     b.Navigation("Track");
                 });
 
-            modelBuilder.Entity("Domain.Models.Emplyee", b =>
+            modelBuilder.Entity("Domain.Models.Employee", b =>
                 {
                     b.Navigation("Attendances");
 
