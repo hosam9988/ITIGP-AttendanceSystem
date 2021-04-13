@@ -5,12 +5,12 @@ using System.Collections.Generic;
 
 namespace Domain.Models
 {
-    public partial class Emplyee
+    public partial class Employee //app user
     {
-        public Emplyee()
+        public Employee()
         {
             Attendances = new HashSet<Attendance>();
-            InverseCreatedByNavigation = new HashSet<Emplyee>();
+            InverseCreatedByNavigation = new HashSet<Employee>();
             Permissions = new HashSet<Permission>();
             Students = new HashSet<Student>();
         }
@@ -21,11 +21,10 @@ namespace Domain.Models
         public int RoleId { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-
-        public virtual Emplyee CreatedByNavigation { get; set; }
+        public virtual Employee CreatedByNavigation { get; set; }
         public virtual Role Role { get; set; }
         public virtual ICollection<Attendance> Attendances { get; set; }
-        public virtual ICollection<Emplyee> InverseCreatedByNavigation { get; set; }
+        public virtual ICollection<Employee> InverseCreatedByNavigation { get; set; }
         public virtual ICollection<Permission> Permissions { get; set; }
         public virtual ICollection<Student> Students { get; set; }
     }

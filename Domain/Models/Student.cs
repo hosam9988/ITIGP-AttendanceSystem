@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Domain.Models
 {
-    public partial class Student
+    public partial class Student //app user
     {
         public Student()
         {
@@ -24,7 +24,7 @@ namespace Domain.Models
         public int? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
 
-        public virtual Emplyee CreatedByNavigation { get; set; }
+        public virtual Employee CreatedByNavigation { get; set; }
         public virtual TrackAction TtackAction { get; set; }
         public virtual ICollection<Attendance> Attendees { get; set; }
         public virtual ICollection<Permission> Permissions { get; set; }

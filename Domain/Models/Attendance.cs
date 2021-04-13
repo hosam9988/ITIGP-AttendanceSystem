@@ -13,7 +13,7 @@ namespace Domain.Models
         public TimeSpan? AttendAt { get; set; }
         public TimeSpan? LeaveAt { get; set; }
 
-        public virtual Emplyee CreatedByNavigation { get; set; }
+        public virtual Employee CreatedByNavigation { get; set; }
         public virtual Student Student { get; set; }
     }
 }
