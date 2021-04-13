@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.ViewModels
+namespace Domain.Dtos
 {
-    public class StudentViewModel
+    public class StudentReadDto
     {
         public string Name { get; set; }
         public string Ssn { get; set; }
