@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using Contracts;
 using Contracts.ServicesContracts;
+using Domain.Dtos;
 using Domain.Models;
-using Domain.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Services
@@ -37,14 +35,14 @@ namespace Services
         }
 
 
-        public async Task<List<StudentViewModel>> GetStudentsForTrack(int trackActionId)
+        public async Task<List<StudentReadDto>> GetStudentsForTrack(int trackActionId)
         {
             var students = await _repositoryManager.StudentRepository.GetStudents(trackActionId, trackChanges: false);
-            var studentsViewModel = _mapper.Map<List<StudentViewModel>>(students);
+            var studentsViewModel = _mapper.Map<List<StudentReadDto>>(students);
             return studentsViewModel.ToList();
         }
 
-        public async Task Update(int trackActionId, int id, UpdateStudentVM student)
+        public async Task Update(int trackActionId, int id, StudentUpdateDto student)
         {
             var studentEntity = await  _repositoryManager.StudentRepository.GetStudentAsync(trackActionId, id, trackChanges: true);
              _mapper.Map(student, studentEntity);
@@ -52,10 +50,10 @@ namespace Services
         }
 
         
-        public async Task<StudentViewModel> GetStudent(int trackActionId, int id)
+        public async Task<StudentReadDto> GetStudent(int trackActionId, int id)
         {
             var student = await _repositoryManager.StudentRepository.GetStudentAsync(trackActionId, id, trackChanges: false);
-            var studentsViewModel = _mapper.Map<StudentViewModel>(student);
+            var studentsViewModel = _mapper.Map<StudentReadDto>(student);
             return studentsViewModel;
         }
 

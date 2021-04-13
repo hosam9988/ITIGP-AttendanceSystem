@@ -26,12 +26,11 @@ namespace Attendence_GP
             services.ConfigureCors();
             services.ConfigureRepositoryManager();
             services.AddAutoMapper(typeof(MappingProfile));
-            services.ConfigureStudentService();
-            services.ConfigureTrackActionsService();
+            services.ConfigureServicesManager();
             services.AddControllers();
             services.ConfigureSwagger();
             services.ConfigureIISintegration();
-            services.ConfigureTracksService();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

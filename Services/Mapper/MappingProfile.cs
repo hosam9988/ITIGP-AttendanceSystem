@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
+using Domain.Dtos;
 using Domain.Models;
-using Domain.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.Mapper
 {
@@ -13,8 +8,9 @@ namespace Services.Mapper
     {
         public MappingProfile()
         {
-            CreateMap<Student, StudentViewModel>().ReverseMap();
-            CreateMap<UpdateStudentVM, Student>().ReverseMap();
+            CreateMap<Student, StudentReadDto>().ReverseMap();
+            CreateMap<StudentUpdateDto, Student>().ReverseMap();
+            CreateMap<TrackAction, TrackActionReadDto>().ReverseMap();
         }
     }
 }

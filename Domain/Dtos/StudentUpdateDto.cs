@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.ViewModels
+namespace Domain.Dtos
 {
-    public class UpdateStudentVM
+    public class StudentUpdateDto
     {
         public string Name { get; set; }
         public string Ssn { get; set; }

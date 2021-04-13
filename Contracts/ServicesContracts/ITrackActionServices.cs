@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain.Dtos;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Contracts.ServicesContracts
         Task Create(int trackId, TrackAction trackAction);
         Task Update(int trackId, int id, TrackAction Track);
         Task Delete(int trackId, int id);
-        Task<TrackAction> GetTrackAction(int trackId, int id);
-        Task<List<TrackAction>> GetTrackActionsForTrack(int trackId);
+        Task<TrackActionReadDto> GetTrackAction(int trackId, int id);
+        Task<List<TrackActionReadDto>> GetTrackActionsForTrack(int trackId);
     }
 }
