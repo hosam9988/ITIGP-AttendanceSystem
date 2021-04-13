@@ -11,17 +11,18 @@ namespace Attendence_GP.Controllers
     public class StudentsController : ControllerBase
     {
         private readonly IServicesManager _manager;
-        
+
         public StudentsController(IServicesManager manager)
         {
             _manager = manager;
         }
-
+        #region Create 
         [HttpPost]
         public async Task AddStudent(int trackActionId, [FromBody] Student student)
         {
             await _manager.StudentServices.Create(trackActionId, student);
         }
+        #endregion
 
         #region Read
         [HttpGet]
@@ -33,21 +34,23 @@ namespace Attendence_GP.Controllers
         [HttpGet("{studentId}")]
         public async Task<IActionResult> GetStudentPerId(int trackActionId, int studentId)
         {
-            
+
             var student = await _manager.StudentServices.GetStudent(trackActionId, studentId);
             return Ok(student);
         }
         #endregion
 
+        #region update
         [HttpPut("{studentId}")]
-        
+
         public async Task<IActionResult> UpdateStudentForTrack(int trackActionId, int studentId, [FromBody] StudentUpdateDto student)
         {
             await _manager.StudentServices.Update(trackActionId, studentId, student);
             return NoContent();
         }
+        #endregion
 
-
+        #region Delete
         [HttpDelete("{studentId}")]
 
         public async Task<IActionResult> DeleteStudentForTrack(int trackActionId, int studentId)
@@ -55,5 +58,6 @@ namespace Attendence_GP.Controllers
             await _manager.StudentServices.Delete(trackActionId, studentId);
             return NoContent();
         }
+        #endregion
     }
 }

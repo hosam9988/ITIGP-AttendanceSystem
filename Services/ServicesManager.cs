@@ -42,7 +42,7 @@ namespace Services
         {
             get
             {
-                if (_trackServices == null) _trackServices = new TrackServices(_repositoryManager);
+                if (_trackServices == null) _trackServices = new TrackServices(_repositoryManager, _mapper);
                 return _trackServices;
             }
         }

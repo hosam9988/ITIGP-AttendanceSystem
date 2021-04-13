@@ -10,6 +10,8 @@ namespace Services.Mapper
         {
             CreateMap<Student, StudentReadDto>().ReverseMap();
             CreateMap<StudentUpdateDto, Student>().ReverseMap();
+            CreateMap<TrackUpdateDto, Track>().ReverseMap();
+            CreateMap<Track, TrackReadDto>().ForMember(t => t.ProgramName, opt => opt.MapFrom(x => x.Program.Name));
             CreateMap<TrackAction, TrackActionReadDto>().ReverseMap();
         }
     }

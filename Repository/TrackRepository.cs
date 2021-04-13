@@ -1,5 +1,6 @@
 ﻿using Contracts;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,20 +31,16 @@ namespace Repository
             throw new NotImplementedException();
         }
 
-        public Task<Track> GetTrackAsync(int programId, int track, bool trackChanges)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<Track> GetTrackAsync(int programId, int trackId, bool trackChanges) =>
+            await FindByCondition(e => e.ProgramId == programId && e.Id == trackId, trackChanges).SingleOrDefaultAsync();
 
-        public Task<List<Track>> GetTracks(int programId, bool trackChanges)
-        {
-            throw new NotImplementedException();
-        }
 
-        public void UpdateTrack(Track track)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<List<Track>> GetTracks(int programId, bool trackChanges) =>
+            await FindByCondition(e => e.ProgramId == programId, trackChanges).ToListAsync();
+
+
+        public void UpdateTrack(Track track) => Update(track);
+       
 
     }
 }
