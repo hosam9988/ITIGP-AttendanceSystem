@@ -14,30 +14,30 @@ namespace Attendence_GP.Controllers
     public class TrackActionsController : ControllerBase
     {
 
-        private readonly ITrackActionServices _trackActionServices;
+        private readonly IServicesManager _manager;
 
-        public TrackActionsController(ITrackActionServices trackActionServices)
+        public TrackActionsController(IServicesManager manager)
         {
-            _trackActionServices = trackActionServices;
+            _manager = manager;
         }
 
         [HttpPost]
         public async Task AddStudent(int trackId, [FromBody] TrackAction trackAction)
         {
-            await _trackActionServices.Create(trackId, trackAction);
+            await _manager.TrackActionServices.Create(trackId, trackAction);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetTrackActionsForTrack(int trackId)
         {
-            var trackActions = await _trackActionServices.GetTrackActionsForTrack(trackId);
+            var trackActions = await _manager.TrackActionServices.GetTrackActionsForTrack(trackId);
             return Ok(trackActions);
         }
         [HttpGet("{trackActionId}")]
         public async Task<IActionResult> GetTrackActionsPerId(int trackId, int trackActionId)
         {
 
-            var trackAction = await _trackActionServices.GetTrackAction(trackId, trackActionId);
+            var trackAction = await _manager.TrackActionServices.GetTrackAction(trackId, trackActionId);
             return Ok(trackAction);
         }
 
@@ -45,7 +45,7 @@ namespace Attendence_GP.Controllers
 
         public async Task<IActionResult> UpdateStudentForTrack(int trackId, int trackActionId, [FromBody] TrackAction trackAction)
         {
-            await _trackActionServices.Update(trackId, trackActionId, trackAction);
+            await _manager.TrackActionServices.Update(trackId, trackActionId, trackAction);
             return NoContent();
         }
 
@@ -54,7 +54,7 @@ namespace Attendence_GP.Controllers
 
         public async Task<IActionResult> DeleteStudentForTrack(int trackId, int trackActionId)
         {
-            await _trackActionServices.Delete(trackId, trackActionId);
+            await _manager.TrackActionServices.Delete(trackId, trackActionId);
             return NoContent();
         }
     }

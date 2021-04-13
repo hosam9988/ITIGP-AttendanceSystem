@@ -1,13 +1,7 @@
-﻿using Contracts;
-using Contracts.ServicesContracts;
+﻿using Contracts.ServicesContracts;
+using Domain.Dtos;
 using Domain.Models;
-using Domain.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Attendence_GP.Controllers
@@ -16,38 +10,38 @@ namespace Attendence_GP.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
-        private readonly IStudentServices _studentServices;
+        private readonly IServicesManager _manager;
         
-        public StudentsController(IStudentServices studentServices)
+        public StudentsController(IServicesManager manager)
         {
-            _studentServices = studentServices;
+            _manager = manager;
         }
 
         [HttpPost]
         public async Task AddStudent(int trackActionId, [FromBody] Student student)
         {
-            await _studentServices.Create(trackActionId, student);
+            await _manager.StudentServices.Create(trackActionId, student);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetStudentsForTrack(int trackActionId)
         {
-            var students = await _studentServices.GetStudentsForTrack(trackActionId);
+            var students = await _manager.StudentServices.GetStudentsForTrack(trackActionId);
             return Ok(students);
         }
         [HttpGet("{studentId}")]
         public async Task<IActionResult> GetStudentPerId(int trackActionId, int studentId)
         {
             
-            var student = await _studentServices.GetStudent(trackActionId, studentId);
+            var student = await _manager.StudentServices.GetStudent(trackActionId, studentId);
             return Ok(student);
         }
 
         [HttpPut("{studentId}")]
         
-        public async Task<IActionResult> UpdateStudentForTrack(int trackActionId, int studentId, [FromBody] UpdateStudentVM student)
+        public async Task<IActionResult> UpdateStudentForTrack(int trackActionId, int studentId, [FromBody] StudentUpdateDto student)
         {
-            await _studentServices.Update(trackActionId, studentId, student);
+            await _manager.StudentServices.Update(trackActionId, studentId, student);
             return NoContent();
         }
 
@@ -56,7 +50,7 @@ namespace Attendence_GP.Controllers
 
         public async Task<IActionResult> DeleteStudentForTrack(int trackActionId, int studentId)
         {
-            await _studentServices.Delete(trackActionId, studentId);
+            await _manager.StudentServices.Delete(trackActionId, studentId);
             return NoContent();
         }
     }

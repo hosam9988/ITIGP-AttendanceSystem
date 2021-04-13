@@ -13,16 +13,16 @@ namespace Attendence_GP.Controllers
     [ApiController]
     public class TrackController : ControllerBase
     {
-        private readonly ITrackServices _trackServices;
-        public TrackController(ITrackServices trackServices)
+        private readonly IServicesManager _manager;
+        public TrackController(IServicesManager manager)
         {
-            _trackServices = trackServices;
+            _manager = manager;
         }
 
         [HttpPost]
         public async Task AddTrack(int programId, [FromBody] Track track)
         {
-            await _trackServices.Create(programId, track);
+            await _manager.TrackServices.Create(programId, track);
         }
 
     }
