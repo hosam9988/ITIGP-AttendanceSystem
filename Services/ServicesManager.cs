@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
 using Contracts.ServicesContracts;
-using System;
 
 namespace Services
 {
