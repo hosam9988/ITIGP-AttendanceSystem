@@ -13,6 +13,8 @@ namespace Services.Mapper
             CreateMap<TrackUpdateDto, Track>().ReverseMap();
             CreateMap<Track, TrackReadDto>().ForMember(t => t.ProgramName, opt => opt.MapFrom(x => x.Program.Name));
             CreateMap<TrackAction, TrackActionReadDto>().ReverseMap();
+            CreateMap<Permission, PermissionReadDto>().ReverseMap();
+            CreateMap<PermissionUpdateDto, Permission>().ReverseMap();
         }
     }
 }

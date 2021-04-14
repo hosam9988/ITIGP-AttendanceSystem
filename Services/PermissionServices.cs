@@ -52,7 +52,7 @@ namespace Services
         {
             var permissions = await _repositoryManager.PermissionRepository.GetPermissions(studentId, trackChanges: false);
             var permissionsViewModel = _mapper.Map<List<PermissionReadDto>>(permissions);
-            return permissionsViewModel.ToList();
+            return permissionsViewModel;
         }
 
         public async Task Update(int studentId, int id, PermissionUpdateDto permission)
