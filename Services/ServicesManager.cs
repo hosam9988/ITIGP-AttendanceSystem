@@ -13,6 +13,7 @@ namespace Services
         private IStudentServices _studentServices;
         private ITrackActionServices _trackActionServices;
         private ITrackServices _trackServices;
+        private IPermissionServices _permissionServices;
 
 
         public ServicesManager(IAppRepositoryManager repositoryManager, IMapper mapper)
@@ -44,6 +45,15 @@ namespace Services
             {
                 if (_trackServices == null) _trackServices = new TrackServices(_repositoryManager, _mapper);
                 return _trackServices;
+            }
+        }
+
+        public IPermissionServices PermissionServices
+        {
+            get
+            {
+                if (_permissionServices == null) _permissionServices = new PermissionServices(_repositoryManager, _mapper);
+                return _permissionServices;
             }
         }
     }
