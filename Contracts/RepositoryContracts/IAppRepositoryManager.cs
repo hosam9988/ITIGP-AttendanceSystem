@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Contracts.RepositoryContracts;
+using System.Threading.Tasks;
 
 namespace Contracts
 {
@@ -8,6 +9,7 @@ namespace Contracts
         IStudentRepository StudentRepository { get; }
         ITrackActionRepository TrackActionRepository { get; }
         ITrackRepository TrackRepository { get; }
+        IPermissionRepository PermissionRepository { get; }
         Task SaveAsync();
     }
 }
