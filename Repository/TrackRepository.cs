@@ -11,11 +11,13 @@ namespace Repository
 {
     public class TrackRepository : AppRepository<Track>, ITrackRepository
     {
+        private readonly ITIAttendanceContext _context;
         public TrackRepository(ITIAttendanceContext context) : base(context)
         {
+            _context = context;
         }
 
-        
+
 
         public void CreateTrack(int programId, Track track)
         {
@@ -36,11 +38,11 @@ namespace Repository
 
 
         public async Task<List<Track>> GetTracks(int programId, bool trackChanges) =>
-            await FindByCondition(e => e.ProgramId == programId, trackChanges).ToListAsync();
-
+            await FindByCondition(e => e.ProgramId == programId, trackChanges).Include(t=>t.Program).ToListAsync();
 
         public void UpdateTrack(Track track) => Update(track);
-       
 
+        public async Task<Track> GetTrackWithProgram(int programId, int trackId, bool trackChanges)=>
+            await _context.Tracks.Include(t => t.Program).FirstOrDefaultAsync(t => t.ProgramId == programId);
     }
 }

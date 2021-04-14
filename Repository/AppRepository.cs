@@ -10,33 +10,35 @@ namespace Repository
     public class AppRepository<T> : IAppRepository<T> where T : class
     {
         protected readonly ITIAttendanceContext _context;
+        private readonly DbSet<T> _dbSet;
         public AppRepository(ITIAttendanceContext context)
         {
             _context = context;
+            _dbSet = _context.Set<T>();
         }
 
         public void Create(T entity)
         {
-            _context.Set<T>().Add(entity);
+            _dbSet.Add(entity);
             _context.SaveChanges();
         }
 
         public void Delete(T entity)
         {
-            _context.Set<T>().Remove(entity);
+            _dbSet.Remove(entity);
             _context.SaveChanges();
         }
 
         public void Update(T entity)
         {
-            _context.Set<T>().Update(entity);
+            _dbSet.Update(entity);
             _context.SaveChanges();
         }
 
         public IQueryable<T> FindAll(bool trackChanges) =>
-            !trackChanges ? _context.Set<T>().AsNoTracking() : _context.Set<T>();
+            !trackChanges ? _dbSet.AsNoTracking() : _dbSet;
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges) =>
-            !trackChanges ? _context.Set<T>().Where(expression).AsNoTracking() : _context.Set<T>().Where(expression);
+            !trackChanges ? _dbSet.Where(expression).AsNoTracking() : _dbSet.Where(expression);
     }
 }
