@@ -4,14 +4,16 @@ using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Attendence_GP.Migrations
 {
     [DbContext(typeof(ITIAttendanceContext))]
-    partial class ITIAttendanceContextModelSnapshot : ModelSnapshot
+    [Migration("20210414032644_makeCreated-byInEmployee")]
+    partial class makeCreatedbyInEmployee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
