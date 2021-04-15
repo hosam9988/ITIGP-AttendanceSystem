@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Dtos;
 
 namespace Attendence_GP.Controllers
 {
@@ -22,7 +23,7 @@ namespace Attendence_GP.Controllers
         }
 
         [HttpPost]
-        public async Task AddStudent(int trackId, [FromBody] TrackAction trackAction)
+        public async Task AddStudent(int trackId, [FromBody] TrackActionManipulationDto trackAction)
         {
             await _manager.TrackActionServices.Create(trackId, trackAction);
         }
@@ -43,7 +44,7 @@ namespace Attendence_GP.Controllers
 
         [HttpPut("{trackActionId}")]
 
-        public async Task<IActionResult> UpdateStudentForTrack(int trackId, int trackActionId, [FromBody] TrackAction trackAction)
+        public async Task<IActionResult> UpdateStudentForTrack(int trackId, int trackActionId, [FromBody] TrackActionManipulationDto trackAction)
         {
             await _manager.TrackActionServices.Update(trackId, trackActionId, trackAction);
             return NoContent();
