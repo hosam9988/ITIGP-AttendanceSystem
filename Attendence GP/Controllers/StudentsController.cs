@@ -45,7 +45,7 @@ namespace Attendence_GP.Controllers
 
         public async Task<IActionResult> UpdateStudentForTrack(int trackActionId, int studentId, [FromBody] StudentManipulationDto student)
         {
-            await _manager.StudentServices.Update(trackActionId, studentId, student);
+            await _manager.StudentServices.Update(studentId, student);
             return NoContent();
         }
         #endregion
@@ -55,7 +55,7 @@ namespace Attendence_GP.Controllers
 
         public async Task<IActionResult> DeleteStudentForTrack(int trackActionId, int studentId)
         {
-            await _manager.StudentServices.Delete(trackActionId, studentId);
+            await _manager.StudentServices.Delete( studentId);
             return NoContent();
         }
         #endregion

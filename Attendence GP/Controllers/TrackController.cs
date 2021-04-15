@@ -44,7 +44,7 @@ namespace Attendence_GP.Controllers
         [HttpPut("{trackId}")]
         public async Task<IActionResult> UpdateStudentForTrack(int programid, int trackId, [FromBody] TrackManipulationDto track)
         {
-            await _manager.TrackServices.Update(programid, trackId, track);
+            await _manager.TrackServices.Update(trackId, track);
             return NoContent();
         }
 
