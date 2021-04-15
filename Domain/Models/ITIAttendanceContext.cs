@@ -110,7 +110,7 @@ namespace Domain.Models
 
                 entity.Property(e => e.Date).HasColumnType("date");
 
-                entity.Property(e => e.Noe)
+                entity.Property(e => e.Note)
                     .IsRequired()
                     .HasMaxLength(150);
 
