@@ -13,6 +13,5 @@ namespace Contracts.RepositoryContracts
         Task<Permission> GetPermissionAsync(int studentId, int permissionId, bool trackChanges);
         void CreatePermission(int studentId, Permission permission);
         void DeletePermission(Permission permission);
-        void UpdatePermission(Permission permission);
     }
 }

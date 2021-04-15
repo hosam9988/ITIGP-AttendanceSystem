@@ -13,6 +13,5 @@ namespace Contracts
         Task<TrackAction> GetTrackActionAsync(int trackId, int id, bool trackChanges);
         void CreateTrackAction(int trackId, TrackAction trackAction);
         void DeleteTrackAction(TrackAction trackAction);
-        void UpdateTrackAction(TrackAction trackAction);
     }
 }

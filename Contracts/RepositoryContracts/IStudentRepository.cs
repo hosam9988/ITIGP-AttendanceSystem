@@ -13,6 +13,5 @@ namespace Contracts
         Task<Student> GetStudentAsync(int studentId, bool trackChanges);
         void CreateStudent(int trackActionId, Student student);
         void DeleteStudent(Student student);
-        void UpdateStudent(Student student);
     }
 }
