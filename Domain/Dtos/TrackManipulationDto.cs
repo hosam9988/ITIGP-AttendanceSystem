@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Dtos
 {
-    public class TrackUpdateDto
+    public class TrackManipulationDto
     {
         public string Name { get; set; }
         //public Program Program { get; set; }
