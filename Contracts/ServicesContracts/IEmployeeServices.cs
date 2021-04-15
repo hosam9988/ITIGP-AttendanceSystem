@@ -15,15 +15,5 @@ namespace Contracts.ServicesContracts
         Task Delete(int employeeId);
         Task<EmployeeReadDto> GetEmployee(int employeeId);
         Task<List<EmployeeReadDto>> GetEmployees();
-
-
-
-        //Employee Repository functions
-
-        //void CreateEmployee(int employeeId, Employee employee);
-        //void UpdateEmployee(Employee employee);
-        //void DeleteEmployee(Employee employee);
-        //Task<Employee> GetEmployeeAsync(int employeeId, bool trackChanges);
-        //Task<List<Employee>> GetEmployees(bool trackChanges);
     }
 }

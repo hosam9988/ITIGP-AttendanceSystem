@@ -11,8 +11,8 @@ namespace Contracts.ServicesContracts
     public interface ITrackServices
     {
         Task Create(int ProgramId, TrackManipulationDto track);
-        Task Update(int programId, int id, TrackManipulationDto track);
-        Task Delete(int programId, int id);
+        Task Update( int id, TrackManipulationDto track);
+        Task Delete( int id);
         Task<TrackReadDto> GetTrack(int programId, int id);
         Task<List<TrackReadDto>> GetTracksForProgram(int programId);
     }

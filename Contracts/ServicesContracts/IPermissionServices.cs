@@ -16,14 +16,5 @@ namespace Contracts.ServicesContracts
         Task<PermissionReadDto> GetPermission(int studentId, int id); 
         Task<List<PermissionReadDto>> GetPermissionsForStudent(int studentId);
         Task<List<PermissionReadDto>> GetPermissions(int studentId);
-
-
-        //Permission Repository functions
-
-        //void CreatePermission(int studentId, Permission permission);
-        //void UpdatePermission(Permission permission);
-        //void DeletePermission(Permission permission);
-        //Task<Permission> GetPermissionAsync(int studentId, int permissionId, bool trackChanges);
-        //Task<List<Permission>> GetPermissions(int studentId, bool trackChanges);
     }
 }
