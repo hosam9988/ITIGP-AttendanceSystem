@@ -7,8 +7,8 @@ namespace Contracts.ServicesContracts
 {
     public interface IStudentServices
     {
-        Task Create(int trackActionId, Student student);
-        Task Update(int trackActionId, int id, StudentUpdateDto student);
+        Task Create(int trackActionId, StudentManipulationDto student);
+        Task Update(int trackActionId, int id, StudentManipulationDto student);
         Task Delete(int trackActionId, int id);
         Task<StudentReadDto> GetStudent(int trackActionId, int id);
         Task<List<StudentReadDto>> GetStudentsForTrack(int trackActionId);
