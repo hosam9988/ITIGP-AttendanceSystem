@@ -24,9 +24,9 @@ namespace Services
             await _repositoryManager.SaveAsync();
         }
 
-        public async Task Delete(int programId, int id)
+        public async Task Delete(int id)
         {
-            var track = await _repositoryManager.TrackRepository.GetTrackAsync(programId, id, false);
+            var track = await _repositoryManager.TrackRepository.GetTrackAsync( id, false);
             _repositoryManager.TrackRepository.DeleteTrack(track);
             await _repositoryManager.SaveAsync();
         }
@@ -46,11 +46,10 @@ namespace Services
             return trackEntities;
         }
 
-        public async Task Update(int programId, int id, TrackManipulationDto track)
+        public async Task Update(int id, TrackManipulationDto track)
         {
-            var trackEntity = await _repositoryManager.TrackRepository.GetTrackAsync(programId, id, true);
+            var trackEntity = await _repositoryManager.TrackRepository.GetTrackAsync(id, true);
             _mapper.Map(track, trackEntity);
-            _repositoryManager.TrackRepository.UpdateTrack(trackEntity);
             await _repositoryManager.SaveAsync();
         }
     }

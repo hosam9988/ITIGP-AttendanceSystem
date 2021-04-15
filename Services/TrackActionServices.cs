@@ -45,10 +45,10 @@ namespace Services
             return trackActionEntities;
         }
 
-        public async Task Update(int trackId, int id, TrackActionManipulationDto Track)
+        public async Task Update(int trackId, int id, TrackActionManipulationDto trackAction)
         {
-            var trackAction = await _repositoryManager.TrackActionRepository.GetTrackActionAsync(trackId, id, true);
-            _repositoryManager.TrackActionRepository.UpdateTrackAction(trackAction);
+            var trackActionEntity = await _repositoryManager.TrackActionRepository.GetTrackActionAsync(trackId, id, true);
+            _mapper.Map(trackAction, trackActionEntity);
             await _repositoryManager.SaveAsync();
         }
     }

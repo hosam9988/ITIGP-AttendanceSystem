@@ -43,7 +43,7 @@ namespace Services
             return studentsViewModel.ToList();
         }
 
-        public async Task Update(int trackActionId, int id, StudentManipulationDto student)
+        public async Task Update(int id, StudentManipulationDto student)
         {
             var studentEntity = await _repositoryManager.StudentRepository.GetStudentAsync( id, trackChanges: true);
             _mapper.Map(student, studentEntity);
@@ -51,18 +51,14 @@ namespace Services
         }
 
 
-        public async Task<StudentReadDto> GetStudent( int id)
+        public async Task<StudentReadDto> GetStudent(int id)
         {
             var student = await _repositoryManager.StudentRepository.GetStudentAsync( id, trackChanges: false);
             var studentsEntity = _mapper.Map<StudentReadDto>(student);
             return studentsEntity;
         }
 
-        public async Task<List<Student>> GetStudents(int trackActionId)
-        {
-            var students = await _repositoryManager.StudentRepository.GetStudents(trackActionId, trackChanges: false);
-            return students;
-        }
+        
     }
 }
 
