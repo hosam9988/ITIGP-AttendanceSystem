@@ -29,7 +29,7 @@ namespace Repository
         public async Task<List<TrackAction>> GetTrackActions(int trackId, bool trackChanges) =>
             await FindByCondition(e => e.TrackId == trackId, trackChanges).ToListAsync();
 
-        public void UpdateTrackAction(TrackAction trackAction) => Update(trackAction);
+       //public void UpdateTrackAction(TrackAction trackAction) => Update(trackAction);
 
     }
 }

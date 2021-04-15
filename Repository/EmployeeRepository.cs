@@ -30,10 +30,10 @@ namespace Repository
         public async Task<List<Employee>> GetEmployees( bool trackChanges) =>
              await FindAll( trackChanges).ToListAsync();
 
-        public void UpdateEmployee(Employee employee)
-        {
-            Update(employee);
-        }
+        //public void UpdateEmployee(Employee employee)
+        //{
+        //    Update(employee);
+        //}
 
     }
 }

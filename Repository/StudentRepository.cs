@@ -25,8 +25,8 @@ namespace Repository
 
 
 
-        public async Task<Student> GetStudentAsync(int trackActionId, int studentId, bool trackChanges) =>
-            await FindByCondition(e => e.TrackActionId == trackActionId && e.Id == studentId, trackChanges).SingleOrDefaultAsync();
+        public async Task<Student> GetStudentAsync( int studentId, bool trackChanges) =>
+            await FindByCondition(e=>e.Id == studentId, trackChanges).SingleOrDefaultAsync();
 
 
         public async Task<List<Student>> GetStudents(int trackActionId, bool trackChanges) =>
@@ -34,7 +34,7 @@ namespace Repository
 
 
 
-        public void UpdateStudent(Student student) => Update(student);
+        //public void UpdateStudent(Student student) => Update(student);
 
     }
 }

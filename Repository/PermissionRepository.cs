@@ -34,9 +34,9 @@ namespace Repository
         public async Task<List<Permission>> GetPermissions(int studentId, bool trackChanges) =>
             await FindByCondition(e => e.StudentId == studentId , trackChanges).ToListAsync();
 
-        public void UpdatePermission(Permission permission)
-        {
-            Update(permission);
-        }
+        //public void UpdatePermission(Permission permission)
+        //{
+        //    Update(permission);
+        //}
     }
 }

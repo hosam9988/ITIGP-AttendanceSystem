@@ -28,19 +28,16 @@ namespace Repository
         public void DeleteTrack(Track track) => Delete(track);
 
 
-        public Task<Track> GetTrackAsync(int track, bool trackChanges)
-        {
-            throw new NotImplementedException();
-        }
+       
 
-        public async Task<Track> GetTrackAsync(int programId, int trackId, bool trackChanges) =>
-            await FindByCondition(e => e.ProgramId == programId && e.Id == trackId, trackChanges).SingleOrDefaultAsync();
+        public async Task<Track> GetTrackAsync(int trackId, bool trackChanges) =>
+            await FindByCondition(e => e.Id == trackId, trackChanges).SingleOrDefaultAsync();
 
 
         public async Task<List<Track>> GetTracks(int programId, bool trackChanges) =>
             await FindByCondition(e => e.ProgramId == programId, trackChanges).Include(t=>t.Program).ToListAsync();
 
-        public void UpdateTrack(Track track) => Update(track);
+        //public void UpdateTrack(Track track) => Update(track);
 
         public async Task<Track> GetTrackWithProgram(int programId, int trackId, bool trackChanges)=>
             await _context.Tracks.Include(t => t.Program).FirstOrDefaultAsync(t => t.ProgramId == programId);
