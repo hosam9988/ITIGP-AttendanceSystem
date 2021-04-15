@@ -19,9 +19,10 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task Create(int trackActionId, Student student)
+        public async Task Create(int trackActionId, StudentManipulationDto student)
         {
-            _repositoryManager.StudentRepository.CreateStudent(trackActionId, student);
+            var StudentViewModel = _mapper.Map<Student>(student);
+            _repositoryManager.StudentRepository.CreateStudent(trackActionId, StudentViewModel);
             await _repositoryManager.SaveAsync();
         }
 
@@ -42,7 +43,7 @@ namespace Services
             return studentsViewModel.ToList();
         }
 
-        public async Task Update(int id, StudentUpdateDto student)
+        public async Task Update(int trackActionId, int id, StudentManipulationDto student)
         {
             var studentEntity = await _repositoryManager.StudentRepository.GetStudentAsync( id, trackChanges: true);
             _mapper.Map(student, studentEntity);

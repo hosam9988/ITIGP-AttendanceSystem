@@ -19,7 +19,7 @@ namespace Attendence_GP.Controllers
 
         #region Create 
         [HttpPost]
-        public async Task AddPermission(int studentId, [FromBody] Permission permission)
+        public async Task AddPermission(int studentId, [FromBody] PermissionManipulationDto permission)
         {
             await _manager.PermissionServices.Create(studentId, permission);
         }
@@ -44,7 +44,7 @@ namespace Attendence_GP.Controllers
         #region update
         [HttpPut("{permissionId}")]
 
-        public async Task<IActionResult> UpdatePermissionForStudent(int studentId, int permissionId, [FromBody] PermissionUpdateDto permission)
+        public async Task<IActionResult> UpdatePermissionForStudent(int studentId, int permissionId, [FromBody] PermissionManipulationDto permission)
         {
             await _manager.PermissionServices.Update(studentId, permissionId, permission);
             return NoContent();

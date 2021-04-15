@@ -17,9 +17,10 @@ namespace Services
             _repositoryManager = repositoryManager;
             _mapper = mapper;
         }
-        public async Task Create(int trackId, TrackAction trackAction)
+        public async Task Create(int trackId, TrackActionManipulationDto trackAction)
         {
-            _repositoryManager.TrackActionRepository.CreateTrackAction(trackId, trackAction);
+            var TrackActionViewModel = _mapper.Map<TrackAction>(trackAction);
+            _repositoryManager.TrackActionRepository.CreateTrackAction(trackId, TrackActionViewModel);
             await _repositoryManager.SaveAsync();
         }
 
@@ -44,7 +45,7 @@ namespace Services
             return trackActionEntities;
         }
 
-        public async Task Update(int trackId, int id, TrackAction Track)
+        public async Task Update(int trackId, int id, TrackActionManipulationDto Track)
         {
             var trackAction = await _repositoryManager.TrackActionRepository.GetTrackActionAsync(trackId, id, true);
             _repositoryManager.TrackActionRepository.UpdateTrackAction(trackAction);

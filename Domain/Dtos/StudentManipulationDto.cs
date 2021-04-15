@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Dtos
 {
-    public class StudentReadDto
+    public class StudentManipulationDto
     {
         public string Name { get; set; }
         public string Ssn { get; set; }
@@ -14,6 +14,7 @@ namespace Domain.Dtos
         public string Phone { get; set; }
         public string Telephone { get; set; }
         public string Address { get; set; }
+        public int? TrackActionId { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
     }

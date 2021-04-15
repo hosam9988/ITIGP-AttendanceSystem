@@ -14,16 +14,19 @@ namespace Services
 {
     public class PermissionServices : IPermissionServices
     {
-        private readonly IAppRepositoryManager _repositoryManager; //=>use model from student model
+        private readonly IAppRepositoryManager _repositoryManager; //=>use model from permission model
         private IMapper _mapper;
+
         public PermissionServices(IAppRepositoryManager repositoryManager, IMapper mapper)
         {
             _repositoryManager = repositoryManager;
             _mapper = mapper;
         }
-        public async Task Create(int studentId, Permission permission)
+
+        public async Task Create(int studentId, PermissionManipulationDto permission)
         {
-            _repositoryManager.PermissionRepository.CreatePermission(studentId, permission);
+            var permissionViewModel = _mapper.Map<Permission>(permission);
+            _repositoryManager.PermissionRepository.CreatePermission(studentId, permissionViewModel);
             await _repositoryManager.SaveAsync();
 
         }
@@ -42,10 +45,10 @@ namespace Services
             return permissionsViewModel;
         }
 
-        public async Task<List<Permission>> GetPermissions(int studentId)
+        public async Task<List<PermissionReadDto>> GetPermissions(int studentId)
         {
             var permissions = await _repositoryManager.PermissionRepository.GetPermissions(studentId, trackChanges: false);
-            return permissions;
+            return _mapper.Map<List<PermissionReadDto>>(permissions);
         }
 
         public async Task<List<PermissionReadDto>> GetPermissionsForStudent(int studentId)
@@ -55,9 +58,11 @@ namespace Services
             return permissionsViewModel;
         }
 
-        public async Task Update(int studentId, int id, PermissionUpdateDto permission)
+        public async Task Update(int studentId, int id, PermissionManipulationDto permission)
         {
             var permissionEntity = await _repositoryManager.PermissionRepository.GetPermissionAsync(studentId, id, trackChanges: true);
+           ////because i won't get this foreign key value from the DTO and will get it from Route
+           // permissionEntity.StudentId = studentId;
             _mapper.Map(permission, permissionEntity);
             await _repositoryManager.SaveAsync();
         }

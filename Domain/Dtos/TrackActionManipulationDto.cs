@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Dtos
 {
-    public class TrackActionReadDto
+    public class TrackActionManipulationDto
     {
         public DateTime Start { get; set; }
         public DateTime End { get; set; }

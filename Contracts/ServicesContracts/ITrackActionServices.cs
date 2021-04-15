@@ -10,8 +10,8 @@ namespace Contracts.ServicesContracts
 {
     public interface ITrackActionServices
     {
-        Task Create(int trackId, TrackAction trackAction);
-        Task Update(int trackId, int id, TrackAction Track);
+        Task Create(int trackId, TrackActionManipulationDto trackAction);
+        Task Update(int trackId, int id, TrackActionManipulationDto Track);
         Task Delete(int trackId, int id);
         Task<TrackActionReadDto> GetTrackAction(int trackId, int id);
         Task<List<TrackActionReadDto>> GetTrackActionsForTrack(int trackId);

@@ -18,7 +18,7 @@ namespace Attendence_GP.Controllers
         }
         #region Create 
         [HttpPost]
-        public async Task AddStudent(int trackActionId, [FromBody] Student student)
+        public async Task AddStudent(int trackActionId, [FromBody] StudentManipulationDto student)
         {
             await _manager.StudentServices.Create(trackActionId, student);
         }
@@ -43,7 +43,7 @@ namespace Attendence_GP.Controllers
         #region update
         [HttpPut("{studentId}")]
 
-        public async Task<IActionResult> UpdateStudentForTrack(int trackActionId, int studentId, [FromBody] StudentUpdateDto student)
+        public async Task<IActionResult> UpdateStudentForTrack(int trackActionId, int studentId, [FromBody] StudentManipulationDto student)
         {
             await _manager.StudentServices.Update(trackActionId, studentId, student);
             return NoContent();

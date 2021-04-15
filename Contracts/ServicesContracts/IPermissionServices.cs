@@ -10,15 +10,16 @@ namespace Contracts.ServicesContracts
 {
     public interface IPermissionServices
     {
-        Task Create(int studentId, Permission permission); //
-        Task Update(int studentId, int id, PermissionUpdateDto student); //
-        Task Delete(int studentId, int id); // 
-        Task<PermissionReadDto> GetPermission(int studentId, int id); //
+        Task Create(int studentId, PermissionManipulationDto permission); 
+        Task Update(int studentId, int id, PermissionManipulationDto student); 
+        Task Delete(int studentId, int id); 
+        Task<PermissionReadDto> GetPermission(int studentId, int id); 
         Task<List<PermissionReadDto>> GetPermissionsForStudent(int studentId);
-        Task<List<Permission>> GetPermissions(int studentId);
+        Task<List<PermissionReadDto>> GetPermissions(int studentId);
 
 
         //Permission Repository functions
+
         //void CreatePermission(int studentId, Permission permission);
         //void UpdatePermission(Permission permission);
         //void DeletePermission(Permission permission);
