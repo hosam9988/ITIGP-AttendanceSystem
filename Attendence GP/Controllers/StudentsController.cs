@@ -32,10 +32,10 @@ namespace Attendence_GP.Controllers
             return Ok(students);
         }
         [HttpGet("{studentId}")]
-        public async Task<IActionResult> GetStudentPerId(int trackActionId, int studentId)
+        public async Task<IActionResult> GetStudentPerId(int studentId)
         {
 
-            var student = await _manager.StudentServices.GetStudent(trackActionId, studentId);
+            var student = await _manager.StudentServices.GetStudent(studentId);
             return Ok(student);
         }
         #endregion

@@ -27,9 +27,9 @@ namespace Services
 
 
 
-        public async Task Delete(int trackActionId, int id)
+        public async Task Delete(int id)
         {
-            var student = await _repositoryManager.StudentRepository.GetStudentAsync(trackActionId, id, false);
+            var student = await _repositoryManager.StudentRepository.GetStudentAsync(id, false);
             _repositoryManager.StudentRepository.DeleteStudent(student);
             await _repositoryManager.SaveAsync();
         }
@@ -42,19 +42,19 @@ namespace Services
             return studentsViewModel.ToList();
         }
 
-        public async Task Update(int trackActionId, int id, StudentUpdateDto student)
+        public async Task Update(int id, StudentUpdateDto student)
         {
-            var studentEntity = await _repositoryManager.StudentRepository.GetStudentAsync(trackActionId, id, trackChanges: true);
+            var studentEntity = await _repositoryManager.StudentRepository.GetStudentAsync( id, trackChanges: true);
             _mapper.Map(student, studentEntity);
             await _repositoryManager.SaveAsync();
         }
 
 
-        public async Task<StudentReadDto> GetStudent(int trackActionId, int id)
+        public async Task<StudentReadDto> GetStudent( int id)
         {
-            var student = await _repositoryManager.StudentRepository.GetStudentAsync(trackActionId, id, trackChanges: false);
-            var studentsViewModel = _mapper.Map<StudentReadDto>(student);
-            return studentsViewModel;
+            var student = await _repositoryManager.StudentRepository.GetStudentAsync( id, trackChanges: false);
+            var studentsEntity = _mapper.Map<StudentReadDto>(student);
+            return studentsEntity;
         }
 
         public async Task<List<Student>> GetStudents(int trackActionId)

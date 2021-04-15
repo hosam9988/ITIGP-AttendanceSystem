@@ -51,7 +51,7 @@ namespace Attendence_GP.Controllers
         [HttpDelete("{trackId}")]
         public async Task<IActionResult> DeleteStudentForTrack(int trackActionId, int studentId)
         {
-            await _manager.StudentServices.Delete(trackActionId, studentId);
+            await _manager.StudentServices.Delete(studentId);
             return NoContent();
         }
     }
