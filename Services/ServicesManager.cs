@@ -13,6 +13,7 @@ namespace Services
         private ITrackActionServices _trackActionServices;
         private ITrackServices _trackServices;
         private IPermissionServices _permissionServices;
+        private IEmployeeServices _employeeServices;
 
 
         public ServicesManager(IAppRepositoryManager repositoryManager, IMapper mapper)
@@ -55,5 +56,15 @@ namespace Services
                 return _permissionServices;
             }
         }
+
+        public IEmployeeServices EmployeeServices
+        {
+            get
+            {
+                if (_employeeServices == null) _employeeServices = new EmployeeServices(_repositoryManager, _mapper);
+                return _employeeServices;
+            } 
+        }
+
     }
 }

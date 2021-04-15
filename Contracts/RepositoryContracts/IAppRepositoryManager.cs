@@ -10,6 +10,9 @@ namespace Contracts
         ITrackActionRepository TrackActionRepository { get; }
         ITrackRepository TrackRepository { get; }
         IPermissionRepository PermissionRepository { get; }
+
+        IEmployeeRepository EmployeeRepository { get; }
+
         Task SaveAsync();
     }
 }

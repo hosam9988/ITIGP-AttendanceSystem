@@ -40,5 +40,6 @@ namespace Repository
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges) =>
             !trackChanges ? _dbSet.Where(expression).AsNoTracking() : _dbSet.Where(expression);
+
     }
 }

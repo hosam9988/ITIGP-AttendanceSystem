@@ -12,6 +12,7 @@ namespace Contracts.ServicesContracts
         ITrackActionServices TrackActionServices { get; }
         ITrackServices TrackServices { get; }
         IPermissionServices PermissionServices { get; }
+        IEmployeeServices EmployeeServices { get; }
 
 
     }
