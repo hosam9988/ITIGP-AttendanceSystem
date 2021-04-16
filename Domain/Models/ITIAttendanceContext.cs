@@ -111,6 +111,7 @@ namespace Domain.Models
                 entity.Property(e => e.Date).HasColumnType("date");
 
                 entity.Property(e => e.Note)
+                    .HasColumnName("Note")
                     .IsRequired()
                     .HasMaxLength(150);
 
@@ -188,14 +189,14 @@ namespace Domain.Models
 
                 entity.Property(e => e.Telephone).HasMaxLength(50);
 
-                entity.Property(e => e.TrackActionId).HasColumnName("Ttack_Action_ID");
+                entity.Property(e => e.TrackActionId).HasColumnName("Track_Action_ID");
 
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.Students)
                     .HasForeignKey(d => d.CreatedBy)
                     .HasConstraintName("FK_Student_Emplyee");
 
-                entity.HasOne(d => d.TtackAction)
+                entity.HasOne(d => d.TrackAction)
                     .WithMany(p => p.Students)
                     .HasForeignKey(d => d.TrackActionId)
                     .HasConstraintName("FK_Student_Track_Action");

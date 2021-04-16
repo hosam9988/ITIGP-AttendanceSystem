@@ -25,7 +25,7 @@ namespace Domain.Models
         public DateTime? CreatedDate { get; set; }
 
         public virtual Employee CreatedByNavigation { get; set; }
-        public virtual TrackAction TtackAction { get; set; }
+        public virtual TrackAction TrackAction { get; set; }
         public virtual ICollection<Attendance> Attendees { get; set; }
         public virtual ICollection<Permission> Permissions { get; set; }
     }
