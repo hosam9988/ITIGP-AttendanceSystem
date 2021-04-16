@@ -9,7 +9,8 @@ namespace Contracts.RepositoryContracts
 {
     public interface IPermissionRepository
     {
-        Task<List<Permission>> GetPermissions(int studentId, bool trackChanges);
+        Task<List<Permission>> GetPermissionsForStudent(int studentId, bool trackChanges);
+        Task<List<Permission>> GetAllPermissionsForEmployee(bool trackChanges);
         Task<Permission> GetPermissionAsync(int studentId, int permissionId, bool trackChanges);
         void CreatePermission(int studentId, Permission permission);
         void DeletePermission(Permission permission);

@@ -12,7 +12,7 @@ namespace Repository
 {
     class PermissionRepository : AppRepository<Permission>, IPermissionRepository
     {
-        public PermissionRepository(ITIAttendanceContext context):base(context)
+        public PermissionRepository(ITIAttendanceContext context) : base(context)
         {
 
         }
@@ -31,12 +31,17 @@ namespace Repository
             await FindByCondition(e => e.StudentId == studentId && e.Id == permissionId, trackChanges).SingleOrDefaultAsync();
 
 
-        public async Task<List<Permission>> GetPermissions(int studentId, bool trackChanges) =>
-            await FindByCondition(e => e.StudentId == studentId , trackChanges).ToListAsync();
+        public async Task<List<Permission>> GetPermissionsForStudent(int studentId, bool trackChanges) =>
+            await FindByCondition(e => e.StudentId == studentId, trackChanges).ToListAsync();
 
-        //public void UpdatePermission(Permission permission)
-        //{
-        //    Update(permission);
-        //}
+        public async Task<List<Permission>> GetAllPermissionsForEmployee(bool trackChanges) =>
+           await FindByCondition(e => e.ResponseType == null , trackChanges).Include(per=>per.Student.TtackAction.Track).ToListAsync();
+
+
+    //public void UpdatePermission(Permission permission)
+    //{
+    //    Update(permission);
+    //}
+
     }
 }
