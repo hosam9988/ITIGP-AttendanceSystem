@@ -19,8 +19,8 @@ namespace Services
         }
         public async Task Create(int ProgramId, TrackManipulationDto track)
         {
-            var TrackViewModel = _mapper.Map<Track>(track);
-            _repositoryManager.TrackRepository.CreateTrack(ProgramId, TrackViewModel);
+            var trackEntityl = _mapper.Map<Track>(track);
+            _repositoryManager.TrackRepository.CreateTrack(ProgramId, trackEntityl);
             await _repositoryManager.SaveAsync();
         }
 

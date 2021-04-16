@@ -11,7 +11,7 @@ namespace Contracts.ServicesContracts
     public interface IPermissionServices
     {
         Task Create(int studentId, PermissionStudentManipulationDto permission);
-        Task Update(int studentId, int id, PermissionStudentManipulationDto student);
+        Task Update(int studentId, int id, PermissionStudentManipulationDto permission);
         Task UpdateForEmployee(int studentId, int id, PermissionEmployeeManipulationDto permission);
 
         Task Delete(int studentId, int id);

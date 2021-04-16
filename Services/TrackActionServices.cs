@@ -19,8 +19,8 @@ namespace Services
         }
         public async Task Create(int trackId, TrackActionManipulationDto trackAction)
         {
-            var TrackActionViewModel = _mapper.Map<TrackAction>(trackAction);
-            _repositoryManager.TrackActionRepository.CreateTrackAction(trackId, TrackActionViewModel);
+            var trackActionEntity = _mapper.Map<TrackAction>(trackAction);
+            _repositoryManager.TrackActionRepository.CreateTrackAction(trackId, trackActionEntity);
             await _repositoryManager.SaveAsync();
         }
 

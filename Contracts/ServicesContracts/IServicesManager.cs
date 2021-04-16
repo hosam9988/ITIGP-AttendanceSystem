@@ -14,6 +14,7 @@ namespace Contracts.ServicesContracts
         IPermissionServices PermissionServices { get; }
         IEmployeeServices EmployeeServices { get; }
 
+        IAttendanceServices AttendanceServices { get; }
 
     }
 }

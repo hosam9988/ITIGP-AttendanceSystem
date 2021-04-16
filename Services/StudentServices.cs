@@ -12,7 +12,7 @@ namespace Services
     public class StudentServices : IStudentServices
     {
         private readonly IAppRepositoryManager _repositoryManager; //=>use model from student model
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
         public StudentServices(IAppRepositoryManager repositoryManager, IMapper mapper)
         {
             _repositoryManager = repositoryManager;
@@ -21,8 +21,8 @@ namespace Services
 
         public async Task Create(int trackActionId, StudentManipulationDto student)
         {
-            var StudentViewModel = _mapper.Map<Student>(student);
-            _repositoryManager.StudentRepository.CreateStudent(trackActionId, StudentViewModel);
+            var studentsEntity = _mapper.Map<Student>(student);
+            _repositoryManager.StudentRepository.CreateStudent(trackActionId, studentsEntity);
             await _repositoryManager.SaveAsync();
         }
 
@@ -39,8 +39,8 @@ namespace Services
         public async Task<List<StudentReadDto>> GetStudentsForTrack(int trackActionId)
         {
             var students = await _repositoryManager.StudentRepository.GetStudents(trackActionId, trackChanges: false);
-            var studentsViewModel = _mapper.Map<List<StudentReadDto>>(students);
-            return studentsViewModel.ToList();
+            var studentsEntity = _mapper.Map<List<StudentReadDto>>(students);
+            return studentsEntity.ToList();
         }
 
         public async Task Update(int id, StudentManipulationDto student)

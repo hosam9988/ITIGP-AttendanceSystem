@@ -13,8 +13,8 @@ namespace Services
 {
     public class EmployeeServices :IEmployeeServices
     {
-        private readonly IAppRepositoryManager _repositoryManager; //=>use model from employee model
-        private IMapper _mapper;
+        private readonly IAppRepositoryManager _repositoryManager; 
+        private readonly IMapper _mapper;
 
         public EmployeeServices(IAppRepositoryManager repositoryManager, IMapper mapper)
         {
@@ -24,8 +24,8 @@ namespace Services
 
         public async Task Create(int employeeId, EmployeeManipulationDto employee)
         {
-            var EmployeeViewModel = _mapper.Map<Employee>(employee);
-            _repositoryManager.EmployeeRepository.CreateEmployee(employeeId, EmployeeViewModel);
+            var employeeEntity = _mapper.Map<Employee>(employee);
+            _repositoryManager.EmployeeRepository.CreateEmployee(employeeId, employeeEntity);
             await _repositoryManager.SaveAsync();
         }
 
@@ -39,8 +39,8 @@ namespace Services
         public async Task<EmployeeReadDto> GetEmployee(int employeeId)
         {
             var employee = await _repositoryManager.EmployeeRepository.GetEmployeeAsync(employeeId, trackChanges: false);
-            var employeeViewModel = _mapper.Map<EmployeeReadDto>(employee);
-            return employeeViewModel;
+            var employeeEntity = _mapper.Map<EmployeeReadDto>(employee);
+            return employeeEntity;
         }
 
         public async Task<List<EmployeeReadDto>> GetEmployees()

@@ -14,7 +14,7 @@ namespace Services
         private ITrackServices _trackServices;
         private IPermissionServices _permissionServices;
         private IEmployeeServices _employeeServices;
-
+        private IAttendanceServices _attendanceServices;
 
         public ServicesManager(IAppRepositoryManager repositoryManager, IMapper mapper)
         {
@@ -66,5 +66,12 @@ namespace Services
             } 
         }
 
-    }
+        public IAttendanceServices AttendanceServices
+        { get
+            {
+                if (_attendanceServices == null) _attendanceServices = new AttendanceServices(_repositoryManager, _mapper);
+                return _attendanceServices;
+            }
+        }
+}
 }
