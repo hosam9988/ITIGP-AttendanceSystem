@@ -14,7 +14,7 @@ namespace Repository
         private ITrackRepository _trackRepository;
         private IPermissionRepository _permissionRepository;
         private IEmployeeRepository _employeeRepository;
-
+        private IAttendanceRepository _attendanceRepository;
         public AppRepositoryManager(ITIAttendanceContext context)
         {
             _context = context;
@@ -61,6 +61,15 @@ namespace Repository
             {
                 if (_employeeRepository == null) _employeeRepository = new EmployeeRepository(_context);
                 return _employeeRepository;
+            }
+        }
+
+        public IAttendanceRepository AttendanceRepository
+        {
+            get
+            {
+                if (_attendanceRepository == null) _attendanceRepository = new AttendanceRepository(_context);
+                return _attendanceRepository;
             }
         }
 

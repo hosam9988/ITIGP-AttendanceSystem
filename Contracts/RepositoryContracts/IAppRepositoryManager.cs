@@ -10,8 +10,8 @@ namespace Contracts
         ITrackActionRepository TrackActionRepository { get; }
         ITrackRepository TrackRepository { get; }
         IPermissionRepository PermissionRepository { get; }
-
         IEmployeeRepository EmployeeRepository { get; }
+        IAttendanceRepository AttendanceRepository { get; }
 
         Task SaveAsync();
     }

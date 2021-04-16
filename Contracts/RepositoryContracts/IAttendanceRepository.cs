@@ -9,9 +9,10 @@ namespace Contracts.RepositoryContracts
 {
     public interface IAttendanceRepository
     {
-        Task<List<Attendance>> GetAttendances(int trackActionId, bool trackChanges);
+        Task<List<Student>> GetStudentsForAttendance(int trackActionId);
+        Task<Attendance> GetAttendanceForStudent(int studentId, DateTime date, bool trackChanges);
         Task<Attendance> GetAttendanceForTrack(int trackActionId, DateTime date, bool trackChanges);
-        void CreateTrackAttendance(int trackActionId, int studentId, Attendance attendance);
-        void DeleteAttendanc(Attendance attendance);
+        void CreateTrackAttendance(int studentId, Attendance attendance);
+        void DeleteAttendance(Attendance attendance);
     }
 }
