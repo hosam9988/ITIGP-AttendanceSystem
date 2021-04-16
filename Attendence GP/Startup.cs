@@ -27,7 +27,7 @@ namespace Attendence_GP
             services.ConfigureRepositoryManager();
             services.AddAutoMapper(typeof(MappingProfile));
             services.ConfigureServicesManager();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.ConfigureSwagger();
             services.ConfigureIISintegration();
            

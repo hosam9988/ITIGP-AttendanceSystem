@@ -23,7 +23,7 @@ namespace Attendence_GP.Controllers
         [HttpPost("{studentId}")]
         public async Task AddStudentToAttendance(int trackActionId,int studentId ,[FromBody] AttendanceManipulationDto attendance)
         {
-            await _manager.AttendanceServices.Create(trackActionId, studentId, attendance);
+            await _manager.AttendanceServices.Create(studentId, attendance);
         }
         #endregion
 
