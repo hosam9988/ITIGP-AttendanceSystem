@@ -10,7 +10,7 @@ namespace Contracts.ServicesContracts
 {
     public interface IEmployeeServices
     {
-        Task Create(int employeeId, EmployeeManipulationDto employee);
+        Task Create(EmployeeManipulationDto employee);
         Task Update( int employeeId, EmployeeManipulationDto employee);
         Task Delete(int employeeId);
         Task<EmployeeReadDto> GetEmployee(int employeeId);

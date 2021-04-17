@@ -13,6 +13,6 @@ namespace Contracts.RepositoryContracts
         Task<Employee> GetEmployeeAsync(int employeeId, bool trackChanges);
         void DeleteEmployee(Employee employee);
         //id of logged in Admin to be assigned in the foreign key [ created by ] 
-        void CreateEmployee(int employeeId, Employee employee);
+        void CreateEmployee(Employee employee);
     }
 }

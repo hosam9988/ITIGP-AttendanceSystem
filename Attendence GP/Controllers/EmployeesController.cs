@@ -22,10 +22,10 @@ namespace Attendence_GP.Controllers
         }
 
         #region Create 
-        [HttpPost("{employeeId}")]
-        public async Task AddEmployee(int employeeId, [FromBody] EmployeeManipulationDto employee)
+        [HttpPost]
+        public async Task AddEmployee(EmployeeManipulationDto employee)
         {
-            await _manager.EmployeeServices.Create(employeeId, employee);
+            await _manager.EmployeeServices.Create(employee);
         }
         #endregion
 
