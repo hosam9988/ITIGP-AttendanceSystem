@@ -30,11 +30,6 @@ namespace Repository
 
 
         public async Task<List<Student>> GetStudents(int trackActionId, bool trackChanges) =>
-            await FindByCondition(e => e.TrackActionId == trackActionId, trackChanges).ToListAsync();
-
-
-
-        //public void UpdateStudent(Student student) => Update(student);
-
+            await FindByCondition(e => e.TrackActionId == trackActionId, trackChanges).Include(x=>x.TrackAction).ToListAsync();
     }
 }

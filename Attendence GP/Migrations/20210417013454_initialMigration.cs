@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Attendence_GP.Migrations
 {
-    public partial class initial : Migration
+    public partial class initialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,7 +50,7 @@ namespace Attendence_GP.Migrations
                         column: x => x.Program_id,
                         principalTable: "Program",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,7 +62,7 @@ namespace Attendence_GP.Migrations
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Role_id = table.Column<int>(type: "int", nullable: false),
-                    Created_By = table.Column<int>(type: "int", nullable: false),
+                    Created_By = table.Column<int>(type: "int", nullable: true),
                     Created_Date = table.Column<DateTime>(type: "date", nullable: false)
                 },
                 constraints: table =>
@@ -73,13 +73,13 @@ namespace Attendence_GP.Migrations
                         column: x => x.Created_By,
                         principalTable: "Employee",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Emplyee_Role",
                         column: x => x.Role_id,
                         principalTable: "Role",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -101,7 +101,7 @@ namespace Attendence_GP.Migrations
                         column: x => x.Track_Id,
                         principalTable: "Track",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,14 +110,15 @@ namespace Attendence_GP.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    SerialNumber = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     SSN = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Telephone = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
-                    Ttack_Action_ID = table.Column<int>(type: "int", nullable: true),
-                    Created_By = table.Column<int>(type: "int", nullable: true),
+                    Track_Action_ID = table.Column<int>(type: "int", nullable: false),
+                    Created_By = table.Column<int>(type: "int", nullable: false),
                     Created_Date = table.Column<DateTime>(type: "date", nullable: true)
                 },
                 constraints: table =>
@@ -128,13 +129,13 @@ namespace Attendence_GP.Migrations
                         column: x => x.Created_By,
                         principalTable: "Employee",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Student_Track_Action",
-                        column: x => x.Ttack_Action_ID,
+                        column: x => x.Track_Action_ID,
                         principalTable: "Track_Action",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -155,13 +156,13 @@ namespace Attendence_GP.Migrations
                         column: x => x.Created_By,
                         principalTable: "Employee",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Attendees_Student",
                         column: x => x.Student_ID,
                         principalTable: "Student",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -170,11 +171,11 @@ namespace Attendence_GP.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Noe = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
                     Student_ID = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<bool>(type: "bit", nullable: false),
-                    Response_type = table.Column<bool>(type: "bit", nullable: true),
+                    Response_type = table.Column<bool>(type: "bit", nullable: false),
                     Response_by = table.Column<int>(type: "int", nullable: true),
                     Create_Date = table.Column<DateTime>(type: "date", nullable: false),
                     Response_Date = table.Column<DateTime>(type: "date", nullable: true)
@@ -187,13 +188,13 @@ namespace Attendence_GP.Migrations
                         column: x => x.Response_by,
                         principalTable: "Employee",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Permission_Student",
                         column: x => x.Student_ID,
                         principalTable: "Student",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -227,9 +228,21 @@ namespace Attendence_GP.Migrations
                 column: "Created_By");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Student_Ttack_Action_ID",
+                name: "IX_Student_SerialNumber",
                 table: "Student",
-                column: "Ttack_Action_ID");
+                column: "SerialNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Student_SSN",
+                table: "Student",
+                column: "SSN",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Student_Track_Action_ID",
+                table: "Student",
+                column: "Track_Action_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Track_Program_id",

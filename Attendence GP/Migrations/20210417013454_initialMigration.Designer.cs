@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Attendence_GP.Migrations
 {
     [DbContext(typeof(ITIAttendanceContext))]
-    [Migration("20210415232416_mig1")]
-    partial class mig1
+    [Migration("20210417013454_initialMigration")]
+    partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -106,7 +106,8 @@ namespace Attendence_GP.Migrations
                     b.Property<string>("Note")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(150)")
+                        .HasColumnName("Note");
 
                     b.Property<int?>("ResponseBy")
                         .HasColumnType("int")
@@ -116,7 +117,7 @@ namespace Attendence_GP.Migrations
                         .HasColumnType("date")
                         .HasColumnName("Response_Date");
 
-                    b.Property<bool?>("ResponseType")
+                    b.Property<bool>("ResponseType")
                         .HasColumnType("bit")
                         .HasColumnName("Response_type");
 
@@ -185,7 +186,7 @@ namespace Attendence_GP.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int?>("CreatedBy")
+                    b.Property<int>("CreatedBy")
                         .HasColumnType("int")
                         .HasColumnName("Created_By");
 
@@ -206,6 +207,10 @@ namespace Attendence_GP.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("SerialNumber")
+                        .HasColumnType("int")
+                        .HasColumnName("SerialNumber");
+
                     b.Property<string>("Ssn")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -216,13 +221,16 @@ namespace Attendence_GP.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("TrackActionId")
+                    b.Property<int>("TrackActionId")
                         .HasColumnType("int")
-                        .HasColumnName("Ttack_Action_ID");
+                        .HasColumnName("Track_Action_ID");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
+
+                    b.HasIndex("SerialNumber")
+                        .IsUnique();
 
                     b.HasIndex("Ssn")
                         .IsUnique();
@@ -348,16 +356,20 @@ namespace Attendence_GP.Migrations
                     b.HasOne("Domain.Models.Employee", "CreatedByNavigation")
                         .WithMany("Students")
                         .HasForeignKey("CreatedBy")
-                        .HasConstraintName("FK_Student_Emplyee");
+                        .HasConstraintName("FK_Student_Emplyee")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Domain.Models.TrackAction", "TtackAction")
+                    b.HasOne("Domain.Models.TrackAction", "TrackAction")
                         .WithMany("Students")
                         .HasForeignKey("TrackActionId")
-                        .HasConstraintName("FK_Student_Track_Action");
+                        .HasConstraintName("FK_Student_Track_Action")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CreatedByNavigation");
 
-                    b.Navigation("TtackAction");
+                    b.Navigation("TrackAction");
                 });
 
             modelBuilder.Entity("Domain.Models.Track", b =>
