@@ -15,6 +15,8 @@ namespace Repository
         private IPermissionRepository _permissionRepository;
         private IEmployeeRepository _employeeRepository;
         private IAttendanceRepository _attendanceRepository;
+        private ProgramRepository _programRepository;
+
         public AppRepositoryManager(ITIAttendanceContext context)
         {
             _context = context;
@@ -70,6 +72,15 @@ namespace Repository
             {
                 if (_attendanceRepository == null) _attendanceRepository = new AttendanceRepository(_context);
                 return _attendanceRepository;
+            }
+        }
+
+        public IProgramRepository ProgramRepository
+        {
+            get
+            {
+                if (_programRepository == null) _programRepository = new ProgramRepository(_context);
+                return _programRepository;
             }
         }
 
