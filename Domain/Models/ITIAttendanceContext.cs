@@ -121,7 +121,7 @@ namespace Domain.Models
                     .HasColumnType("date")
                     .HasColumnName("Response_Date");
 
-                entity.Property(e => e.ResponseType).HasColumnName("Response_type");
+                entity.Property(e => e.ResponseType).HasColumnName("Response_type");//.HasDefaultValueSql("false");
 
                 entity.Property(e => e.StudentId).HasColumnName("Student_ID");
 
@@ -200,10 +200,15 @@ namespace Domain.Models
                     .WithMany(p => p.Students)
                     .HasForeignKey(d => d.TrackActionId)
                     .HasConstraintName("FK_Student_Track_Action");
+
+                entity.Property(s => s.SerialNumber).HasColumnName(nameof(Student.SerialNumber));
             });
             modelBuilder.Entity<Student>()
                  .HasIndex(st => st.Ssn)
                    .IsUnique();
+            modelBuilder.Entity<Student>()
+                 .HasIndex(st => st.SerialNumber)
+                 .IsUnique();
             modelBuilder.Entity<Track>(entity =>
             {
                 entity.ToTable("Track");

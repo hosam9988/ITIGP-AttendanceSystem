@@ -14,6 +14,7 @@ namespace Domain.Models
         }
 
         public int Id { get; set; }
+        public int SerialNumber { get; set; }
         public string Name { get; set; }
         public string Ssn { get; set; }
         public string Email { get; set; }
