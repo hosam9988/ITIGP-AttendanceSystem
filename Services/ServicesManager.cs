@@ -6,7 +6,7 @@ namespace Services
 {
     public class ServicesManager : IServicesManager
     {
-        private readonly IAppRepositoryManager _repositoryManager; //=>use model from student model
+        private readonly IAppRepositoryManager _repositoryManager; 
         private IMapper _mapper;
 
         private IStudentServices _studentServices;
@@ -15,7 +15,7 @@ namespace Services
         private IPermissionServices _permissionServices;
         private IEmployeeServices _employeeServices;
         private IAttendanceServices _attendanceServices;
-
+        private IProgramServices _programServices;
         public ServicesManager(IAppRepositoryManager repositoryManager, IMapper mapper)
         {
             _repositoryManager = repositoryManager;
@@ -73,5 +73,14 @@ namespace Services
                 return _attendanceServices;
             }
         }
-}
+
+        public IProgramServices ProgramServices
+        {
+            get
+            {
+                if (_programServices == null) _programServices = new ProgramServices(_repositoryManager, _mapper);
+                return _programServices;
+            }
+        }
+    }
 }
