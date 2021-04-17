@@ -13,9 +13,8 @@ namespace Repository
         public EmployeeRepository(ITIAttendanceContext context) : base(context)
         {
         }
-        public void CreateEmployee(int employeeId, Employee employee)
+        public void CreateEmployee(Employee employee)
         {
-            employee.CreatedBy = employeeId;
             Create(employee);
         }
 

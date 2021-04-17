@@ -22,10 +22,10 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task Create(int employeeId, EmployeeManipulationDto employee)
+        public async Task Create(EmployeeManipulationDto employee)
         {
-            var employeeEntity = _mapper.Map<Employee>(employee);
-            _repositoryManager.EmployeeRepository.CreateEmployee(employeeId, employeeEntity);
+            var EmployeeViewModel = _mapper.Map<Employee>(employee);
+            _repositoryManager.EmployeeRepository.CreateEmployee(EmployeeViewModel);
             await _repositoryManager.SaveAsync();
         }
 
