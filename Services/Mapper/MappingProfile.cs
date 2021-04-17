@@ -50,7 +50,11 @@ namespace Services.Mapper
 
             CreateMap<AttendanceManipulationDto, Attendance>().
                 ForMember(att => att.AttendAt, opt => opt.MapFrom(x => TimeSpan.Parse(x.AttendAt)));
-                
+
+            #endregion
+
+            #region Program Mapper
+            CreateMap<Program, ProgramManipulationDto>().ReverseMap();
             #endregion
         }
     }
