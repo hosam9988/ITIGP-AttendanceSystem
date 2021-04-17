@@ -11,7 +11,7 @@ namespace Services
     public class TrackServices : ITrackServices
     {
         private readonly IAppRepositoryManager _repositoryManager;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
         public TrackServices(IAppRepositoryManager repositoryManager, IMapper mapper)
         {
             _repositoryManager = repositoryManager;

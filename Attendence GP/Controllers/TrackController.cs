@@ -42,7 +42,7 @@ namespace Attendence_GP.Controllers
         #endregion Read
 
         [HttpPut("{trackId}")]
-        public async Task<IActionResult> UpdateTrackForProgram(int programid, int trackId, [FromBody] TrackManipulationDto track)
+        public async Task<IActionResult> UpdateTrackForProgram(int programId, int trackId, [FromBody] TrackManipulationDto track)
         {
             await _manager.TrackServices.Update(trackId, track);
             return NoContent();

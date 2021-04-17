@@ -13,6 +13,7 @@ namespace Contracts
         IEmployeeRepository EmployeeRepository { get; }
         IAttendanceRepository AttendanceRepository { get; }
 
+        IProgramRepository ProgramRepository { get; }
         Task SaveAsync();
     }
 }
