@@ -35,7 +35,7 @@ namespace Attendence_GP.Controllers
             return Ok(trackActions);
         }
         [HttpGet("{trackActionId}")]
-        public async Task<IActionResult> GetTrackActionsPerId(int trackId, int trackActionId)
+        public async Task<IActionResult> GetTrackActionsById(int trackId, int trackActionId)
         {
 
             var trackAction = await _manager.TrackActionServices.GetTrackAction(trackId, trackActionId);
@@ -44,7 +44,7 @@ namespace Attendence_GP.Controllers
 
         [HttpPut("{trackActionId}")]
 
-        public async Task<IActionResult> UpdateStudentForTrack(int trackId, int trackActionId, [FromBody] TrackActionManipulationDto trackAction)
+        public async Task<IActionResult> UpdateTrackActionForTrack(int trackId, int trackActionId, [FromBody] TrackActionManipulationDto trackAction)
         {
             await _manager.TrackActionServices.Update(trackId, trackActionId, trackAction);
             return NoContent();
@@ -52,7 +52,7 @@ namespace Attendence_GP.Controllers
 
         [HttpDelete("{trackActionId}")]
 
-        public async Task<IActionResult> DeleteStudentForTrack(int trackId, int trackActionId)
+        public async Task<IActionResult> DeleteTRackActionForTrack(int trackId, int trackActionId)
         {
             await _manager.TrackActionServices.Delete(trackId, trackActionId);
             return NoContent();

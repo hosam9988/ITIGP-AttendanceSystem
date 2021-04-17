@@ -18,7 +18,7 @@ namespace Attendence_GP.Controllers
         }
 
         [HttpPost]
-        public async Task AddTrack(int programId, [FromBody] TrackManipulationDto track)
+        public async Task AddTrackToProgram(int programId, [FromBody] TrackManipulationDto track)
         {
             await _manager.TrackServices.Create(programId, track);
         }
@@ -26,7 +26,7 @@ namespace Attendence_GP.Controllers
         #region Read
 
         [HttpGet]
-        public async Task<IActionResult> GetStudentsForTrack(int programId)
+        public async Task<IActionResult> GetTrackForProgram(int programId)
         {
             var tracks = await _manager.TrackServices.GetTracksForProgram(programId);
             return Ok(tracks);
@@ -42,14 +42,14 @@ namespace Attendence_GP.Controllers
         #endregion Read
 
         [HttpPut("{trackId}")]
-        public async Task<IActionResult> UpdateStudentForTrack(int programid, int trackId, [FromBody] TrackManipulationDto track)
+        public async Task<IActionResult> UpdateTrackForProgram(int programid, int trackId, [FromBody] TrackManipulationDto track)
         {
             await _manager.TrackServices.Update(trackId, track);
             return NoContent();
         }
 
         [HttpDelete("{trackId}")]
-        public async Task<IActionResult> DeleteStudentForTrack(int trackActionId, int studentId)
+        public async Task<IActionResult> DeleteTrackForProgram(int trackActionId, int studentId)
         {
             await _manager.StudentServices.Delete(studentId);
             return NoContent();
