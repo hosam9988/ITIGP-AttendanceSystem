@@ -20,8 +20,8 @@ namespace Domain.Models
         public string Phone { get; set; }
         public string Telephone { get; set; }
         public string Address { get; set; }
-        public int? TrackActionId { get; set; }
-        public int? CreatedBy { get; set; }
+        public int TrackActionId { get; set; }
+        public int CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
 
         public virtual Employee CreatedByNavigation { get; set; }

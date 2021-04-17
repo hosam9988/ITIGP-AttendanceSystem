@@ -18,7 +18,7 @@ namespace Services.Mapper
             CreateMap<TrackActionManipulationDto, TrackAction>().ReverseMap();
 
             CreateMap<Permission, PermissionStudentReadDto>().ForMember(x => x.Type, opt => opt.MapFrom(src => src.Type ? "Apsent" : "Late"))
-                .ForMember(x => x.ResponseType, opt => opt.MapFrom(src => src.Type ? "Accepted" : "Refused"));
+                .ForMember(x => x.ResponseType, opt => opt.MapFrom(src => (bool)src.ResponseType ? "Accepted" : "Refused"));
             CreateMap<PermissionStudentManipulationDto, Permission>().ReverseMap();
 
             CreateMap<Permission, PermissionEmployeeReadDto>().ForMember(x => x.StudentName, opt => opt.MapFrom(x => x.Student.Name))
