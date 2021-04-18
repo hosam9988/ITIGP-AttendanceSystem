@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Attendence_GP.Migrations
 {
     [DbContext(typeof(ITIAttendanceContext))]
-    [Migration("20210417013454_initialMigration")]
-    partial class initialMigration
+    [Migration("20210417124048_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -320,12 +320,14 @@ namespace Attendence_GP.Migrations
                     b.HasOne("Domain.Models.Employee", "CreatedByNavigation")
                         .WithMany("InverseCreatedByNavigation")
                         .HasForeignKey("CreatedBy")
-                        .HasConstraintName("FK_Emplyee_Emplyee");
+                        .HasConstraintName("FK_Emplyee_Emplyee")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Domain.Models.Role", "Role")
                         .WithMany("Emplyees")
                         .HasForeignKey("RoleId")
                         .HasConstraintName("FK_Emplyee_Role")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("CreatedByNavigation");

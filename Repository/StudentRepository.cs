@@ -26,10 +26,10 @@ namespace Repository
 
 
         public async Task<Student> GetStudentAsync( int studentId, bool trackChanges) =>
-            await FindByCondition(e=>e.Id == studentId, trackChanges).SingleOrDefaultAsync();
+            await FindByCondition(e=>e.Id == studentId, trackChanges).Include(st=>st.CreatedByNavigation).SingleOrDefaultAsync();
 
 
         public async Task<List<Student>> GetStudents(int trackActionId, bool trackChanges) =>
-            await FindByCondition(e => e.TrackActionId == trackActionId, trackChanges).Include(x=>x.TrackAction).ToListAsync();
+            await FindByCondition(e => e.TrackActionId == trackActionId, trackChanges).Include(x=>x.TrackAction).Include(st => st.CreatedByNavigation).ToListAsync();
     }
 }

@@ -8,6 +8,7 @@ namespace Domain.Dtos
 {
     public class StudentManipulationDto
     {
+        public int SerialNumber { get; set; }
         public string Name { get; set; }
         public string Ssn { get; set; }
         public string Email { get; set; }

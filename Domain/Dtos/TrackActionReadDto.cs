@@ -10,7 +10,7 @@ namespace Domain.Dtos
     {
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
-        public int TrackId { get; set; }
         public string Type { get; set; }
+        public string TrackName { get; set; }
     }
 }

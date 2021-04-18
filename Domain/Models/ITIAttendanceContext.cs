@@ -88,13 +88,13 @@ namespace Domain.Models
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.InverseCreatedByNavigation)
                     .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .HasConstraintName("FK_Emplyee_Emplyee");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Emplyees)
                     .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .HasConstraintName("FK_Emplyee_Role");
             });
 

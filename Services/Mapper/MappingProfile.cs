@@ -10,7 +10,7 @@ namespace Services.Mapper
         public MappingProfile()
         {
             #region Student Mapper
-            CreateMap<Student, StudentReadDto>().ReverseMap();
+            CreateMap<Student, StudentReadDto>().ForMember(x => x.CreatedBy, opt => opt.MapFrom(src => src.CreatedByNavigation.Name));
             CreateMap<Student, StudentAttendanceReadDto>().ReverseMap();
             CreateMap<StudentManipulationDto, Student>().ReverseMap();
             #endregion
@@ -21,7 +21,7 @@ namespace Services.Mapper
             #endregion
 
             #region TRackAction Mapper
-            CreateMap<TrackAction, TrackActionReadDto>().ReverseMap();
+            CreateMap<TrackAction, TrackActionReadDto>().ForMember(x => x.TrackName, opt => opt.MapFrom(src => src.Track.Name));
             CreateMap<TrackActionManipulationDto, TrackAction>().ReverseMap();
             #endregion
 
@@ -37,19 +37,23 @@ namespace Services.Mapper
             #endregion
 
             #region Employee Mapper
-            CreateMap<Employee, EmployeeReadDto>().ReverseMap();
+            CreateMap<Employee, EmployeeReadDto>().ForMember(x => x.RoleName, opt => opt.MapFrom(src => src.Role.Role1))
+                .ForMember(x => x.CreatedBy, opt => opt.MapFrom(src => src.CreatedByNavigation.Name));
             CreateMap<EmployeeManipulationDto, Employee>().ReverseMap();
             #endregion
 
             #region Attendance Mapper 
-            CreateMap<Attendance, AttendanceManipulationDto>().ForMember(t => t.AttendAt, opt => opt.MapFrom(x => 
+            //read
+            CreateMap<Attendance, AttendanceManipulationDto>().ForMember(t => t.AttendAt, opt => opt.MapFrom(x =>
                 x.AttendAt.Value.ToString()
-               ));
+               )).ForMember(t => t.LeaveAt, opt => opt.MapFrom(x =>
+                x.LeaveAt.Value.ToString()));
 
             
-
+            //create
             CreateMap<AttendanceManipulationDto, Attendance>().
-                ForMember(att => att.AttendAt, opt => opt.MapFrom(x => TimeSpan.Parse(x.AttendAt)));
+                ForMember(att => att.AttendAt, opt => opt.MapFrom(x => TimeSpan.Parse(x.AttendAt)))  
+                .ForMember(att => att.LeaveAt, opt => opt.MapFrom(x => TimeSpan.Parse(x.LeaveAt)));
 
             #endregion
 

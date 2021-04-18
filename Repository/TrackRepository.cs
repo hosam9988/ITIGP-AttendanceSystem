@@ -40,6 +40,6 @@ namespace Repository
         //public void UpdateTrack(Track track) => Update(track);
 
         public async Task<Track> GetTrackWithProgram(int programId, int trackId, bool trackChanges)=>
-            await _context.Tracks.Include(t => t.Program).FirstOrDefaultAsync(t => t.ProgramId == programId);
+            await _context.Tracks.Include(t => t.Program).FirstOrDefaultAsync(t => t.ProgramId == programId && t.Id == trackId );
     }
 }

@@ -23,7 +23,7 @@ namespace Attendence_GP.Controllers
         }
 
         [HttpPost]
-        public async Task AddStudent(int trackId, [FromBody] TrackActionManipulationDto trackAction)
+        public async Task AddTrackActionForTrack(int trackId, [FromBody] TrackActionManipulationDto trackAction)
         {
             await _manager.TrackActionServices.Create(trackId, trackAction);
         }

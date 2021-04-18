@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Attendence_GP.Controllers
 {
-    [Route("programs/{programId}/[controller]")]
+    [Route("programs/")]
     [ApiController]
     public class TrackController : ControllerBase
     {
@@ -17,7 +17,7 @@ namespace Attendence_GP.Controllers
             _manager = manager;
         }
 
-        [HttpPost]
+        [HttpPost("{programId}/[controller]")]
         public async Task AddTrackToProgram(int programId, [FromBody] TrackManipulationDto track)
         {
             await _manager.TrackServices.Create(programId, track);
@@ -25,15 +25,15 @@ namespace Attendence_GP.Controllers
 
         #region Read
 
-        [HttpGet]
-        public async Task<IActionResult> GetTrackForProgram(int programId)
+        [HttpGet("{programId}/[controller]")]
+        public async Task<IActionResult> GetTracksForProgram(int programId)
         {
             var tracks = await _manager.TrackServices.GetTracksForProgram(programId);
             return Ok(tracks);
         }
 
-        [HttpGet("{trackId}")]
-        public async Task<IActionResult> GetStudentPerId(int programId, int trackId)
+        [HttpGet("{programId}/[controller]/{trackId}")]
+        public async Task<IActionResult> GetTrackForProgram(int programId, int trackId)
         {
             var track = await _manager.TrackServices.GetTrack(programId, trackId);
             return Ok(track);
@@ -41,17 +41,17 @@ namespace Attendence_GP.Controllers
 
         #endregion Read
 
-        [HttpPut("{trackId}")]
+        [HttpPut("{programId}/[controller]/{trackId}")]
         public async Task<IActionResult> UpdateTrackForProgram(int programId, int trackId, [FromBody] TrackManipulationDto track)
         {
             await _manager.TrackServices.Update(trackId, track);
             return NoContent();
         }
 
-        [HttpDelete("{trackId}")]
-        public async Task<IActionResult> DeleteTrackForProgram(int trackActionId, int studentId)
+        [HttpDelete("[controller]/{trackId}")]
+        public async Task<IActionResult> DeleteTrackForProgram(int trackId)
         {
-            await _manager.StudentServices.Delete(studentId);
+            await _manager.TrackServices.Delete(trackId);
             return NoContent();
         }
     }

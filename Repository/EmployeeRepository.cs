@@ -24,9 +24,9 @@ namespace Repository
         }
 
         public async Task<Employee> GetEmployeeAsync(int employeeId, bool trackChanges) =>
-            await FindByCondition(e => e.Id == employeeId, trackChanges).SingleOrDefaultAsync();
+            await FindByCondition(e => e.Id == employeeId, trackChanges).Include(emp=>emp.Role).Include(emp=>emp.CreatedByNavigation).SingleOrDefaultAsync();
 
         public async Task<List<Employee>> GetEmployees( bool trackChanges) =>
-             await FindAll( trackChanges).ToListAsync();
+             await FindAll( trackChanges).Include(emp => emp.Role).Include(emp=>emp.CreatedByNavigation).ToListAsync();
     }
 }

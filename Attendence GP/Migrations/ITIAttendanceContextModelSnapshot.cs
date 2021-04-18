@@ -318,12 +318,14 @@ namespace Attendence_GP.Migrations
                     b.HasOne("Domain.Models.Employee", "CreatedByNavigation")
                         .WithMany("InverseCreatedByNavigation")
                         .HasForeignKey("CreatedBy")
-                        .HasConstraintName("FK_Emplyee_Emplyee");
+                        .HasConstraintName("FK_Emplyee_Emplyee")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Domain.Models.Role", "Role")
                         .WithMany("Emplyees")
                         .HasForeignKey("RoleId")
                         .HasConstraintName("FK_Emplyee_Role")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("CreatedByNavigation");
