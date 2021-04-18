@@ -29,7 +29,11 @@ namespace Attendence_GP.Controllers
         public async Task<IActionResult> GetStudentsForTrack(int trackActionId)
         {
             var students = await _manager.StudentServices.GetStudentsForTrack(trackActionId);
+            
+            if(students != null)
             return Ok(students);
+            else
+                return NotFound();
         }
         [HttpGet("{studentId}")]
         public async Task<IActionResult> GetStudentPerId(int studentId)

@@ -39,21 +39,21 @@ namespace Services
 
         }
 
-        public async Task<AttendanceManipulationDto> GetAttendanceForStudent(int studentId, DateTime date)
+        public async Task<StudentAttendanceReadDto> GetAttendanceForStudent(int studentId, DateTime date)
         {
-            var attendance = await _repositoryManager.AttendanceRepository.GetAttendanceForStudent(studentId, date, false);
-            var attendanceEntity = _mapper.Map<AttendanceManipulationDto>(attendance);
+            var attendance = await _repositoryManager.AttendanceRepository.GetAttendanceForStudent(studentId, date,  false);
+            var attendanceEntity = _mapper.Map<StudentAttendanceReadDto>(attendance);
             return attendanceEntity;
         }
 
-        public  async Task<AttendanceManipulationDto> GetAttendanceForTrack(int trackActionId, DateTime date)
+        public  async Task<StudentAttendanceReadDto> GetAttendanceForTrack(int trackActionId, DateTime date)
         {
             var attendance = await _repositoryManager.AttendanceRepository.GetAttendanceForTrack(trackActionId, date, false);
-            var attendanceEntity = _mapper.Map<AttendanceManipulationDto>(attendance);
+            var attendanceEntity = _mapper.Map<StudentAttendanceReadDto>(attendance);
             return attendanceEntity;
         }
 
-        public Task<List<AttendanceManipulationDto>> GetAllAttendances(int trackActionId)
+        public Task<List<StudentAttendanceReadDto>> GetAllAttendances(int trackActionId)
         {
             throw new NotImplementedException();
         }

@@ -32,7 +32,8 @@ namespace Attendence_GP.Controllers
         public async Task<IActionResult> GetPrograms()
         {
             var programs = await _manager.ProgramServices.GetPrograms();
-            return  programs == null ? NotFound() :  Ok(programs);
+
+            return programs.Count == 0 ? NotFound() : Ok(programs);
         }
         [HttpGet("{programId}")]
         public async Task<IActionResult> GetProgram(int programId)

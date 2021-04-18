@@ -18,9 +18,15 @@ namespace Attendence_GP.Controllers
         }
 
         [HttpPost("{programId}/[controller]")]
-        public async Task AddTrackToProgram(int programId, [FromBody] TrackManipulationDto track)
+        public async Task<IActionResult> AddTrackToProgram(int programId, [FromBody] TrackManipulationDto track)
         {
-            await _manager.TrackServices.Create(programId, track);
+            var program = await _manager.ProgramServices.GetProgram(programId);
+
+            if (program != null) {
+                await _manager.TrackServices.Create(programId, track);
+                return Ok("Successfully added");
+            }
+            return BadRequest("There's not Program to add Track to ");
         }
 
         #region Read
@@ -41,8 +47,8 @@ namespace Attendence_GP.Controllers
 
         #endregion Read
 
-        [HttpPut("{programId}/[controller]/{trackId}")]
-        public async Task<IActionResult> UpdateTrackForProgram(int programId, int trackId, [FromBody] TrackManipulationDto track)
+        [HttpPut("[controller]/{trackId}")]
+        public async Task<IActionResult> UpdateTrackForProgram(int trackId, [FromBody] TrackManipulationDto track)
         {
             await _manager.TrackServices.Update(trackId, track);
             return NoContent();

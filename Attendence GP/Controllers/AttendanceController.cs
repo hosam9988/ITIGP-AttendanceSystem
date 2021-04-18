@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Attendence_GP.Controllers
 {
-    [Route("tracks/{trackActionId}/[controller]")]
     [ApiController]
     public class AttendanceController : ControllerBase
     {
@@ -20,40 +19,43 @@ namespace Attendence_GP.Controllers
         }
 
         #region Create 
-        [HttpPost("{studentId}")]
-        public async Task AddStudentToAttendance(int trackActionId,int studentId ,[FromBody] AttendanceManipulationDto attendance)
+        
+        [HttpPost("[controller]/{studentId}")]
+        public async Task AddStudentToAttendance(int studentId ,[FromBody] AttendanceManipulationDto attendance)
         {
             await _manager.AttendanceServices.Create(studentId, attendance);
         }
         #endregion
 
         #region Read
-        [HttpGet]
-        public async Task<IActionResult> GetStudentsForTrack(int trackActionId, DateTime date)
+        [HttpGet("tracks/{trackActionId}/[controller]/{date}")]
+        public async Task<IActionResult> GetAttendanceForTrack(int trackActionId, DateTime date)
         {
             var students = await _manager.AttendanceServices.GetAttendanceForTrack(trackActionId, date);
             return Ok(students);
         }
-        [HttpGet("{studentId}")]
+        [HttpGet("[controller]/{studentId}")]
         public async Task<IActionResult> GetAttendanceForStudent(int studentId)
         {
+            var date = DateTime.Now.Date.Date;
             var student = await _manager.AttendanceServices.GetAttendanceForStudent(studentId, DateTime.Now.Date);
             return Ok(student);
         }
         #endregion
 
         #region update
-        [HttpPut("{studentId}")]
+        [HttpPut("[controller]/{studentId}")]
 
         public async Task<IActionResult> UpdateAttendanceForStudent(int studentId,[FromBody] AttendanceManipulationDto attendance)
         {
-            await _manager.AttendanceServices.Update(studentId, DateTime.Now, attendance);
+            var date = DateTime.Now.Date.Date;
+            await _manager.AttendanceServices.Update(studentId, date, attendance);
             return NoContent();
         }
         #endregion
 
         #region Delete
-        [HttpDelete("{studentId}")]
+        [HttpDelete("[controller]/{studentId}/{date}")]
 
         public async Task<IActionResult> DeleteAttendance(int studentId, DateTime date)
         {

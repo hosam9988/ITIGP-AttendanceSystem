@@ -12,8 +12,8 @@ namespace Contracts.ServicesContracts
         Task Create(int studentId, AttendanceManipulationDto attendance);
         Task Update(int studentId, DateTime date, AttendanceManipulationDto attendance);
         Task Delete(int studentId, DateTime date);
-        Task<AttendanceManipulationDto> GetAttendanceForStudent(int studentId, DateTime date);
-        Task<AttendanceManipulationDto> GetAttendanceForTrack(int trackActionId, DateTime date);
-        Task<List<AttendanceManipulationDto>> GetAllAttendances(int trackActionId);
+        Task<StudentAttendanceReadDto> GetAttendanceForStudent(int studentId, DateTime date);
+        Task<StudentAttendanceReadDto> GetAttendanceForTrack(int trackActionId, DateTime date);
+        Task<List<StudentAttendanceReadDto>> GetAllAttendances(int trackActionId);
     }
 }

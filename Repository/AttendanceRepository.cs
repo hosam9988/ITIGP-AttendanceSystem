@@ -33,11 +33,13 @@ namespace Repository
         /// <returns></returns>
 
         public async Task<Attendance> GetAttendanceForStudent(int studentId, DateTime date, bool trackChanges) =>
-            await FindByCondition(att => att.StudentId == studentId && att.Date.Equals(date), trackChanges).SingleOrDefaultAsync();
+            await FindByCondition(att => att.StudentId == studentId && att.Date.Equals(date), trackChanges)
+            .Include(att=>att.Student).SingleOrDefaultAsync();
 
         //needs some Work on logic
         public async Task<Attendance> GetAttendanceForTrack(int trackActionId, DateTime date, bool trackChanges)=>
-        await FindByCondition(att =>att.Student.TrackActionId == trackActionId && att.Date.Equals(date), trackChanges).SingleOrDefaultAsync();
+        await FindByCondition(att =>att.Student.TrackActionId == trackActionId && att.Date.Equals(date), trackChanges)
+            .Include(att=>att.Student).SingleOrDefaultAsync();
 
 
         /// <summary>

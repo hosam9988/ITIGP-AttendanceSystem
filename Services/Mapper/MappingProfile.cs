@@ -44,10 +44,11 @@ namespace Services.Mapper
 
             #region Attendance Mapper 
             //read
-            CreateMap<Attendance, AttendanceManipulationDto>().ForMember(t => t.AttendAt, opt => opt.MapFrom(x =>
+            CreateMap<Attendance, StudentAttendanceReadDto>().ForMember(t => t.AttendAt, opt => opt.MapFrom(x =>
                 x.AttendAt.Value.ToString()
                )).ForMember(t => t.LeaveAt, opt => opt.MapFrom(x =>
-                x.LeaveAt.Value.ToString()));
+                x.LeaveAt.Value.ToString()))
+               .ForMember(x => x.StudentName, opt => opt.MapFrom(src => src.Student.Name));
 
             
             //create
