@@ -6,15 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Dtos
 {
-    public class EmployeeReadDto
+    public class ProgramReadDto
     {
         public int Id { get; set; }
-
         public string Name { get; set; }
-        public string Email { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public string CreatedBy { get; set; }
-        public string RoleName { get; set; }
-
     }
 }

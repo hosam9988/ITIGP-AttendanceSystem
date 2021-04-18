@@ -35,17 +35,17 @@ namespace Services
             await _repositoryManager.SaveAsync();
         }
 
-        public async Task<ProgramManipulationDto> GetProgram(int programId)
+        public async Task<ProgramReadDto> GetProgram(int programId)
         {
             var program = await _repositoryManager.ProgramRepository.GetProgramAsync(programId, trackChanges: false);
-            var programEntity = _mapper.Map<ProgramManipulationDto>(program);
+            var programEntity = _mapper.Map<ProgramReadDto>(program);
             return programEntity;
         }
 
-        public async Task<List<ProgramManipulationDto>> GetPrograms()
+        public async Task<List<ProgramReadDto>> GetPrograms()
         {
             var programs = await _repositoryManager.ProgramRepository.GetAllPrograms(trackChanges: false);
-            return _mapper.Map<List<ProgramManipulationDto>>(programs);
+            return _mapper.Map<List<ProgramReadDto>>(programs);
         }
 
         public async Task Update(int programId, ProgramManipulationDto program)

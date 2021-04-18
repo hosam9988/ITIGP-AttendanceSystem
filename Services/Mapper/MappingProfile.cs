@@ -59,6 +59,7 @@ namespace Services.Mapper
 
             #region Program Mapper
             CreateMap<Program, ProgramManipulationDto>().ReverseMap();
+            CreateMap<Program, ProgramReadDto>().ReverseMap();
             #endregion
         }
     }

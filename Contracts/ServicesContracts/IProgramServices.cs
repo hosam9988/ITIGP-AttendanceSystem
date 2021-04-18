@@ -12,7 +12,7 @@ namespace Contracts.ServicesContracts
         Task Create(ProgramManipulationDto program);
         Task Update(int programId, ProgramManipulationDto program);
         Task Delete(int programId);
-        Task<ProgramManipulationDto> GetProgram(int programId);
-        Task<List<ProgramManipulationDto>> GetPrograms();
+        Task<ProgramReadDto> GetProgram(int programId);
+        Task<List<ProgramReadDto>> GetPrograms();
     }
 }
