@@ -27,7 +27,8 @@ namespace Services.Mapper
 
             #region Permissions Mapper 
             CreateMap<Permission, PermissionStudentReadDto>().ForMember(x => x.Type, opt => opt.MapFrom(src => src.Type ? "Apsent" : "Late"))
-                .ForMember(x => x.ResponseType, opt => opt.MapFrom(src => src.ResponseType ? "Accepted" : "Refused"));
+                .ForMember(x => x.ResponseType, opt => opt.MapFrom(src => ResponseTypeStatus(src.ResponseType)));
+                
             CreateMap<PermissionStudentManipulationDto, Permission>().ReverseMap();
 
             CreateMap<Permission, PermissionEmployeeReadDto>().ForMember(x => x.StudentName, opt => opt.MapFrom(x => x.Student.Name))
@@ -62,6 +63,14 @@ namespace Services.Mapper
             CreateMap<Program, ProgramManipulationDto>().ReverseMap();
             CreateMap<Program, ProgramReadDto>().ReverseMap();
             #endregion
+        }
+
+        string ResponseTypeStatus(bool? responseType)
+        {
+            var x = responseType == true ? "Accepted" : "refused";
+            if (responseType != null)
+                return x;
+            return "Pending";
         }
     }
 }
