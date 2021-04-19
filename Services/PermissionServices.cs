@@ -31,16 +31,16 @@ namespace Services
 
         }
 
-        public async Task Delete(int studentId, int id)
+        public async Task Delete(int id)
         {
-            var permission = await _repositoryManager.PermissionRepository.GetPermissionAsync(studentId, id, false);
+            var permission = await _repositoryManager.PermissionRepository.GetPermissionAsync(id, false);
             _repositoryManager.PermissionRepository.DeletePermission(permission);
             await _repositoryManager.SaveAsync();
         }
 
-        public async Task<PermissionStudentReadDto> GetPermission(int studentId, int id)
+        public async Task<PermissionStudentReadDto> GetPermission(int id)
         {
-            var permission = await _repositoryManager.PermissionRepository.GetPermissionAsync(studentId, id, trackChanges: false);
+            var permission = await _repositoryManager.PermissionRepository.GetPermissionAsync(id, trackChanges: false);
             var permissionsEntity = _mapper.Map<PermissionStudentReadDto>(permission);
             return permissionsEntity;
         }
@@ -59,16 +59,16 @@ namespace Services
             return permissionsEntity;
         }
 
-        public async Task Update(int studentId, int id, PermissionStudentManipulationDto permission)
+        public async Task Update(int id, PermissionStudentManipulationDto permission)
         {
-            var permissionEntity = await _repositoryManager.PermissionRepository.GetPermissionAsync(studentId, id, trackChanges: true);
+            var permissionEntity = await _repositoryManager.PermissionRepository.GetPermissionAsync(id, trackChanges: true);
             _mapper.Map(permission, permissionEntity);
             await _repositoryManager.SaveAsync();
         }
 
-        public async Task UpdateForEmployee(int studentId, int id, PermissionEmployeeManipulationDto permission)
+        public async Task UpdateForEmployee(int id, PermissionEmployeeManipulationDto permission)
         {
-            var permissionEntity = await _repositoryManager.PermissionRepository.GetPermissionAsync(studentId, id, trackChanges: true);
+            var permissionEntity = await _repositoryManager.PermissionRepository.GetPermissionAsync(id, trackChanges: true);
             _mapper.Map(permission, permissionEntity);
             await _repositoryManager.SaveAsync();
         }

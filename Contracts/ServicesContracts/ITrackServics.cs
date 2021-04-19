@@ -13,7 +13,7 @@ namespace Contracts.ServicesContracts
         Task Create(int ProgramId, TrackManipulationDto track);
         Task Update( int id, TrackManipulationDto track);
         Task Delete( int id);
-        Task<TrackReadDto> GetTrack(int programId, int id);
+        Task<TrackReadDto> GetTrack(int id);
         Task<List<TrackReadDto>> GetTracksForProgram(int programId);
     }
 }

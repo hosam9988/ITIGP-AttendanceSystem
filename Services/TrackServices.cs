@@ -31,9 +31,9 @@ namespace Services
             await _repositoryManager.SaveAsync();
         }
 
-        public async Task<TrackReadDto> GetTrack(int programId, int id)
+        public async Task<TrackReadDto> GetTrack(int id)
         {
-            var track = await _repositoryManager.TrackRepository.GetTrackWithProgram(programId, id, false);
+            var track = await _repositoryManager.TrackRepository.GetTrackAsync(id, false);
             var trackEntity = _mapper.Map<TrackReadDto>(track);
             return trackEntity;
         }

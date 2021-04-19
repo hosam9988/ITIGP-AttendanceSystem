@@ -11,11 +11,11 @@ namespace Contracts.ServicesContracts
     public interface IPermissionServices
     {
         Task Create(int studentId, PermissionStudentManipulationDto permission);
-        Task Update(int studentId, int id, PermissionStudentManipulationDto permission);
-        Task UpdateForEmployee(int studentId, int id, PermissionEmployeeManipulationDto permission);
+        Task Update(int id, PermissionStudentManipulationDto permission);
+        Task UpdateForEmployee(int id, PermissionEmployeeManipulationDto permission);
 
-        Task Delete(int studentId, int id);
-        Task<PermissionStudentReadDto> GetPermission(int studentId, int id);
+        Task Delete(int id);
+        Task<PermissionStudentReadDto> GetPermission(int id);
         Task<List<PermissionStudentReadDto>> GetPermissionsForStudent(int studentId);
         Task<List<PermissionEmployeeReadDto>> GetPermissionsForEmployee();
     }
