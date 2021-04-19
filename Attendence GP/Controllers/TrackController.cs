@@ -38,10 +38,10 @@ namespace Attendence_GP.Controllers
             return Ok(tracks);
         }
 
-        [HttpGet("{programId}/[controller]/{trackId}")]
-        public async Task<IActionResult> GetTrackForProgram(int programId, int trackId)
+        [HttpGet("[controller]/{trackId}")]
+        public async Task<IActionResult> GetTrackForProgram(int trackId)
         {
-            var track = await _manager.TrackServices.GetTrack(programId, trackId);
+            var track = await _manager.TrackServices.GetTrack(trackId);
             return Ok(track);
         }
 

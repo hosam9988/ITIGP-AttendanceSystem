@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Attendence_GP.Controllers
 {
-    [Route("students/{studentId}/[controller]/")]
+    [Route("students/")]
     [ApiController]
     public class PermissionsStudentController :ControllerBase
     {
@@ -18,7 +18,7 @@ namespace Attendence_GP.Controllers
         }
 
         #region Create 
-        [HttpPost]
+        [HttpPost("{studentId}/[controller]/")]
         public async Task AddPermission(int studentId, [FromBody] PermissionStudentManipulationDto permission)
         {
             await _manager.PermissionServices.Create(studentId, permission);
@@ -26,37 +26,37 @@ namespace Attendence_GP.Controllers
         #endregion
 
         #region Read
-        [HttpGet]
+        [HttpGet("{studentId}/[controller]/")]
         public async Task<IActionResult> GetPermissionsForStudent(int studentId)
         {
             var permissions = await _manager.PermissionServices.GetPermissionsForStudent(studentId);
             return Ok(permissions);
         }
-        [HttpGet("{permissionId}")]
-        public async Task<IActionResult> GetPermissionPerId(int studentId, int permissionId)
+        [HttpGet("[controller]/{permissionId}")]
+        public async Task<IActionResult> GetPermissionPerId(int permissionId)
         {
 
-            var permission = await _manager.PermissionServices.GetPermission(studentId, permissionId);
+            var permission = await _manager.PermissionServices.GetPermission(permissionId);
             return Ok(permission);
         }
         #endregion
 
         #region update
-        [HttpPut("{permissionId}")]
+        [HttpPut("[controller]/{permissionId}")]
 
-        public async Task<IActionResult> UpdatePermissionForStudent(int studentId, int permissionId, [FromBody] PermissionStudentManipulationDto permission)
+        public async Task<IActionResult> UpdatePermissionForStudent(int permissionId, [FromBody] PermissionStudentManipulationDto permission)
         {
-            await _manager.PermissionServices.Update(studentId, permissionId, permission);
+            await _manager.PermissionServices.Update(permissionId, permission);
             return NoContent();
         }
         #endregion
 
         #region Delete
-        [HttpDelete("{permissionId}")]
+        [HttpDelete("[controller]/{permissionId}")]
 
-        public async Task<IActionResult> DeleteStudentForTrack(int studentId, int permissionId)
+        public async Task<IActionResult> DeleteStudentForTrack(int permissionId)
         {
-            await _manager.PermissionServices.Delete(studentId, permissionId);
+            await _manager.PermissionServices.Delete(permissionId);
             return NoContent();
         }
         #endregion

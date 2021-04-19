@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Attendence_GP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class PermissionsEmployeeController : ControllerBase
     {
@@ -30,10 +30,10 @@ namespace Attendence_GP.Controllers
         #endregion
 
         #region update
-        [HttpPut]
-        public async Task<IActionResult> UpdatePermissionForStudent(int studentId, int permissionId, [FromBody] PermissionEmployeeManipulationDto permission)
+        [HttpPut("{permissionId}")]
+        public async Task<IActionResult> UpdatePermissionForStudent(int permissionId, [FromBody] PermissionEmployeeManipulationDto permission)
         {
-            await _manager.PermissionServices.UpdateForEmployee(studentId, permissionId, permission);
+            await _manager.PermissionServices.UpdateForEmployee(permissionId, permission);
             return NoContent();
         }
         #endregion

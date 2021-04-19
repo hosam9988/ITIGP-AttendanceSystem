@@ -10,7 +10,7 @@ using Domain.Dtos;
 
 namespace Attendence_GP.Controllers
 {
-    [Route("track/{trackId}/[controller]")]
+    [Route("track/")]
     [ApiController]
     public class TrackActionsController : ControllerBase
     {
@@ -22,39 +22,39 @@ namespace Attendence_GP.Controllers
             _manager = manager;
         }
 
-        [HttpPost]
+        [HttpPost("{trackId}/[controller]")]
         public async Task AddTrackActionForTrack(int trackId, [FromBody] TrackActionManipulationDto trackAction)
         {
             await _manager.TrackActionServices.Create(trackId, trackAction);
         }
 
-        [HttpGet]
+        [HttpGet("{trackId}/[controller]")]
         public async Task<IActionResult> GetTrackActionsForTrack(int trackId)
         {
             var trackActions = await _manager.TrackActionServices.GetTrackActionsForTrack(trackId);
             return Ok(trackActions);
         }
-        [HttpGet("{trackActionId}")]
-        public async Task<IActionResult> GetTrackActionsById(int trackId, int trackActionId)
+        [HttpGet("[controller]/{trackActionId}")]
+        public async Task<IActionResult> GetTrackActionsById(int trackActionId)
         {
 
-            var trackAction = await _manager.TrackActionServices.GetTrackAction(trackId, trackActionId);
+            var trackAction = await _manager.TrackActionServices.GetTrackAction(trackActionId);
             return Ok(trackAction);
         }
 
-        [HttpPut("{trackActionId}")]
+        [HttpPut("[controller]/{trackActionId}")]
 
-        public async Task<IActionResult> UpdateTrackActionForTrack(int trackId, int trackActionId, [FromBody] TrackActionManipulationDto trackAction)
+        public async Task<IActionResult> UpdateTrackActionForTrack(int trackActionId, [FromBody] TrackActionManipulationDto trackAction)
         {
-            await _manager.TrackActionServices.Update(trackId, trackActionId, trackAction);
+            await _manager.TrackActionServices.Update(trackActionId, trackAction);
             return NoContent();
         }
 
-        [HttpDelete("{trackActionId}")]
+        [HttpDelete("[controller]/{trackActionId}")]
 
-        public async Task<IActionResult> DeleteTRackActionForTrack(int trackId, int trackActionId)
+        public async Task<IActionResult> DeleteTRackActionForTrack(int trackActionId)
         {
-            await _manager.TrackActionServices.Delete(trackId, trackActionId);
+            await _manager.TrackActionServices.Delete(trackActionId);
             return NoContent();
         }
     }

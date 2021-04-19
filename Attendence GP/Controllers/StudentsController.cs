@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Attendence_GP.Controllers
 {
-    [Route("trackAction/{trackActionId}/[controller]/")]
+    [Route("trackAction/")]
     [ApiController]
     public class StudentsController : ControllerBase
     {
@@ -17,7 +17,7 @@ namespace Attendence_GP.Controllers
             _manager = manager;
         }
         #region Create 
-        [HttpPost]
+        [HttpPost("{trackActionId}/[controller]/")]
         public async Task AddStudent(int trackActionId, [FromBody] StudentManipulationDto student)
         {
             await _manager.StudentServices.Create(trackActionId, student);
@@ -25,7 +25,7 @@ namespace Attendence_GP.Controllers
         #endregion
 
         #region Read
-        [HttpGet]
+        [HttpGet("{trackActionId}/[controller]/")]
         public async Task<IActionResult> GetStudentsForTrack(int trackActionId)
         {
             var students = await _manager.StudentServices.GetStudentsForTrack(trackActionId);
@@ -35,7 +35,7 @@ namespace Attendence_GP.Controllers
             else
                 return NotFound();
         }
-        [HttpGet("{studentId}")]
+        [HttpGet("/[controller]/{studentId}")]
         public async Task<IActionResult> GetStudentPerId(int studentId)
         {
 
@@ -45,9 +45,9 @@ namespace Attendence_GP.Controllers
         #endregion
 
         #region update
-        [HttpPut("{studentId}")]
+        [HttpPut("/[controller]/{studentId}")]
 
-        public async Task<IActionResult> UpdateStudentForTrack(int trackActionId, int studentId, [FromBody] StudentManipulationDto student)
+        public async Task<IActionResult> UpdateStudentForTrack(int studentId, [FromBody] StudentManipulationDto student)
         {
             await _manager.StudentServices.Update(studentId, student);
             return NoContent();
@@ -55,9 +55,9 @@ namespace Attendence_GP.Controllers
         #endregion
 
         #region Delete
-        [HttpDelete("{studentId}")]
+        [HttpDelete("/[controller]/{studentId}")]
 
-        public async Task<IActionResult> DeleteStudentForTrack(int trackActionId, int studentId)
+        public async Task<IActionResult> DeleteStudentForTrack(int studentId)
         {
             await _manager.StudentServices.Delete( studentId);
             return NoContent();
