@@ -12,7 +12,7 @@ namespace Domain.Models
         public DateTime Date { get; set; }
         public int StudentId { get; set; }
         public bool Type { get; set; }
-        public bool ResponseType { get; set; }
+        public bool? ResponseType { get; set; }
         public int? ResponseBy { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? ResponseDate { get; set; }

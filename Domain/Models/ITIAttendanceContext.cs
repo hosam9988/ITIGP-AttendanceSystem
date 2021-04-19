@@ -121,7 +121,7 @@ namespace Domain.Models
                     .HasColumnType("date")
                     .HasColumnName("Response_Date");
 
-                entity.Property(e => e.ResponseType).HasColumnName("Response_type");//.HasDefaultValueSql("false");
+                entity.Property(e => e.ResponseType).HasColumnName("Response_type");
 
                 entity.Property(e => e.StudentId).HasColumnName("Student_ID");
 
