@@ -27,15 +27,15 @@ namespace Repository
             Delete(permission);
         }
 
-        public async Task<Permission> GetPermissionAsync(int studentId, int permissionId, bool trackChanges) =>
-            await FindByCondition(e => e.StudentId == studentId && e.Id == permissionId, trackChanges).SingleOrDefaultAsync();
+        public async Task<Permission> GetPermissionAsync(int permissionId, bool trackChanges) =>
+            await FindByCondition(e =>e.Id == permissionId, trackChanges).SingleOrDefaultAsync();
 
 
         public async Task<List<Permission>> GetPermissionsForStudent(int studentId, bool trackChanges) =>
-            await FindByCondition(e => e.StudentId == studentId && e.ResponseType == false && e.ResponseBy ==null , trackChanges).ToListAsync();
+            await FindByCondition(e => e.StudentId == studentId && e.ResponseType !=true && e.ResponseBy ==null , trackChanges).ToListAsync();
 
         public async Task<List<Permission>> GetAllPermissionsForEmployee(bool trackChanges) =>
-           await FindByCondition(e => e.ResponseType == false && e.ResponseBy == null , trackChanges).Include(per=>per.Student.TrackAction.Track).ToListAsync();
+           await FindByCondition(e => e.ResponseType !=true && e.ResponseBy == null , trackChanges).Include(per=>per.Student.TrackAction.Track).ToListAsync();
 
     }
 }

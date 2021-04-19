@@ -31,7 +31,7 @@ namespace Repository
        
 
         public async Task<Track> GetTrackAsync(int trackId, bool trackChanges) =>
-            await FindByCondition(e => e.Id == trackId, trackChanges).SingleOrDefaultAsync();
+            await FindByCondition(e => e.Id == trackId, trackChanges).Include(t => t.Program).SingleOrDefaultAsync();
 
 
         public async Task<List<Track>> GetTracks(int programId, bool trackChanges) =>
