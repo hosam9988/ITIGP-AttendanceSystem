@@ -49,8 +49,12 @@ namespace Services.Mapper
                 x.AttendAt.Value.ToString()
                )).ForMember(t => t.LeaveAt, opt => opt.MapFrom(x =>
                 x.LeaveAt.Value.ToString()))
+               .ForMember(t => t.LeaveAt, opt => opt.MapFrom(x =>
+                x.LeaveAt == null ? " " : x.LeaveAt.ToString()))
+               .ForMember(t => t.AttendAt, opt => opt.MapFrom(x =>
+                x.AttendAt == null ? " " : x.AttendAt.ToString()))
                .ForMember(x => x.StudentName, opt => opt.MapFrom(src => src.Student.Name));
-
+                
             
             //create
             CreateMap<AttendanceManipulationDto, Attendance>().
