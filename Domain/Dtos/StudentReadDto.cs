@@ -19,5 +19,8 @@ namespace Domain.Dtos
         public string Address { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
+
+        public int TrackActionId { get; set; }
+
     }
 }
