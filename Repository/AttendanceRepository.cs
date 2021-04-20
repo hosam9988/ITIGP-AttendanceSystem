@@ -37,9 +37,9 @@ namespace Repository
             .Include(att=>att.Student).SingleOrDefaultAsync();
 
         //needs some Work on logic
-        public async Task<Attendance> GetAttendanceForTrack(int trackActionId, DateTime date, bool trackChanges)=>
+        public async Task<List<Attendance>> GetAttendanceForTrack(int trackActionId, DateTime date, bool trackChanges)=>
         await FindByCondition(att =>att.Student.TrackActionId == trackActionId && att.Date.Equals(date), trackChanges)
-            .Include(att=>att.Student).SingleOrDefaultAsync();
+            .Include(att=>att.Student).ToListAsync();
 
 
         /// <summary>

@@ -46,10 +46,10 @@ namespace Services
             return attendanceEntity;
         }
 
-        public  async Task<StudentAttendanceReadDto> GetAttendanceForTrack(int trackActionId, DateTime date)
+        public  async Task<List<StudentAttendanceReadDto>> GetAttendanceForTrack(int trackActionId, DateTime date)
         {
             var attendance = await _repositoryManager.AttendanceRepository.GetAttendanceForTrack(trackActionId, date, false);
-            var attendanceEntity = _mapper.Map<StudentAttendanceReadDto>(attendance);
+            var attendanceEntity = _mapper.Map<List<StudentAttendanceReadDto>>(attendance);
             return attendanceEntity;
         }
 

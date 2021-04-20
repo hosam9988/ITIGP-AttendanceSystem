@@ -13,7 +13,7 @@ namespace Contracts.ServicesContracts
         Task Update(int studentId, DateTime date, AttendanceManipulationDto attendance);
         Task Delete(int studentId, DateTime date);
         Task<StudentAttendanceReadDto> GetAttendanceForStudent(int studentId, DateTime date);
-        Task<StudentAttendanceReadDto> GetAttendanceForTrack(int trackActionId, DateTime date);
+        Task<List<StudentAttendanceReadDto>> GetAttendanceForTrack(int trackActionId, DateTime date);
         Task<List<StudentAttendanceReadDto>> GetAllAttendances(int trackActionId);
     }
 }
