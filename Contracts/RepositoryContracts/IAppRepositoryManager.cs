@@ -1,4 +1,5 @@
 ﻿using Contracts.RepositoryContracts;
+using Domain.Models;
 using System.Threading.Tasks;
 
 namespace Contracts
@@ -12,8 +13,9 @@ namespace Contracts
         IPermissionRepository PermissionRepository { get; }
         IEmployeeRepository EmployeeRepository { get; }
         IAttendanceRepository AttendanceRepository { get; }
-
+        IAppRepository<Role> RoleRepository { get; }
         IProgramRepository ProgramRepository { get; }
+        IUserRepository UserRepository { get; }
         Task SaveAsync();
     }
 }

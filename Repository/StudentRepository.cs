@@ -15,8 +15,9 @@ namespace Repository
         {
         }
 
-        public void CreateStudent(int trackActionId, Student student)
+        public void CreateStudent(int trackActionId, int userId, Student student)
         {
+            student.UserId = userId;
             student.TrackActionId = trackActionId;
             Create(student);
         }
@@ -26,10 +27,15 @@ namespace Repository
 
 
         public async Task<Student> GetStudentAsync( int studentId, bool trackChanges) =>
-            await FindByCondition(e=>e.Id == studentId, trackChanges).Include(st=>st.CreatedByNavigation).SingleOrDefaultAsync();
+            await FindByCondition(e=>e.Id == studentId, trackChanges)
+            .Include(st=>st.CreatedByNavigation.User)
+            .Include(x => x.User).Where(x => x.UserId == x.User.Id)
+            .SingleOrDefaultAsync();
 
 
         public async Task<List<Student>> GetStudents(int trackActionId, bool trackChanges) =>
-            await FindByCondition(e => e.TrackActionId == trackActionId, trackChanges).Include(x=>x.TrackAction).Include(st => st.CreatedByNavigation).ToListAsync();
+            await FindByCondition(e => e.TrackActionId == trackActionId, trackChanges)
+            .Include(x=>x.TrackAction)
+            .Include(st => st.CreatedByNavigation.User).Include(s=>s.User).ToListAsync();
     }
 }

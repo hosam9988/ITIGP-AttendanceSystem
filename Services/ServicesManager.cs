@@ -16,6 +16,8 @@ namespace Services
         private IEmployeeServices _employeeServices;
         private IAttendanceServices _attendanceServices;
         private IProgramServices _programServices;
+        private IRoleServices _roleServices;
+        private IUserServices _userServices;
         public ServicesManager(IAppRepositoryManager repositoryManager, IMapper mapper)
         {
             _repositoryManager = repositoryManager;
@@ -80,6 +82,24 @@ namespace Services
             {
                 if (_programServices == null) _programServices = new ProgramServices(_repositoryManager, _mapper);
                 return _programServices;
+            }
+        }
+
+        public IRoleServices RoleServices
+        {
+            get
+            {
+                if (_roleServices == null) _roleServices = new RoleServices(_repositoryManager);
+                return _roleServices;
+            }
+        }
+
+        public IUserServices UserServices
+        {
+            get
+            {
+                if (_userServices == null) _userServices = new UserServices(_repositoryManager, _mapper);
+                return _userServices;
             }
         }
     }

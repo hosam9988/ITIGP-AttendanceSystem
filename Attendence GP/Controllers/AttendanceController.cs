@@ -32,14 +32,15 @@ namespace Attendence_GP.Controllers
         public async Task<IActionResult> GetAttendanceForTrack(int trackActionId, DateTime date)
         {
             var students = await _manager.AttendanceServices.GetAttendanceForTrack(trackActionId, date);
-            return Ok(students);
+            return students.Count == 0 ? NotFound() : Ok(students);
+            
         }
         [HttpGet("[controller]/{studentId}")]
         public async Task<IActionResult> GetAttendanceForStudent(int studentId)
         {
             var date = DateTime.Now.Date.Date;
             var student = await _manager.AttendanceServices.GetAttendanceForStudent(studentId, DateTime.Now.Date);
-            return Ok(student);
+            return student== null ? NotFound() : Ok(student);
         }
         #endregion
 

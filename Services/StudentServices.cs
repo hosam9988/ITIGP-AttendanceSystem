@@ -19,10 +19,10 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task Create(int trackActionId, StudentManipulationDto student)
+        public async Task Create(int trackActionId, int userId, StudentManipulationDto student)
         {
             var studentsEntity = _mapper.Map<Student>(student);
-            _repositoryManager.StudentRepository.CreateStudent(trackActionId, studentsEntity);
+            _repositoryManager.StudentRepository.CreateStudent(trackActionId, userId, studentsEntity);
             await _repositoryManager.SaveAsync();
         }
 

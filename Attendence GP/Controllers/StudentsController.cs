@@ -17,11 +17,11 @@ namespace Attendence_GP.Controllers
             _manager = manager;
         }
         #region Create 
-        [HttpPost("{trackActionId}/[controller]/")]
-        public async Task AddStudent(int trackActionId, [FromBody] StudentManipulationDto student)
-        {
-            await _manager.StudentServices.Create(trackActionId, student);
-        }
+        //[HttpPost("{trackActionId}/[controller]/")]
+        //public async Task AddStudent(int trackActionId, [FromBody] StudentManipulationDto student)
+        //{
+        //    await _manager.StudentServices.Create(trackActionId, student);
+        //}
         #endregion
 
         #region Read

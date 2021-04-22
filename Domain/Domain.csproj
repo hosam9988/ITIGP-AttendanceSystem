@@ -14,8 +14,4 @@
     <PackageReference Include="Moq" Version="4.16.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dtos\AuthDtos\" />
-  </ItemGroup>
-
 </Project>

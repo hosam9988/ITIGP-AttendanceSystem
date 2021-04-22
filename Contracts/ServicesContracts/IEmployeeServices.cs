@@ -1,4 +1,5 @@
 ﻿using Domain.Dtos;
+using Domain.Dtos.AuthDtos;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,11 @@ namespace Contracts.ServicesContracts
 {
     public interface IEmployeeServices
     {
-        Task Create(EmployeeManipulationDto employee);
+        Task Create(int userId, EmployeeManipulationDto employee);
         Task Update( int employeeId, EmployeeManipulationDto employee);
         Task Delete(int employeeId);
         Task<EmployeeReadDto> GetEmployee(int employeeId);
         Task<List<EmployeeReadDto>> GetEmployees();
+        Task<LoginReadDto> Login();
     }
 }

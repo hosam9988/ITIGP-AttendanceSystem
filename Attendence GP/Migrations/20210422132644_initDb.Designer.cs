@@ -4,14 +4,16 @@ using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Attendence_GP.Migrations
 {
     [DbContext(typeof(ITIAttendanceContext))]
-    partial class ITIAttendanceContextModelSnapshot : ModelSnapshot
+    [Migration("20210422132644_initDb")]
+    partial class initDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,12 +89,20 @@ namespace Attendence_GP.Migrations
                     b.Property<int?>("CreatedBy")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CreatedByNavigationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedBy");
+                    b.HasIndex("CreatedByNavigationId");
+
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -232,6 +242,9 @@ namespace Attendence_GP.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SerialNumber")
                         .HasColumnType("int")
                         .HasColumnName("SerialNumber");
@@ -256,6 +269,8 @@ namespace Attendence_GP.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
+
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("Ssn")
                         .IsUnique();
@@ -327,7 +342,7 @@ namespace Attendence_GP.Migrations
             modelBuilder.Entity("Domain.Models.AppUser", b =>
                 {
                     b.HasOne("Domain.Models.Role", "Role")
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -358,7 +373,11 @@ namespace Attendence_GP.Migrations
                 {
                     b.HasOne("Domain.Models.Employee", "CreatedByNavigation")
                         .WithMany("InverseCreatedByNavigation")
-                        .HasForeignKey("CreatedBy");
+                        .HasForeignKey("CreatedByNavigationId");
+
+                    b.HasOne("Domain.Models.Role", null)
+                        .WithMany("Employees")
+                        .HasForeignKey("RoleId");
 
                     b.HasOne("Domain.Models.AppUser", "User")
                         .WithOne("Employee")
@@ -398,6 +417,10 @@ namespace Attendence_GP.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId");
+
                     b.HasOne("Domain.Models.TrackAction", "TrackAction")
                         .WithMany("Students")
                         .HasForeignKey("TrackActionId")
@@ -413,6 +436,8 @@ namespace Attendence_GP.Migrations
                         .IsRequired();
 
                     b.Navigation("CreatedByNavigation");
+
+                    b.Navigation("Role");
 
                     b.Navigation("TrackAction");
 
@@ -466,7 +491,7 @@ namespace Attendence_GP.Migrations
 
             modelBuilder.Entity("Domain.Models.Role", b =>
                 {
-                    b.Navigation("Users");
+                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("Domain.Models.Student", b =>

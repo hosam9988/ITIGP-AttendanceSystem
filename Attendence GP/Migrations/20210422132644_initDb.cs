@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Attendence_GP.Migrations
 {
-    public partial class init : Migration
+    public partial class initDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,30 +54,26 @@ namespace Attendence_GP.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employee",
+                name: "Users",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Role_id = table.Column<int>(type: "int", nullable: false),
-                    Created_By = table.Column<int>(type: "int", nullable: true),
-                    Created_Date = table.Column<DateTime>(type: "date", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employee", x => x.ID);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Emplyee_Emplyee",
-                        column: x => x.Created_By,
-                        principalTable: "Employee",
-                        principalColumn: "ID");
-                    table.ForeignKey(
-                        name: "FK_Emplyee_Role",
-                        column: x => x.Role_id,
+                        name: "FK_Users_Role_RoleId",
+                        column: x => x.RoleId,
                         principalTable: "Role",
-                        principalColumn: "ID");
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,37 +99,82 @@ namespace Attendence_GP.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Employee",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedByNavigationId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: true),
+                    RoleId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employee", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Employee_Employee_CreatedByNavigationId",
+                        column: x => x.CreatedByNavigationId,
+                        principalTable: "Employee",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Employee_Role_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Role",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Employee_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Student",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SerialNumber = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     SSN = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Telephone = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true),
                     Track_Action_ID = table.Column<int>(type: "int", nullable: false),
                     Created_By = table.Column<int>(type: "int", nullable: false),
-                    Created_Date = table.Column<DateTime>(type: "date", nullable: true)
+                    Created_Date = table.Column<DateTime>(type: "date", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Student", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Student_Emplyee",
+                        name: "FK_Student_Employee",
                         column: x => x.Created_By,
                         principalTable: "Employee",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Student_Role_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Role",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Student_Track_Action",
                         column: x => x.Track_Action_ID,
                         principalTable: "Track_Action",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Student_User",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -173,7 +214,7 @@ namespace Attendence_GP.Migrations
                     Date = table.Column<DateTime>(type: "date", nullable: false),
                     Student_ID = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<bool>(type: "bit", nullable: false),
-                    Response_type = table.Column<bool>(type: "bit", nullable: false),
+                    Response_type = table.Column<bool>(type: "bit", nullable: true),
                     Response_by = table.Column<int>(type: "int", nullable: true),
                     Create_Date = table.Column<DateTime>(type: "date", nullable: false),
                     Response_Date = table.Column<DateTime>(type: "date", nullable: true)
@@ -195,20 +236,37 @@ namespace Attendence_GP.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "ID", "Role" },
+                values: new object[,]
+                {
+                    { 1, "Admin" },
+                    { 2, "Student Affairs" },
+                    { 3, "Security" },
+                    { 4, "Student" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Attendances_Created_By",
                 table: "Attendances",
                 column: "Created_By");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employee_Created_By",
+                name: "IX_Employee_CreatedByNavigationId",
                 table: "Employee",
-                column: "Created_By");
+                column: "CreatedByNavigationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employee_Role_id",
+                name: "IX_Employee_RoleId",
                 table: "Employee",
-                column: "Role_id");
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employee_UserId",
+                table: "Employee",
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Permission_Response_by",
@@ -226,10 +284,9 @@ namespace Attendence_GP.Migrations
                 column: "Created_By");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Student_SerialNumber",
+                name: "IX_Student_RoleId",
                 table: "Student",
-                column: "SerialNumber",
-                unique: true);
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Student_SSN",
@@ -243,6 +300,12 @@ namespace Attendence_GP.Migrations
                 column: "Track_Action_ID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Student_UserId",
+                table: "Student",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Track_Program_id",
                 table: "Track",
                 column: "Program_id");
@@ -251,6 +314,11 @@ namespace Attendence_GP.Migrations
                 name: "IX_Track_Action_Track_Id",
                 table: "Track_Action",
                 column: "Track_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleId",
+                table: "Users",
+                column: "RoleId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -271,10 +339,13 @@ namespace Attendence_GP.Migrations
                 name: "Track_Action");
 
             migrationBuilder.DropTable(
-                name: "Role");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Track");
+
+            migrationBuilder.DropTable(
+                name: "Role");
 
             migrationBuilder.DropTable(
                 name: "Program");

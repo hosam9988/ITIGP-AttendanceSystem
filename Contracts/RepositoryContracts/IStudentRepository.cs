@@ -11,7 +11,7 @@ namespace Contracts
     {
         Task<List<Student>> GetStudents(int trackActionId, bool trackChanges);
         Task<Student> GetStudentAsync(int studentId, bool trackChanges);
-        void CreateStudent(int trackActionId, Student student);
+        void CreateStudent(int trackActionId,int userId, Student student);
         void DeleteStudent(Student student);
     }
 }

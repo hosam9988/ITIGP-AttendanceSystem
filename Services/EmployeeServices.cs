@@ -2,6 +2,7 @@
 using Contracts;
 using Contracts.ServicesContracts;
 using Domain.Dtos;
+using Domain.Dtos.AuthDtos;
 using Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -22,10 +23,10 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task Create(EmployeeManipulationDto employee)
+        public async Task Create(int userId, EmployeeManipulationDto employee)
         {
-            var EmployeeViewModel = _mapper.Map<Employee>(employee);
-            _repositoryManager.EmployeeRepository.CreateEmployee(EmployeeViewModel);
+            var employeeEntity = _mapper.Map<Employee>(employee);
+            _repositoryManager.EmployeeRepository.CreateEmployee(userId, employeeEntity);
             await _repositoryManager.SaveAsync();
         }
 
@@ -47,6 +48,11 @@ namespace Services
         {
             var employees = await _repositoryManager.EmployeeRepository.GetEmployees(trackChanges: false);
             return _mapper.Map<List<EmployeeReadDto>>(employees);
+        }
+
+        public Task<LoginReadDto> Login()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task Update(int employeeId, EmployeeManipulationDto employee)

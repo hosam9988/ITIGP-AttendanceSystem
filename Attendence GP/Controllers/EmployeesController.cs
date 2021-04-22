@@ -21,19 +21,20 @@ namespace Attendence_GP.Controllers
             _manager = manager;
         }
 
-        #region Create 
-        [HttpPost]
-        public async Task AddEmployee(EmployeeManipulationDto employee)
-        {
-            await _manager.EmployeeServices.Create(employee);
-        }
-        #endregion
+        //#region Create 
+        //[HttpPost]
+        //public async Task AddEmployee(EmployeeManipulationDto employee)
+        //{
+        //    await _manager.EmployeeServices.Create(employee);
+        //}
+        //#endregion
 
         #region Read
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
         {
             var employees = await _manager.EmployeeServices.GetEmployees();
+            return employees.Count == 0 ? NotFound() : Ok(employees);
             return Ok(employees);
         }
         [HttpGet("{employeeId}")]
@@ -41,7 +42,8 @@ namespace Attendence_GP.Controllers
         {
 
             var employee = await _manager.EmployeeServices.GetEmployee(employeeId);
-            return Ok(employee);
+            return employee == null ? NotFound() : Ok(employee);
+            
         }
         #endregion
 

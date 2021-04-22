@@ -15,8 +15,9 @@ namespace Repository
         private IPermissionRepository _permissionRepository;
         private IEmployeeRepository _employeeRepository;
         private IAttendanceRepository _attendanceRepository;
-        private ProgramRepository _programRepository;
-
+        private IProgramRepository _programRepository;
+        private IAppRepository<Role> _roleRepository;
+        private IUserRepository _userRepository;
         public AppRepositoryManager(ITIAttendanceContext context)
         {
             _context = context;
@@ -82,6 +83,26 @@ namespace Repository
                 if (_programRepository == null) _programRepository = new ProgramRepository(_context);
                 return _programRepository;
             }
+        }
+
+        public IAppRepository<Role> RoleRepository 
+        {
+            get
+            {
+                if (_roleRepository == null) _roleRepository = new AppRepository<Role>(_context);
+                return _roleRepository;
+            }
+        
+        }
+
+        public IUserRepository UserRepository
+        {
+            get
+            {
+                if (_userRepository == null) _userRepository = new UserRepository(_context);
+                return _userRepository;
+            }
+
         }
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();

@@ -15,6 +15,8 @@ namespace Contracts.ServicesContracts
         IEmployeeServices EmployeeServices { get; }
         IProgramServices ProgramServices { get; }
         IAttendanceServices AttendanceServices { get; }
+        IRoleServices RoleServices { get; }
+        IUserServices UserServices { get; }
 
     }
 }
