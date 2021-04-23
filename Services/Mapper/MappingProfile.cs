@@ -77,7 +77,8 @@ namespace Services.Mapper
             #region User Mapper
             CreateMap<AppUser, LoginReadDto>().ForMember(x => x.UserName, opt => opt.MapFrom(src => src.Name))
                                               .ForMember(x => x.RoleName, opt => opt.MapFrom(src => src.Role.RoleName))
-                                              .ForMember(x=>x.UserId, opt=>opt.MapFrom(src=> src.RoleId == 4? src.Student.Id : src.Employee.Id));
+                                              .ForMember(x=>x.UserId, opt=>opt.MapFrom(src=> src.Id))
+                                              .ForMember(x=>x.Id, opt=>opt.MapFrom(src=> src.RoleId == 4? src.Student.Id : src.Employee.Id));
 
             #endregion
         }
