@@ -14,11 +14,11 @@ namespace Attendence_GP.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class RegistrationController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
         private readonly IServicesManager _manager;
 
-        public RegistrationController(IServicesManager manager)
+        public AuthenticationController(IServicesManager manager)
         {
             _manager = manager;
         }
@@ -102,4 +102,7 @@ namespace Attendence_GP.Controllers
             }
         }
     }
+
+
+
 }

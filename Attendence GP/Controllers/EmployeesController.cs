@@ -39,8 +39,7 @@ namespace Attendence_GP.Controllers
         }
         [HttpGet("{employeeId}")]
         public async Task<IActionResult> GetEmployee(int employeeId)
-        {
-
+        { 
             var employee = await _manager.EmployeeServices.GetEmployee(employeeId);
             return employee == null ? NotFound() : Ok(employee);
             

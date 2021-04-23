@@ -14,7 +14,6 @@ namespace Services.Mapper
             CreateMap<Student, StudentReadDto>()
                 .ForMember(x => x.Name, opt => opt.MapFrom(src => src.User.Name))
                 .ForMember(x => x.Email, opt => opt.MapFrom(src => src.User.Email))
-                .ForMember(x => x.Name, opt => opt.MapFrom(src => src.User.Name))
                 .ForMember(x => x.CreatedBy, opt => opt.MapFrom(src => src.CreatedByNavigation.User.Name));
             CreateMap<Student, StudentAttendanceReadDto>().ReverseMap();
             CreateMap<StudentManipulationDto, Student>().ReverseMap();
@@ -43,7 +42,10 @@ namespace Services.Mapper
             #endregion
 
             #region Employee Mapper
-            CreateMap<Employee, EmployeeReadDto>().ForMember(x => x.RoleName, opt => opt.MapFrom(src => src.User.Role.RoleName))
+            CreateMap<Employee, EmployeeReadDto>()
+                .ForMember(x => x.Name, opt => opt.MapFrom(src => src.User.Name))
+                .ForMember(x=>x.RoleName, opt=>opt.MapFrom(src=>src.User.Role.RoleName))
+                .ForMember(x => x.Email, opt => opt.MapFrom(src => src.User.Email))
                 .ForMember(x => x.CreatedBy, opt => opt.MapFrom(src => src.CreatedByNavigation.User.Name));
             CreateMap<EmployeeManipulationDto, Employee>().ReverseMap();
             #endregion
@@ -90,8 +92,8 @@ namespace Services.Mapper
                 return x;
             return "Pending";
         }
-    
-        
-    
+
+
+
     }
 }

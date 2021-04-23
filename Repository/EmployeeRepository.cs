@@ -28,13 +28,14 @@ namespace Repository
         public async Task<Employee> GetEmployeeAsync(int employeeId, bool trackChanges) =>
             await FindByCondition(e => e.Id == employeeId, trackChanges)
             .Include(emp => emp.User.Role)
-            .Include(emp => emp.User.Employee)
+            .Include(x=>x.CreatedByNavigation.User)
             .Include(x => x.User).Where(x => x.UserId == x.User.Id)
             .SingleOrDefaultAsync();
 
 
 
         public async Task<List<Employee>> GetEmployees(bool trackChanges) =>
-            await FindAll(trackChanges).Include(emp => emp.User.Role).Include(emp => emp.CreatedByNavigation).ToListAsync();
+            await FindAll(trackChanges).Include(emp => emp.User.Role).
+            Include(emp => emp.CreatedByNavigation.User).ToListAsync();
     }
 }
