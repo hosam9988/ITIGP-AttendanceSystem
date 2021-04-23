@@ -13,11 +13,11 @@ namespace Attendence_GP.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class RegistrationController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
         private readonly IServicesManager _manager;
 
-        public RegistrationController(IServicesManager manager)
+        public AuthenticationController(IServicesManager manager)
         {
             _manager = manager;
         }
@@ -38,31 +38,50 @@ namespace Attendence_GP.Controllers
 
             await _manager.UserServices.RegisterUser(user);
             await _manager.EmployeeServices.Create(user.Id, employee);
-            return NoContent();
+            return Created("sucessfully created", employee);
         }
 
         [HttpPost("{trackActionId}/register-student")]
         public async Task<IActionResult> RegisterStudent(int trackActionId, StudentManipulationDto student)
         {
-            var user = new AppUser
+            try
             {
-                Name = student.Name,
-                Email = student.Email,
-                CreatedDate = student.CreatedDate,
-                RoleId = 4,
-                Password = student.Password
-            };
-            await _manager.UserServices.RegisterUser(user);
-            await _manager.StudentServices.Create(trackActionId, user.Id, student);
-            return NoContent();
+                var user = new AppUser
+                {
+                    Name = student.Name,
+                    Email = student.Email,
+                    CreatedDate = student.CreatedDate,
+                    RoleId = 4,
+                    Password = CreatPassowrd(student.Ssn, student.Name)
+                };
+                await _manager.UserServices.RegisterUser(user);
+                await _manager.StudentServices.Create(trackActionId, user.Id, student);
+                return Created("sucessfully created", student);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [Route("Login")]
         [HttpPost]
         public async Task<IActionResult> Login(LoginCreateDto user)
         {
-            var result =  await _manager.UserServices.Login(user.UserName, user.Password);
-            return Ok(result);
+            var result = await _manager.UserServices.Login(user.UserName, user.Password);
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return BadRequest("wrong username or Password");
+        }
+
+        string CreatPassowrd(string ssn, string username)
+        {
+            return username.ToLower().Substring(0, 2) + "ITI" + ssn.Substring(7, 6);
         }
     }
+
+
+
 }
