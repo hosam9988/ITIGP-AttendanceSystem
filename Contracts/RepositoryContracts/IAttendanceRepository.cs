@@ -12,7 +12,7 @@ namespace Contracts.RepositoryContracts
         Task<List<Student>> GetStudentsForAttendance(int trackActionId);
         Task<Attendance> GetAttendanceForStudent(int studentId, DateTime date, bool trackChanges);
         Task<List<Attendance>> GetAttendanceForTrack(int trackActionId, DateTime date, bool trackChanges);
-        void CreateTrackAttendance(int studentId, Attendance attendance);
+        Task<Attendance> CreateTrackAttendance(int studentId, Attendance attendance);
         void DeleteAttendance(Attendance attendance);
     }
 }

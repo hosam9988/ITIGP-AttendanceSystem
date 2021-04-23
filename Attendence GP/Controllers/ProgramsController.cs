@@ -1,6 +1,8 @@
 ﻿using Contracts.ServicesContracts;
 using Domain.Dtos;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.ServiceBus.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +23,21 @@ namespace Attendence_GP.Controllers
         }
         #region Create 
         [HttpPost]
-        public async Task AddProgram([FromBody] ProgramManipulationDto program)
+        public async Task<IActionResult> AddProgram([FromBody] ProgramManipulationDto program)
         {
-            await _manager.ProgramServices.Create(program);
+            try
+            {
+                var pro =  await _manager.ProgramServices.Create(program);
+                return Created("program created successfully", pro);
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InternalServerErrorException)
+            {
+                return StatusCode(500);
+            }
         }
         #endregion
 
@@ -49,8 +63,19 @@ namespace Attendence_GP.Controllers
 
         public async Task<IActionResult> UpdateProgram(int programId, [FromBody] ProgramManipulationDto program)
         {
-            await _manager.ProgramServices.Update(programId, program);
-            return NoContent();
+            try
+            {
+                await _manager.ProgramServices.Update(programId, program);
+                return NoContent();
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InternalServerErrorException)
+            {
+                return StatusCode(500);
+            }
         }
         #endregion
 
@@ -59,8 +84,19 @@ namespace Attendence_GP.Controllers
 
         public async Task<IActionResult> DeleteProgram(int programId)
         {
-            await _manager.ProgramServices.Delete(programId);
-            return NoContent();
+            try
+            {
+                await _manager.ProgramServices.Delete(programId);
+                return NoContent();
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InternalServerErrorException)
+            {
+                return StatusCode(500);
+            }
         }
         #endregion
     }

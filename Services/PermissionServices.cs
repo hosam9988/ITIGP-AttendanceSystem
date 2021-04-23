@@ -23,12 +23,13 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task Create(int studentId, PermissionStudentManipulationDto permission)
+        public async Task<PermissionStudentReadDto> Create(int studentId, PermissionStudentManipulationDto permission)
         {
             var permissionsEntity = _mapper.Map<Permission>(permission);
-            _repositoryManager.PermissionRepository.CreatePermission(studentId, permissionsEntity);
+            var per = _repositoryManager.PermissionRepository.CreatePermission(studentId, permissionsEntity);
             await _repositoryManager.SaveAsync();
 
+            return _mapper.Map<PermissionStudentReadDto>(per);
         }
 
         public async Task Delete(int id)

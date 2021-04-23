@@ -19,10 +19,11 @@ namespace Repository
 
 
 
-        public void CreateTrack(int programId, Track track)
+        public Track CreateTrack(int programId, Track track)
         {
             track.ProgramId = programId;
             Create(track);
+            return track;
         }
 
         public void DeleteTrack(Track track) => Delete(track);

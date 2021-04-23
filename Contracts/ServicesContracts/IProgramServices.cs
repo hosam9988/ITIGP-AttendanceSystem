@@ -9,7 +9,7 @@ namespace Contracts.ServicesContracts
 {
     public interface IProgramServices
     {
-        Task Create(ProgramManipulationDto program);
+        Task<ProgramReadDto> Create(ProgramManipulationDto program);
         Task Update(int programId, ProgramManipulationDto program);
         Task Delete(int programId);
         Task<ProgramReadDto> GetProgram(int programId);

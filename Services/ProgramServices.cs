@@ -21,11 +21,12 @@ namespace Services
             _repositoryManager = repositoryManager;
             _mapper = mapper;
         }
-        public async Task Create( ProgramManipulationDto program)
+        public async Task<ProgramReadDto> Create( ProgramManipulationDto program)
         {
             var programEntity = _mapper.Map<Program>(program);
-            _repositoryManager.ProgramRepository.CreateProgram(programEntity);
+           var pro = _repositoryManager.ProgramRepository.CreateProgram(programEntity);
             await _repositoryManager.SaveAsync();
+            return _mapper.Map<ProgramReadDto>(pro);
         }
 
         public async Task Delete(int programId)

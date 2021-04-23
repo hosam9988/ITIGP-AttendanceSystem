@@ -15,11 +15,12 @@ namespace Repository
         {
         }
 
-        public void CreateStudent(int trackActionId, int userId, Student student)
+        public Student CreateStudent(int trackActionId, int userId, Student student)
         {
             student.UserId = userId;
             student.TrackActionId = trackActionId;
             Create(student);
+            return student;
         }
 
         public void DeleteStudent(Student student) => Delete(student);

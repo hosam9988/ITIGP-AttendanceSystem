@@ -1,4 +1,5 @@
 ﻿using Domain.Dtos;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Contracts.ServicesContracts
 {
     public interface IAttendanceServices
     {
-        Task Create(int studentId, AttendanceManipulationDto attendance);
+        Task<StudentAttendanceReadDto> Create(int studentId, AttendanceManipulationDto attendance);
         Task Update(int studentId, DateTime date, AttendanceManipulationDto attendance);
         Task Delete(int studentId, DateTime date);
         Task<StudentAttendanceReadDto> GetAttendanceForStudent(int studentId, DateTime date);

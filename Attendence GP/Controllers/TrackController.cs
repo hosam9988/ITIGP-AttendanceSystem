@@ -1,7 +1,9 @@
 ﻿using Contracts.ServicesContracts;
 using Domain.Dtos;
 using Domain.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.ServiceBus.Messaging;
 using System.Threading.Tasks;
 
 namespace Attendence_GP.Controllers
@@ -20,13 +22,21 @@ namespace Attendence_GP.Controllers
         [HttpPost("{programId}/[controller]")]
         public async Task<IActionResult> AddTrackToProgram(int programId, [FromBody] TrackManipulationDto track)
         {
-            var program = await _manager.ProgramServices.GetProgram(programId);
 
-            if (program != null) {
-                await _manager.TrackServices.Create(programId, track);
-                return Ok("Successfully added");
+            try
+            {
+                var program = await _manager.ProgramServices.GetProgram(programId);
+                var tr = await _manager.TrackServices.Create(programId, track);
+                return Created("Track Created Successfully", tr);
             }
-            return BadRequest("There's not Program to add Track to ");
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InternalServerErrorException)
+            {
+                return StatusCode(500);
+            }
         }
 
         #region Read
@@ -35,14 +45,17 @@ namespace Attendence_GP.Controllers
         public async Task<IActionResult> GetTracksForProgram(int programId)
         {
             var tracks = await _manager.TrackServices.GetTracksForProgram(programId);
-            return Ok(tracks);
+
+            return tracks.Count == 0 ? NotFound() : Ok(tracks);
         }
 
         [HttpGet("[controller]/{trackId}")]
         public async Task<IActionResult> GetTrackForProgram(int trackId)
         {
             var track = await _manager.TrackServices.GetTrack(trackId);
-            return Ok(track);
+
+            return track == null ? NotFound() : Ok(track);
+
         }
 
         #endregion Read
@@ -50,15 +63,37 @@ namespace Attendence_GP.Controllers
         [HttpPut("[controller]/{trackId}")]
         public async Task<IActionResult> UpdateTrackForProgram(int trackId, [FromBody] TrackManipulationDto track)
         {
-            await _manager.TrackServices.Update(trackId, track);
-            return NoContent();
+            try
+            {
+                await _manager.TrackServices.Update(trackId, track);
+                return NoContent();
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InternalServerErrorException)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpDelete("[controller]/{trackId}")]
         public async Task<IActionResult> DeleteTrackForProgram(int trackId)
         {
-            await _manager.TrackServices.Delete(trackId);
-            return NoContent();
+            try
+            {
+                await _manager.TrackServices.Delete(trackId);
+                return NoContent();
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InternalServerErrorException)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Contracts.RepositoryContracts
         Task<List<Permission>> GetPermissionsForStudent(int studentId, bool trackChanges);
         Task<List<Permission>> GetAllPermissionsForEmployee(bool trackChanges);
         Task<Permission> GetPermissionAsync(int permissionId, bool trackChanges);
-        void CreatePermission(int studentId, Permission permission);
+        Permission CreatePermission(int studentId, Permission permission);
         void DeletePermission(Permission permission);
     }
 }

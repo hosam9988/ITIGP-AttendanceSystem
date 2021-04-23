@@ -10,7 +10,7 @@ namespace Contracts.ServicesContracts
 {
     public interface IPermissionServices
     {
-        Task Create(int studentId, PermissionStudentManipulationDto permission);
+        Task<PermissionStudentReadDto> Create(int studentId, PermissionStudentManipulationDto permission);
         Task Update(int id, PermissionStudentManipulationDto permission);
         Task UpdateForEmployee(int id, PermissionEmployeeManipulationDto permission);
 

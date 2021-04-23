@@ -11,7 +11,7 @@ namespace Contracts.RepositoryContracts
     {
         Task<List<Program>> GetAllPrograms(bool trackChanges);
         Task<Program> GetProgramAsync(int programId, bool trackChanges);
-        void CreateProgram(Program program);
+        Program CreateProgram(Program program);
         void DeleteProgram(Program program);
     }
 }

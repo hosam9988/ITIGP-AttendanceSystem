@@ -15,10 +15,11 @@ namespace Repository
         {
         }
 
-        public void CreateTrackAction(int trackId, TrackAction trackAction)
+        public TrackAction CreateTrackAction(int trackId, TrackAction trackAction)
         {
             trackAction.TrackId = trackId;
             Create(trackAction);
+            return trackAction;
         }
 
         public void DeleteTrackAction(TrackAction trackAction) => Delete(trackAction);

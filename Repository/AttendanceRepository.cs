@@ -15,11 +15,13 @@ namespace Repository
         {
         }
 
-        public void CreateTrackAttendance(int studentId,Attendance attendance)
+        public async Task<Attendance> CreateTrackAttendance(int studentId,Attendance attendance)
         {
-            var student = _context.Students.SingleOrDefault(s=>s.Id ==studentId);
+            var student = await _context.Students.SingleOrDefaultAsync(s=>s.Id ==studentId);
             attendance.Student = student;
             Create(attendance);
+
+            return attendance;
         }
 
         public void DeleteAttendance(Attendance attendance)=> Delete(attendance);

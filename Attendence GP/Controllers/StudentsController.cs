@@ -1,7 +1,9 @@
 ﻿using Contracts.ServicesContracts;
 using Domain.Dtos;
 using Domain.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.ServiceBus.Messaging;
 using System.Threading.Tasks;
 
 namespace Attendence_GP.Controllers
@@ -40,7 +42,8 @@ namespace Attendence_GP.Controllers
         {
 
             var student = await _manager.StudentServices.GetStudent(studentId);
-            return Ok(student);
+
+            return student== null ? NotFound() : Ok(student);
         }
         #endregion
 
@@ -49,8 +52,19 @@ namespace Attendence_GP.Controllers
 
         public async Task<IActionResult> UpdateStudentForTrack(int studentId, [FromBody] StudentManipulationDto student)
         {
-            await _manager.StudentServices.Update(studentId, student);
-            return NoContent();
+            try
+            {
+                await _manager.StudentServices.Update(studentId, student);
+                return NoContent();
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InternalServerErrorException)
+            {
+                return StatusCode(500);
+            }
         }
         #endregion
 
@@ -59,8 +73,19 @@ namespace Attendence_GP.Controllers
 
         public async Task<IActionResult> DeleteStudentForTrack(int studentId)
         {
-            await _manager.StudentServices.Delete( studentId);
-            return NoContent();
+            try
+            {
+                await _manager.StudentServices.Delete(studentId);
+                return NoContent();
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InternalServerErrorException)
+            {
+                return StatusCode(500);
+            }
         }
         #endregion
     }

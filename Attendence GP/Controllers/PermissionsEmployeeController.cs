@@ -2,6 +2,7 @@
 using Domain.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.ServiceBus.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,8 @@ namespace Attendence_GP.Controllers
         public async Task<IActionResult> GetAllPermissions()
         {
             var permissions = await _manager.PermissionServices.GetPermissionsForEmployee();
-            return Ok(permissions);
+
+            return permissions.Count == 0 ? NotFound() : Ok(permissions);
         }
         #endregion
 
@@ -33,8 +35,19 @@ namespace Attendence_GP.Controllers
         [HttpPut("{permissionId}")]
         public async Task<IActionResult> UpdatePermissionForStudent(int permissionId, [FromBody] PermissionEmployeeManipulationDto permission)
         {
-            await _manager.PermissionServices.UpdateForEmployee(permissionId, permission);
-            return NoContent();
+            try
+            {
+                await _manager.PermissionServices.UpdateForEmployee(permissionId, permission);
+                return NoContent();
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InternalServerErrorException)
+            {
+                return StatusCode(500);
+            }
         }
         #endregion
     }

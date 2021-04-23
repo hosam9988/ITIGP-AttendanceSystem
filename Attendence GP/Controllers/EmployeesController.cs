@@ -3,6 +3,7 @@ using Domain.Dtos;
 using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.ServiceBus.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,6 @@ namespace Attendence_GP.Controllers
         {
             var employees = await _manager.EmployeeServices.GetEmployees();
             return employees.Count == 0 ? NotFound() : Ok(employees);
-            return Ok(employees);
         }
         [HttpGet("{employeeId}")]
         public async Task<IActionResult> GetEmployee(int employeeId)
@@ -52,8 +52,19 @@ namespace Attendence_GP.Controllers
 
         public async Task<IActionResult> UpdateEmployee(int employeeId, [FromBody] EmployeeManipulationDto employee)
         {
-            await _manager.EmployeeServices.Update(employeeId, employee);
-            return NoContent();
+            try
+            {
+                await _manager.EmployeeServices.Update(employeeId, employee);
+                return NoContent();
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InternalServerErrorException)
+            {
+                return StatusCode(500);
+            }
         }
         #endregion
 
@@ -62,8 +73,19 @@ namespace Attendence_GP.Controllers
 
         public async Task<IActionResult> DeleteEmployee(int employeeId)
         {
-            await _manager.EmployeeServices.Delete(employeeId);
-            return NoContent();
+            try
+            {
+                await _manager.EmployeeServices.Delete(employeeId);
+                return NoContent();
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InternalServerErrorException)
+            {
+                return StatusCode(500);
+            }
         }
         #endregion
     }

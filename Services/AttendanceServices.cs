@@ -23,12 +23,13 @@ namespace Services
             _mapper = mapper;
         }
 
-        public async Task Create(int studentId, AttendanceManipulationDto attendance)
+        public async Task<StudentAttendanceReadDto> Create(int studentId, AttendanceManipulationDto attendance)
         {
             var attendanceEntity = _mapper.Map<Attendance>(attendance);
-            _repositoryManager.AttendanceRepository.CreateTrackAttendance(studentId, attendanceEntity);
+            var att = await _repositoryManager.AttendanceRepository.CreateTrackAttendance(studentId, attendanceEntity);
             await _repositoryManager.SaveAsync();
 
+           return _mapper.Map<StudentAttendanceReadDto>(att);     
         }
 
         public async Task Delete(int studentId, DateTime date)

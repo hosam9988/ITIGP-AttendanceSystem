@@ -17,11 +17,13 @@ namespace Services
             _repositoryManager = repositoryManager;
             _mapper = mapper;
         }
-        public async Task Create(int trackId, TrackActionManipulationDto trackAction)
+        public async Task<TrackActionReadDto> Create(int trackId, TrackActionManipulationDto trackAction)
         {
             var trackActionEntity = _mapper.Map<TrackAction>(trackAction);
-            _repositoryManager.TrackActionRepository.CreateTrackAction(trackId, trackActionEntity);
+           var tra = _repositoryManager.TrackActionRepository.CreateTrackAction(trackId, trackActionEntity);
             await _repositoryManager.SaveAsync();
+
+            return _mapper.Map<TrackActionReadDto>(tra);
         }
 
         public async Task Delete(int id)

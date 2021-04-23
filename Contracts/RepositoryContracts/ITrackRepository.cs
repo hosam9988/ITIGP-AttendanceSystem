@@ -12,7 +12,7 @@ namespace Contracts
         Task<List<Track>> GetTracks(int programId, bool trackChanges);
         Task<Track> GetTrackAsync(int trackId, bool trackChanges);
         Task<Track> GetTrackWithProgram(int programId, int trackId, bool trackChanges);
-        void CreateTrack(int programId, Track track);
+        Track CreateTrack(int programId, Track track);
         void DeleteTrack(Track track);
     }
 }

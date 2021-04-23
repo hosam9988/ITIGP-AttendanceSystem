@@ -1,7 +1,9 @@
 ﻿using Contracts.ServicesContracts;
 using Domain.Dtos;
 using Domain.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.ServiceBus.Messaging;
 using System.Threading.Tasks;
 
 namespace Attendence_GP.Controllers
@@ -19,9 +21,21 @@ namespace Attendence_GP.Controllers
 
         #region Create 
         [HttpPost("{studentId}/[controller]/")]
-        public async Task AddPermission(int studentId, [FromBody] PermissionStudentManipulationDto permission)
+        public async Task<ActionResult> AddPermission(int studentId, [FromBody] PermissionStudentManipulationDto permission)
         {
-            await _manager.PermissionServices.Create(studentId, permission);
+            try
+            {
+               var per = await _manager.PermissionServices.Create(studentId, permission);
+                return Created("permission created successfully", per);
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InternalServerErrorException)
+            {
+                return StatusCode(500);
+            }
         }
         #endregion
 
@@ -30,14 +44,13 @@ namespace Attendence_GP.Controllers
         public async Task<IActionResult> GetPermissionsForStudent(int studentId)
         {
             var permissions = await _manager.PermissionServices.GetPermissionsForStudent(studentId);
-            return Ok(permissions);
+            return permissions.Count == 0 ? NotFound() : Ok(permissions);
         }
         [HttpGet("[controller]/{permissionId}")]
         public async Task<IActionResult> GetPermissionPerId(int permissionId)
         {
-
             var permission = await _manager.PermissionServices.GetPermission(permissionId);
-            return Ok(permission);
+            return permission == null ? NotFound() : Ok(permission);
         }
         #endregion
 
@@ -46,8 +59,19 @@ namespace Attendence_GP.Controllers
 
         public async Task<IActionResult> UpdatePermissionForStudent(int permissionId, [FromBody] PermissionStudentManipulationDto permission)
         {
-            await _manager.PermissionServices.Update(permissionId, permission);
-            return NoContent();
+            try
+            {
+                await _manager.PermissionServices.Update(permissionId, permission);
+                return NoContent();
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InternalServerErrorException)
+            {
+                return StatusCode(500);
+            }
         }
         #endregion
 
@@ -56,12 +80,20 @@ namespace Attendence_GP.Controllers
 
         public async Task<IActionResult> DeleteStudentForTrack(int permissionId)
         {
-            await _manager.PermissionServices.Delete(permissionId);
-            return NoContent();
+            try
+            {
+                await _manager.PermissionServices.Delete(permissionId);
+                return NoContent();
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InternalServerErrorException)
+            {
+                return StatusCode(500);
+            }
         }
         #endregion
-
-
-
     }
 }

@@ -15,8 +15,11 @@ namespace Repository
         {
         }
 
-        public void CreateProgram(Program program) => Create(program);
-
+        public Program CreateProgram(Program program)
+        {
+            Create(program);
+            return program;
+        }
 
         public void DeleteProgram(Program program) => Delete(program);
 

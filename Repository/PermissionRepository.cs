@@ -16,10 +16,11 @@ namespace Repository
         {
 
         }
-        public void CreatePermission(int studentId, Permission permission)
+        public Permission CreatePermission(int studentId, Permission permission)
         {
             permission.StudentId = studentId;
             Create(permission);
+            return permission;
         }
 
         public void DeletePermission(Permission permission)

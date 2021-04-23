@@ -11,7 +11,7 @@ namespace Contracts.ServicesContracts
 {
     public interface IEmployeeServices
     {
-        Task Create(int userId, EmployeeManipulationDto employee);
+        Task<EmployeeReadDto> Create(int userId, EmployeeManipulationDto employee);
         Task Update( int employeeId, EmployeeManipulationDto employee);
         Task Delete(int employeeId);
         Task<EmployeeReadDto> GetEmployee(int employeeId);
