@@ -64,7 +64,7 @@ namespace Attendence_GP.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "Internal server error" });
             }
         }
         #endregion
@@ -85,7 +85,7 @@ namespace Attendence_GP.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "Internal server error" });
             }
         }
         #endregion
