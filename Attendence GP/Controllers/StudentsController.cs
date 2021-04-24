@@ -4,6 +4,7 @@ using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.ServiceBus.Messaging;
+using System;
 using System.Threading.Tasks;
 
 namespace Attendence_GP.Controllers
@@ -61,9 +62,9 @@ namespace Attendence_GP.Controllers
             {
                 return BadRequest();
             }
-            catch (InternalServerErrorException)
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again." });
             }
         }
         #endregion
@@ -82,9 +83,9 @@ namespace Attendence_GP.Controllers
             {
                 return BadRequest();
             }
-            catch (InternalServerErrorException)
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again." });
             }
         }
         #endregion

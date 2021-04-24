@@ -47,9 +47,9 @@ namespace Attendence_GP.Controllers
             {
                 return BadRequest();
             }
-            catch (InternalServerErrorException)
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again." });
             }
 
         }
@@ -65,11 +65,11 @@ namespace Attendence_GP.Controllers
                     Email = student.Email,
                     CreatedDate = student.CreatedDate,
                     RoleId = 4,
-                    Password = student.Password
+                    Password = GeneratePassword(student.Ssn,student.Name)
                 };
 
                 await _manager.UserServices.RegisterUser(user);
-              var stud =  await _manager.StudentServices.Create(trackActionId, user.Id, student);
+                var stud =  await _manager.StudentServices.Create(trackActionId, user.Id, student);
 
                 return Created("Student created successfully", stud);
             }
@@ -96,10 +96,15 @@ namespace Attendence_GP.Controllers
             {
                 return BadRequest();
             }
-            catch (InternalServerErrorException)
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again." });
             }
+        }
+    
+    private string GeneratePassword(string ssn , string name)
+        {
+            return name.ToLower().Substring(0, 2) + "ITI" + ssn.Substring(7, 6);
         }
     }
 
