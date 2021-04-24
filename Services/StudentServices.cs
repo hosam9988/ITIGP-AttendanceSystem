@@ -24,7 +24,8 @@ namespace Services
             var studentsEntity = _mapper.Map<Student>(student);
            var stud= _repositoryManager.StudentRepository.CreateStudent(trackActionId, userId, studentsEntity);
             await _repositoryManager.SaveAsync();
-            return _mapper.Map<StudentReadDto>(stud);
+            var entity =  _mapper.Map<StudentReadDto>(stud);
+            return entity;
         }
 
 

@@ -14,7 +14,8 @@ namespace Services.Mapper
             CreateMap<Student, StudentReadDto>()
                 .ForMember(x => x.Name, opt => opt.MapFrom(src => src.User.Name))
                 .ForMember(x => x.Email, opt => opt.MapFrom(src => src.User.Email))
-                .ForMember(x => x.CreatedBy, opt => opt.MapFrom(src => src.CreatedByNavigation.User.Name));
+                .ForMember(x => x.CreatedBy, opt => opt.MapFrom(src => src.CreatedByNavigation.User.Name)).ReverseMap();
+                
             CreateMap<Student, StudentAttendanceReadDto>().ReverseMap();
             CreateMap<StudentManipulationDto, Student>().ReverseMap();
             #endregion
@@ -79,8 +80,9 @@ namespace Services.Mapper
             #region User Mapper
             CreateMap<AppUser, LoginReadDto>().ForMember(x => x.UserName, opt => opt.MapFrom(src => src.Name))
                                               .ForMember(x => x.RoleName, opt => opt.MapFrom(src => src.Role.RoleName))
-                                              .ForMember(x=>x.UserId, opt=>opt.MapFrom(src=> src.Id))
-                                              .ForMember(x=>x.Id, opt=>opt.MapFrom(src=> src.RoleId == 4? src.Student.Id : src.Employee.Id));
+                                              .ForMember(x => x.UserId, opt => opt.MapFrom(src => src.Id))
+                                              .ForMember(x => x.Id, opt => opt.MapFrom(src => src.RoleId == 4 ? src.Student.Id : src.Employee.Id));
+                                              
 
             #endregion
         }

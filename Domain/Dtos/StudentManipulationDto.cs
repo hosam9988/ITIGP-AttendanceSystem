@@ -12,7 +12,7 @@ namespace Domain.Dtos
         public int SerialNumber { get; set; }
         public string Name { get; set; }
         [StringLength(14, MinimumLength = 14)]
-        [RegularExpression(@"[0-9]")]
+        [RegularExpression("^[0-9]*$", ErrorMessage ="SSN must be numeric value")]
         public string Ssn { get; set; }
         [EmailAddress]
         public string Email { get; set; }
@@ -24,3 +24,5 @@ namespace Domain.Dtos
         public DateTime CreatedDate { get; set; }   
     }
 }
+
+
