@@ -36,7 +36,8 @@ namespace Repository
             await FindByCondition(e => e.StudentId == studentId && e.ResponseType !=true && e.ResponseBy ==null , trackChanges).ToListAsync();
 
         public async Task<List<Permission>> GetAllPermissionsForEmployee(bool trackChanges) =>
-           await FindByCondition(e => e.ResponseType !=true && e.ResponseBy == null , trackChanges).Include(per=>per.Student.TrackAction.Track).ToListAsync();
+           await FindByCondition(e => e.ResponseType !=true && e.ResponseBy == null , trackChanges)
+            .Include(per=>per.Student.TrackAction.Track).Include(per=>per.Student.User).ToListAsync();
 
     }
 }
