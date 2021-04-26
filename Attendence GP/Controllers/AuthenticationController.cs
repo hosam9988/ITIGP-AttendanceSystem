@@ -27,62 +27,89 @@ namespace Attendence_GP.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterEmployee(EmployeeManipulationDto employee)
         {
-            try
-            {
-                var user = new AppUser
+            var IsExisted = _manager.UserServices.UserExist(employee.Email);
+            if (IsExisted != null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new
                 {
-                    Name = employee.Name,
-                    Email = employee.Email,
-                    CreatedDate = employee.CreatedDate,
-                    RoleId = employee.RoleId,
-                    Password = employee.Password
-                };
-
-                await _manager.UserServices.RegisterUser(user);
-                var emp = await _manager.EmployeeServices.Create(user.Id, employee);
-
-                return Created("Employee created successfully", emp);
-            }
-            catch (BadHttpRequestException)
+                    Status = "Error",
+                    Message = "Email existed before try another one"
+                });
+            else
             {
-                return BadRequest();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-            }
+                try
+                {
+                    var user = new AppUser
+                    {
+                        Name = employee.Name,
+                        Email = employee.Email,
+                        CreatedDate = employee.CreatedDate,
+                        RoleId = employee.RoleId,
+                        Password = employee.Password
+                    };
 
+                    await _manager.UserServices.RegisterUser(user);
+                    var emp = await _manager.EmployeeServices.Create(user.Id, employee);
+
+                    return Created("Employee created successfully", emp);
+                }
+                catch (BadHttpRequestException)
+                {
+                    return BadRequest();
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new
+                    {
+                        Status = "Error",
+                        Message = ex.Message
+                    });
+                }
+
+            }
         }
-
         [HttpPost("{trackActionId}/register-student")]
         public async Task<IActionResult> RegisterStudent(int trackActionId, StudentManipulationDto student)
         {
-            try
-            {
-                var user = new AppUser
+            var IsExisted = _manager.UserServices.UserExist(student.Email);
+            if (IsExisted != null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new
                 {
-                    Name = student.Name,
-                    Email = student.Email,
-                    CreatedDate = student.CreatedDate,
-                    RoleId = 4,
-                    Password = GeneratePassword(student.Ssn,student.Name)
-                };
-
-                await _manager.UserServices.RegisterUser(user);
-                var stud =  await _manager.StudentServices.Create(trackActionId, user.Id, student);
-
-                return Created("Student created successfully", stud);
-            }
-            catch (BadHttpRequestException)
+                    Status = "Error",
+                    Message = "Email existed before try another one"
+                });
+            else
             {
-                return BadRequest();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+
+                try
+                {
+                    var user = new AppUser
+                    {
+                        Name = student.Name,
+                        Email = student.Email,
+                        CreatedDate = student.CreatedDate,
+                        RoleId = 4,
+                        Password = _manager.StudentServices.GeneratePassword(student.Ssn, student.Name)
+                    };
+
+                    await _manager.UserServices.RegisterUser(user);
+                    var stud = await _manager.StudentServices.Create(trackActionId, user.Id, student);
+
+                    return Created("Student created successfully", stud);
+                }
+                catch (BadHttpRequestException)
+                {
+                    return BadRequest();
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new
+                    {
+                        Status = "Error",
+                        Message = ex.Message
+                    });
+                }
             }
         }
-
         [Route("Login")]
         [HttpPost]
         public async Task<IActionResult> Login(LoginCreateDto user)
@@ -98,16 +125,16 @@ namespace Attendence_GP.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "Internal server error" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    Status = "Error",
+                    Message = ex.Message
+                });
             }
         }
-    
-    private string GeneratePassword(string ssn , string name)
-        {
-            return name.ToLower().Substring(0, 2) + "ITI" + ssn.Substring(7, 6);
-        }
-    }
 
+
+    }
 
 
 }
