@@ -8,7 +8,7 @@ namespace Domain.Models
     public partial class Permission
     {
         public int Id { get; set; }
-        public string Noe { get; set; }
+        public string Note { get; set; }
         public DateTime Date { get; set; }
         public int StudentId { get; set; }
         public bool Type { get; set; }

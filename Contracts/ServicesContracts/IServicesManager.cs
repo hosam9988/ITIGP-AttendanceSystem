@@ -11,6 +11,12 @@ namespace Contracts.ServicesContracts
         IStudentServices StudentServices { get; }
         ITrackActionServices TrackActionServices { get; }
         ITrackServices TrackServices { get; }
-        
+        IPermissionServices PermissionServices { get; }
+        IEmployeeServices EmployeeServices { get; }
+        IProgramServices ProgramServices { get; }
+        IAttendanceServices AttendanceServices { get; }
+        IRoleServices RoleServices { get; }
+        IUserServices UserServices { get; }
+
     }
 }

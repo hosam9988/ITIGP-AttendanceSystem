@@ -34,7 +34,7 @@ namespace Attendence_GP.Extensions
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration) =>
             services.AddDbContext<ITIAttendanceContext>(
-                options => options.UseSqlServer(configuration.GetConnectionString("TahaConn"),
+                options => options.UseSqlServer(configuration.GetConnectionString("hKConn"),
                 builder => builder.MigrationsAssembly(assemblyName: typeof(Program).Assembly.GetName().Name)));
 
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>

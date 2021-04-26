@@ -3,10 +3,7 @@ using Contracts;
 using Contracts.ServicesContracts;
 using Domain.Dtos;
 using Domain.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Services
@@ -14,28 +11,31 @@ namespace Services
     public class TrackActionServices : ITrackActionServices
     {
         private readonly IAppRepositoryManager _repositoryManager;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
         public TrackActionServices(IAppRepositoryManager repositoryManager, IMapper mapper)
         {
             _repositoryManager = repositoryManager;
             _mapper = mapper;
         }
-        public async Task Create(int trackId, TrackAction trackAction)
+        public async Task<TrackActionReadDto> Create(int trackId, TrackActionManipulationDto trackAction)
         {
-            _repositoryManager.TrackActionRepository.CreateTrackAction(trackId, trackAction);
+            var trackActionEntity = _mapper.Map<TrackAction>(trackAction);
+           var tra = _repositoryManager.TrackActionRepository.CreateTrackAction(trackId, trackActionEntity);
             await _repositoryManager.SaveAsync();
+
+            return _mapper.Map<TrackActionReadDto>(tra);
         }
 
-        public async Task Delete(int trackId, int id)
+        public async Task Delete(int id)
         {
-            var trackAction = await _repositoryManager.TrackActionRepository.GetTrackActionAsync(trackId, id, false);
+            var trackAction = await _repositoryManager.TrackActionRepository.GetTrackActionAsync(id, false);
             _repositoryManager.TrackActionRepository.DeleteTrackAction(trackAction);
             await _repositoryManager.SaveAsync();
         }
 
-        public async Task<TrackActionReadDto> GetTrackAction(int trackId, int id)
+        public async Task<TrackActionReadDto> GetTrackAction(int id)
         {
-            var trackAction = await _repositoryManager.TrackActionRepository.GetTrackActionAsync(trackId, id, false);
+            var trackAction = await _repositoryManager.TrackActionRepository.GetTrackActionAsync(id, false);
             var trackActionEntity = _mapper.Map<TrackActionReadDto>(trackAction);
             return trackActionEntity;
         }
@@ -47,10 +47,10 @@ namespace Services
             return trackActionEntities;
         }
 
-        public async Task Update(int trackId, int id, TrackAction Track)
+        public async Task Update(int id, TrackActionManipulationDto trackAction)
         {
-            var trackAction = await _repositoryManager.TrackActionRepository.GetTrackActionAsync(trackId, id, true);
-            _repositoryManager.TrackActionRepository.UpdateTrackAction(trackAction);
+            var trackActionEntity = await _repositoryManager.TrackActionRepository.GetTrackActionAsync(id, true);
+            _mapper.Map(trackAction, trackActionEntity);
             await _repositoryManager.SaveAsync();
         }
     }

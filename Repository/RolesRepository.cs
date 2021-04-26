@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services
+namespace Repository
 {
-    public class AppService
+    class RolesRepository
     {
-        
     }
 }

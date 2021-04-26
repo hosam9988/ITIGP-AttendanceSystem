@@ -1,10 +1,9 @@
-﻿using Contracts;
+﻿using AutoMapper;
+using Contracts;
 using Contracts.ServicesContracts;
+using Domain.Dtos;
 using Domain.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Services
@@ -12,37 +11,48 @@ namespace Services
     public class TrackServices : ITrackServices
     {
         private readonly IAppRepositoryManager _repositoryManager;
-        public TrackServices(IAppRepositoryManager repositoryManager)
+        private readonly IMapper _mapper;
+        public TrackServices(IAppRepositoryManager repositoryManager, IMapper mapper)
         {
             _repositoryManager = repositoryManager;
+            _mapper = mapper;
         }
-        public async Task Create(int ProgramId, Track track)
+        public async Task<TrackReadDto> Create(int ProgramId, TrackManipulationDto track)
         {
-             _repositoryManager.TrackRepository.CreateTrack(ProgramId, track);
+            var trackEntityl = _mapper.Map<Track>(track);
+           var tra= _repositoryManager.TrackRepository.CreateTrack(ProgramId, trackEntityl);
             await _repositoryManager.SaveAsync();
+
+            return _mapper.Map<TrackReadDto>(tra);
         }
 
-        public async Task Delete(int programId, int id)
+        public async Task Delete(int id)
         {
-            var track = await _repositoryManager.TrackRepository.GetTrackAsync(programId, id, false);
+            var track = await _repositoryManager.TrackRepository.GetTrackAsync( id, false);
             _repositoryManager.TrackRepository.DeleteTrack(track);
             await _repositoryManager.SaveAsync();
         }
 
-        public async Task<Track> GetTrack(int programId, int id) =>
-            await _repositoryManager.TrackRepository.GetTrackAsync(programId, id, false);
-        
-
-        public async Task<List<Track>> GetTracksForProgram(int programId)=>
-              await _repositoryManager.TrackRepository.GetTracks(programId, false);
-
-
-        public async Task Update(int programId, int id, Track track)
+        public async Task<TrackReadDto> GetTrack(int id)
         {
-            var track1 = await _repositoryManager.TrackRepository.GetTrackAsync(programId, id, true);
-            _repositoryManager.TrackRepository.UpdateTrack(track1);
-            await _repositoryManager.SaveAsync();
+            var track = await _repositoryManager.TrackRepository.GetTrackAsync(id, false);
+            var trackEntity = _mapper.Map<TrackReadDto>(track);
+            return trackEntity;
+        }
 
+
+        public async Task<List<TrackReadDto>> GetTracksForProgram(int programId)
+        {
+            var tracks = await _repositoryManager.TrackRepository.GetTracks(programId, false);
+            var trackEntities = _mapper.Map<List<TrackReadDto>>(tracks);
+            return trackEntities;
+        }
+
+        public async Task Update(int id, TrackManipulationDto track)
+        {
+            var trackEntity = await _repositoryManager.TrackRepository.GetTrackAsync(id, true);
+            _mapper.Map(track, trackEntity);
+            await _repositoryManager.SaveAsync();
         }
     }
 }

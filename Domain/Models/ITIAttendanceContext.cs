@@ -25,6 +25,7 @@ namespace Domain.Models
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<Track> Tracks { get; set; }
         public virtual DbSet<TrackAction> TrackActions { get; set; }
+        public virtual DbSet<AppUser> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -69,33 +70,28 @@ namespace Domain.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.CreatedBy).HasColumnName("Created_By");
+                //entity.Property(e => e.CreatedBy).HasColumnName("Created_By");
 
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("date")
-                    .HasColumnName("Created_Date");
+                //entity.Property(e => e.CreatedDate)
+                //    .HasColumnType("date")
+                //    .HasColumnName("Created_Date");
 
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                //entity.Property(e => e.Email)
+                //    .IsRequired()
+                //    .HasMaxLength(50);
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(100);
+                //entity.Property(e => e.Name)
+                //    .IsRequired()
+                //    .HasMaxLength(100);
 
-                entity.Property(e => e.RoleId).HasColumnName("Role_id");
+                //entity.Property(e => e.RoleId).HasColumnName("Role_id");
 
-                entity.HasOne(d => d.CreatedByNavigation)
-                    .WithMany(p => p.InverseCreatedByNavigation)
-                    .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Emplyee_Emplyee");
+                //entity.HasOne(d => d.CreatedByNavigation)
+                //    .WithMany(p => p.InverseCreatedByNavigation)
+                //    .HasForeignKey(d => d.CreatedBy)
+                //    .OnDelete(DeleteBehavior.NoAction)
+                //    .HasConstraintName("FK_Emplyee_Emplyee");
 
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.Emplyees)
-                    .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Emplyee_Role");
             });
 
             modelBuilder.Entity<Permission>(entity =>
@@ -110,7 +106,8 @@ namespace Domain.Models
 
                 entity.Property(e => e.Date).HasColumnType("date");
 
-                entity.Property(e => e.Noe)
+                entity.Property(e => e.Note)
+                    .HasColumnName("Note")
                     .IsRequired()
                     .HasMaxLength(150);
 
@@ -153,7 +150,7 @@ namespace Domain.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Role1)
+                entity.Property(e => e.RoleName)
                     .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("Role");
@@ -173,11 +170,11 @@ namespace Domain.Models
                     .HasColumnType("date")
                     .HasColumnName("Created_Date");
 
-                entity.Property(e => e.Email).HasMaxLength(100);
+                //entity.Property(e => e.Email).HasMaxLength(100);
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(150);
+                //entity.Property(e => e.Name)
+                //    .IsRequired()
+                //    .HasMaxLength(150);
 
                 entity.Property(e => e.Phone).HasMaxLength(50);
 
@@ -188,21 +185,31 @@ namespace Domain.Models
 
                 entity.Property(e => e.Telephone).HasMaxLength(50);
 
-                entity.Property(e => e.TrackActionId).HasColumnName("Ttack_Action_ID");
+                entity.Property(e => e.TrackActionId).HasColumnName("Track_Action_ID");
 
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.Students)
                     .HasForeignKey(d => d.CreatedBy)
-                    .HasConstraintName("FK_Student_Emplyee");
+                    .HasConstraintName("FK_Student_Employee");
 
-                entity.HasOne(d => d.TtackAction)
+                entity.HasOne(d => d.User)
+                   .WithOne(e=>e.Student)
+                   .HasForeignKey<Student>(s=>s.UserId)
+                   .HasConstraintName("FK_Student_User").OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(d => d.TrackAction)
                     .WithMany(p => p.Students)
                     .HasForeignKey(d => d.TrackActionId)
                     .HasConstraintName("FK_Student_Track_Action");
+
+                entity.Property(s => s.SerialNumber).HasColumnName(nameof(Student.SerialNumber));
             });
             modelBuilder.Entity<Student>()
                  .HasIndex(st => st.Ssn)
-                   .IsUnique();
+                 .IsUnique();
+            //modelBuilder.Entity<Student>()
+            //     .HasIndex(st => st.SerialNumber)
+            //     .IsUnique();
             modelBuilder.Entity<Track>(entity =>
             {
                 entity.ToTable("Track");
@@ -248,9 +255,16 @@ namespace Domain.Models
                     .HasConstraintName("FK_Track_Action_Track");
             });
 
+
+            modelBuilder.Entity<Role>().HasData(new Role { Id = 1, RoleName = UserRoles.Admin },
+                                                new Role { Id = 2, RoleName = UserRoles.StudentAffairs },
+                                                new Role { Id = 3, RoleName = UserRoles.Security },
+                                                new Role { Id = 4, RoleName = UserRoles.Student });
             OnModelCreatingPartial(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+
     }
 }

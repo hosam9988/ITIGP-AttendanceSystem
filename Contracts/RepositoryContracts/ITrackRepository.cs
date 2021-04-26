@@ -10,9 +10,9 @@ namespace Contracts
     public interface ITrackRepository
     {
         Task<List<Track>> GetTracks(int programId, bool trackChanges);
-        Task<Track> GetTrackAsync(int programId, int track, bool trackChanges);
-        void CreateTrack(int programId,Track track);
+        Task<Track> GetTrackAsync(int trackId, bool trackChanges);
+        Task<Track> GetTrackWithProgram(int programId, int trackId, bool trackChanges);
+        Track CreateTrack(int programId, Track track);
         void DeleteTrack(Track track);
-        void UpdateTrack(Track track);
     }
 }

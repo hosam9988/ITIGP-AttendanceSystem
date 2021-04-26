@@ -15,21 +15,22 @@ namespace Repository
         {
         }
 
-        public void CreateTrackAction(int trackId, TrackAction trackAction)
+        public TrackAction CreateTrackAction(int trackId, TrackAction trackAction)
         {
             trackAction.TrackId = trackId;
             Create(trackAction);
+            return trackAction;
         }
 
         public void DeleteTrackAction(TrackAction trackAction) => Delete(trackAction);
 
-        public async Task<TrackAction> GetTrackActionAsync(int trackId, int id, bool trackChanges) =>
-            await FindByCondition(e => e.TrackId == trackId && e.Id == id, trackChanges).SingleOrDefaultAsync();
+        public async Task<TrackAction> GetTrackActionAsync(int id, bool trackChanges) =>
+            await FindByCondition(e =>e.Id == id, trackChanges).Include(tr => tr.Track).SingleOrDefaultAsync();
 
         public async Task<List<TrackAction>> GetTrackActions(int trackId, bool trackChanges) =>
-            await FindByCondition(e => e.TrackId == trackId, trackChanges).ToListAsync();
+            await FindByCondition(e => e.TrackId == trackId, trackChanges).Include(tr=>tr.Track).ToListAsync();
 
-        public void UpdateTrackAction(TrackAction trackAction) => Update(trackAction);
+       //public void UpdateTrackAction(TrackAction trackAction) => Update(trackAction);
 
     }
 }

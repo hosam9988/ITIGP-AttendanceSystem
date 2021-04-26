@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Attendence_GP.Migrations
 {
     [DbContext(typeof(ITIAttendanceContext))]
-    [Migration("20210412221608_updateSSNtoBeUnique")]
-    partial class updateSSNtoBeUnique
+    [Migration("20210422175849_mig1")]
+    partial class mig1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,6 +21,35 @@ namespace Attendence_GP.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Domain.Models.AppUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Users");
+                });
 
             modelBuilder.Entity("Domain.Models.Attendance", b =>
                 {
@@ -57,33 +86,18 @@ namespace Attendence_GP.Migrations
                         .HasColumnName("ID")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int")
-                        .HasColumnName("Created_By");
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("date")
-                        .HasColumnName("Created_Date");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int")
-                        .HasColumnName("Role_id");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedBy");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Employee");
                 });
@@ -103,10 +117,11 @@ namespace Attendence_GP.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("date");
 
-                    b.Property<string>("Noe")
+                    b.Property<string>("Note")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(150)")
+                        .HasColumnName("Note");
 
                     b.Property<int?>("ResponseBy")
                         .HasColumnType("int")
@@ -162,7 +177,7 @@ namespace Attendence_GP.Migrations
                         .HasColumnName("ID")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Role1")
+                    b.Property<string>("RoleName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -171,6 +186,28 @@ namespace Attendence_GP.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            RoleName = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            RoleName = "Student Affairs"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            RoleName = "Security"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            RoleName = "Student"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Models.Student", b =>
@@ -185,7 +222,7 @@ namespace Attendence_GP.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int?>("CreatedBy")
+                    b.Property<int>("CreatedBy")
                         .HasColumnType("int")
                         .HasColumnName("Created_By");
 
@@ -193,18 +230,13 @@ namespace Attendence_GP.Migrations
                         .HasColumnType("date")
                         .HasColumnName("Created_Date");
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
                     b.Property<string>("Phone")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("SerialNumber")
+                        .HasColumnType("int")
+                        .HasColumnName("SerialNumber");
 
                     b.Property<string>("Ssn")
                         .IsRequired()
@@ -216,9 +248,12 @@ namespace Attendence_GP.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("TrackActionId")
+                    b.Property<int>("TrackActionId")
                         .HasColumnType("int")
-                        .HasColumnName("Ttack_Action_ID");
+                        .HasColumnName("Track_Action_ID");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -228,6 +263,9 @@ namespace Attendence_GP.Migrations
                         .IsUnique();
 
                     b.HasIndex("TrackActionId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Student");
                 });
@@ -288,6 +326,17 @@ namespace Attendence_GP.Migrations
                     b.ToTable("Track_Action");
                 });
 
+            modelBuilder.Entity("Domain.Models.AppUser", b =>
+                {
+                    b.HasOne("Domain.Models.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Domain.Models.Attendance", b =>
                 {
                     b.HasOne("Domain.Models.Employee", "CreatedByNavigation")
@@ -311,19 +360,17 @@ namespace Attendence_GP.Migrations
                 {
                     b.HasOne("Domain.Models.Employee", "CreatedByNavigation")
                         .WithMany("InverseCreatedByNavigation")
-                        .HasForeignKey("CreatedBy")
-                        .HasConstraintName("FK_Emplyee_Emplyee")
-                        .IsRequired();
+                        .HasForeignKey("CreatedBy");
 
-                    b.HasOne("Domain.Models.Role", "Role")
-                        .WithMany("Emplyees")
-                        .HasForeignKey("RoleId")
-                        .HasConstraintName("FK_Emplyee_Role")
+                    b.HasOne("Domain.Models.AppUser", "User")
+                        .WithOne("Employee")
+                        .HasForeignKey("Domain.Models.Employee", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("CreatedByNavigation");
 
-                    b.Navigation("Role");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Models.Permission", b =>
@@ -349,16 +396,29 @@ namespace Attendence_GP.Migrations
                     b.HasOne("Domain.Models.Employee", "CreatedByNavigation")
                         .WithMany("Students")
                         .HasForeignKey("CreatedBy")
-                        .HasConstraintName("FK_Student_Emplyee");
+                        .HasConstraintName("FK_Student_Employee")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Domain.Models.TrackAction", "TtackAction")
+                    b.HasOne("Domain.Models.TrackAction", "TrackAction")
                         .WithMany("Students")
                         .HasForeignKey("TrackActionId")
-                        .HasConstraintName("FK_Student_Track_Action");
+                        .HasConstraintName("FK_Student_Track_Action")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.AppUser", "User")
+                        .WithOne("Student")
+                        .HasForeignKey("Domain.Models.Student", "UserId")
+                        .HasConstraintName("FK_Student_User")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("CreatedByNavigation");
 
-                    b.Navigation("TtackAction");
+                    b.Navigation("TrackAction");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Models.Track", b =>
@@ -383,6 +443,13 @@ namespace Attendence_GP.Migrations
                     b.Navigation("Track");
                 });
 
+            modelBuilder.Entity("Domain.Models.AppUser", b =>
+                {
+                    b.Navigation("Employee");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("Domain.Models.Employee", b =>
                 {
                     b.Navigation("Attendances");
@@ -401,7 +468,7 @@ namespace Attendence_GP.Migrations
 
             modelBuilder.Entity("Domain.Models.Role", b =>
                 {
-                    b.Navigation("Emplyees");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Domain.Models.Student", b =>

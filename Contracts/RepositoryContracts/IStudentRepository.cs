@@ -10,9 +10,8 @@ namespace Contracts
     public interface IStudentRepository
     {
         Task<List<Student>> GetStudents(int trackActionId, bool trackChanges);
-        Task<Student> GetStudentAsync(int trackActionId, int studentId, bool trackChanges);
-        void CreateStudent(int trackActionId, Student student);
+        Task<Student> GetStudentAsync(int studentId, bool trackChanges);
+        Student CreateStudent(int trackActionId,int userId, Student student);
         void DeleteStudent(Student student);
-        void UpdateStudent(Student student);
     }
 }

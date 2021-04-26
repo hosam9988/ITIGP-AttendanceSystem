@@ -6,10 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Dtos;
+using Microsoft.ServiceBus.Messaging;
 
 namespace Attendence_GP.Controllers
 {
-    [Route("track/{trackId}/[controller]")]
+    [Route("track/")]
     [ApiController]
     public class TrackActionsController : ControllerBase
     {
@@ -21,40 +23,78 @@ namespace Attendence_GP.Controllers
             _manager = manager;
         }
 
-        [HttpPost]
-        public async Task AddStudent(int trackId, [FromBody] TrackAction trackAction)
+        [HttpPost("{trackId}/[controller]")]
+        public async Task<IActionResult> AddTrackActionForTrack(int trackId, [FromBody] TrackActionManipulationDto trackAction)
         {
-            await _manager.TrackActionServices.Create(trackId, trackAction);
+            try
+            {
+                var tra= await _manager.TrackActionServices.Create(trackId, trackAction);
+                return Created("Track Action created successfully", tra);
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "Internal server error" });
+            }
         }
 
-        [HttpGet]
+        [HttpGet("{trackId}/[controller]")]
         public async Task<IActionResult> GetTrackActionsForTrack(int trackId)
         {
             var trackActions = await _manager.TrackActionServices.GetTrackActionsForTrack(trackId);
-            return Ok(trackActions);
+
+            return trackActions.Count == 0 ? NotFound() : Ok(trackActions);
+
         }
-        [HttpGet("{trackActionId}")]
-        public async Task<IActionResult> GetTrackActionsPerId(int trackId, int trackActionId)
+        [HttpGet("[controller]/{trackActionId}")]
+        public async Task<IActionResult> GetTrackActionsById(int trackActionId)
         {
 
-            var trackAction = await _manager.TrackActionServices.GetTrackAction(trackId, trackActionId);
-            return Ok(trackAction);
+            var trackAction = await _manager.TrackActionServices.GetTrackAction(trackActionId);
+
+            return trackAction == null ? NotFound() : Ok(trackAction);
+
         }
 
-        [HttpPut("{trackActionId}")]
+        [HttpPut("[controller]/{trackActionId}")]
 
-        public async Task<IActionResult> UpdateStudentForTrack(int trackId, int trackActionId, [FromBody] TrackAction trackAction)
+        public async Task<IActionResult> UpdateTrackActionForTrack(int trackActionId, [FromBody] TrackActionManipulationDto trackAction)
         {
-            await _manager.TrackActionServices.Update(trackId, trackActionId, trackAction);
-            return NoContent();
+            try
+            {
+                await _manager.TrackActionServices.Update(trackActionId, trackAction);
+                return NoContent();
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "Internal server error" });
+            }
         }
 
-        [HttpDelete("{trackActionId}")]
+        [HttpDelete("[controller]/{trackActionId}")]
 
-        public async Task<IActionResult> DeleteStudentForTrack(int trackId, int trackActionId)
+        public async Task<IActionResult> DeleteTRackActionForTrack(int trackActionId)
         {
-            await _manager.TrackActionServices.Delete(trackId, trackActionId);
-            return NoContent();
+            try
+            {
+                await _manager.TrackActionServices.Delete(trackActionId);
+                return NoContent();
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "Internal server error" });
+            }
         }
     }
 }
