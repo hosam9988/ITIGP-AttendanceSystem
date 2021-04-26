@@ -34,5 +34,10 @@ namespace Services
             _manager.UserRepository.CreateUser(user);
             await _manager.SaveAsync();
         }
+
+        public async Task<AppUser> UserExist(string userName)
+        {
+            return await _manager.UserRepository.UserExists(userName); 
+        }
     }
 }

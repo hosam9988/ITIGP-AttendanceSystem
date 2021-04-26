@@ -21,11 +21,14 @@ namespace Repository
         }
 
         public async Task<AppUser> GetUserAsync(string username, string password, bool trackChanges) =>
-            await FindByCondition(e => e.Name.Equals(username) && e.Password.Equals(password), trackChanges)
+            await FindByCondition(e => e.Email.Equals(username) && e.Password.Equals(password), trackChanges)
             .Include(src=>  src.Student)
             .Include(src=> src.Employee)
             .Include(src=>src.Role)
             .SingleOrDefaultAsync();
 
+        public async Task<AppUser> UserExists(string userName) =>
+            await FindByCondition(e => e.Email.Equals(userName), false)
+            .SingleOrDefaultAsync();
     }
 }
