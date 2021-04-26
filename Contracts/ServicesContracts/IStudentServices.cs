@@ -12,5 +12,6 @@ namespace Contracts.ServicesContracts
         Task Delete(int id);
         Task<StudentReadDto> GetStudent(int id);
         Task<List<StudentReadDto>> GetStudentsForTrack(int trackActionId);
+        public string GeneratePassword(string ssn, string name);
     }
 }
