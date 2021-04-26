@@ -59,8 +59,11 @@ namespace Services
             var studentsEntity = _mapper.Map<StudentReadDto>(student);
             return studentsEntity;
         }
+        public string GeneratePassword(string ssn, string name)
+        {
+            return name.ToLower().Substring(0, 2) + "ITI" + ssn.Substring(7, 7);
+        }
 
-        
     }
 }
 
