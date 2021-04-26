@@ -27,7 +27,7 @@ namespace Attendence_GP.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterEmployee(EmployeeManipulationDto employee)
         {
-            var IsExisted = _manager.UserServices.UserExist(employee.Email);
+            var IsExisted = await _manager.UserServices.UserExist(employee.Email);
             if (IsExisted != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new
                 {
@@ -70,7 +70,7 @@ namespace Attendence_GP.Controllers
         [HttpPost("{trackActionId}/register-student")]
         public async Task<IActionResult> RegisterStudent(int trackActionId, StudentManipulationDto student)
         {
-            var IsExisted = _manager.UserServices.UserExist(student.Email);
+            var IsExisted = await _manager.UserServices.UserExist(student.Email);
             if (IsExisted != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new
                 {
