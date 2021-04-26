@@ -12,5 +12,6 @@ namespace Contracts.ServicesContracts
     {
         Task<LoginReadDto> Login (string userName, string password);
         Task RegisterUser(AppUser user);
+        Task<AppUser> UserExist(string userName);
     }
 }
