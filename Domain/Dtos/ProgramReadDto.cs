@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services
+namespace Domain.Dtos
 {
-    public class AppService
+    public class ProgramReadDto
     {
-        
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

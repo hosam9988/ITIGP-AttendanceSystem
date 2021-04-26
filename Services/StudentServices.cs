@@ -1,24 +1,69 @@
-﻿using Contracts;
+﻿using AutoMapper;
+using Contracts;
+using Contracts.ServicesContracts;
+using Domain.Dtos;
 using Domain.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Services
 {
-    public class StudentServices
+    public class StudentServices : IStudentServices
     {
-        private readonly IAppRepository<Student> _appRepository; //=>use model from student model
-        public StudentServices(IAppRepository<Student> appRepository)
+        private readonly IAppRepositoryManager _repositoryManager; //=>use model from student model
+        private readonly IMapper _mapper;
+        public StudentServices(IAppRepositoryManager repositoryManager, IMapper mapper)
         {
-            _appRepository = appRepository;
+            _repositoryManager = repositoryManager;
+            _mapper = mapper;
         }
 
-        public void create(Student student)
+        public async Task<StudentReadDto> Create(int trackActionId, int userId, StudentManipulationDto student)
         {
-            _appRepository.Create(student);
+            var studentsEntity = _mapper.Map<Student>(student);
+           var stud= _repositoryManager.StudentRepository.CreateStudent(trackActionId, userId, studentsEntity);
+            await _repositoryManager.SaveAsync();
+            var entity =  _mapper.Map<StudentReadDto>(stud);
+            return entity;
         }
+
+
+
+        public async Task Delete(int id)
+        {
+            var student = await _repositoryManager.StudentRepository.GetStudentAsync(id, false);
+            _repositoryManager.StudentRepository.DeleteStudent(student);
+            await _repositoryManager.SaveAsync();
+        }
+
+
+        public async Task<List<StudentReadDto>> GetStudentsForTrack(int trackActionId)
+        {
+            var students = await _repositoryManager.StudentRepository.GetStudents(trackActionId, trackChanges: false);
+            var studentsEntity = _mapper.Map<List<StudentReadDto>>(students);
+            return studentsEntity.ToList();
+        }
+
+        public async Task Update(int id, StudentManipulationDto student)
+        {
+            var studentEntity = await _repositoryManager.StudentRepository.GetStudentAsync( id, trackChanges: true);
+            _mapper.Map(student, studentEntity);
+            await _repositoryManager.SaveAsync();
+        }
+
+
+        public async Task<StudentReadDto> GetStudent(int id)
+        {
+            var student = await _repositoryManager.StudentRepository.GetStudentAsync( id, trackChanges: false);
+            var studentsEntity = _mapper.Map<StudentReadDto>(student);
+            return studentsEntity;
+        }
+        public string GeneratePassword(string ssn, string name)
+        {
+            return name.ToLower().Substring(0, 2) + "ITI" + ssn.Substring(7, 7);
+        }
+
     }
 }
+

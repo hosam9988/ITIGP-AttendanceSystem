@@ -1,5 +1,4 @@
-
-using Domain.Models;
+using Attendence_GP.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Services.Mapper;
 
 namespace Attendence_GP
 {
@@ -22,9 +21,19 @@ namespace Attendence_GP
             _configuration = configuration;
         }
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddDbContext<AttendContext>(options => options.UseSqlServer(_configuration.GetConnectionString("tahaConn")));
-;       }
+        { 
+            services.ConfigureDbContext(_configuration);
+            services.ConfigureCors();
+            services.ConfigureRepositoryManager();
+            services.AddAutoMapper(typeof(MappingProfile));
+            services.ConfigureServicesManager();
+            services.AddControllers().AddNewtonsoftJson();
+            services.ConfigureSwagger();
+            services.ConfigureIISintegration();
+
+            services.AddControllers().AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -33,15 +42,22 @@ namespace Attendence_GP
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("CorsPolicy");
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                     "Attendance v1"));
+            app.UseReDoc(c =>
+            {
+                c.DocumentTitle = "REDOC API Documentation";
+                c.SpecUrl = "/swagger/v1/swagger.json";
+            });
 
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllers();
             });
         }
     }

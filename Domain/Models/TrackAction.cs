@@ -13,9 +13,9 @@ namespace Domain.Models
         }
 
         public int Id { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public int? TrackId { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+        public int TrackId { get; set; }
         public string Type { get; set; }
 
         public virtual Track Track { get; set; }

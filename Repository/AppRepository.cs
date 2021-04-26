@@ -7,24 +7,33 @@ using System.Linq.Expressions;
 
 namespace Repository
 {
-    public class AppRepository<T>:IAppRepository<T> where T : class
+    public class AppRepository<T> : IAppRepository<T> where T : class
     {
-        protected readonly AttendContext _context;
-        public AppRepository(AttendContext context)
+        protected readonly ITIAttendanceContext _context;
+        private readonly DbSet<T> _dbSet;
+        public AppRepository(ITIAttendanceContext context)
         {
             _context = context;
+            _dbSet = _context.Set<T>();
         }
-        
-        public void Create(T entity) => _context.Set<T>().Add(entity);
 
-        public void Delete(T entity) => _context.Set<T>().Remove(entity);
+        public void Create(T entity) =>
+            _dbSet.Add(entity);
 
-        public void Update(T entity) => _context.Set<T>().Update(entity);
+
+        public void Delete(T entity) =>
+                _dbSet.Remove(entity);
+
+
+        //public void Update(T entity) =>
+        //    _dbSet.Update(entity);
+
 
         public IQueryable<T> FindAll(bool trackChanges) =>
-            !trackChanges ? _context.Set<T>().AsNoTracking() : _context.Set<T>();
+            !trackChanges ? _dbSet.AsNoTracking() : _dbSet;
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges) =>
-            !trackChanges ? _context.Set<T>().Where(expression).AsNoTracking() : _context.Set<T>().Where(expression);
+            !trackChanges ? _dbSet.Where(expression).AsNoTracking() : _dbSet.Where(expression);
+
     }
 }

@@ -1,28 +1,93 @@
-﻿using Domain.Models;
+﻿using Contracts.ServicesContracts;
+using Domain.Dtos;
+using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Services;
+using Microsoft.ServiceBus.Messaging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Attendence_GP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("trackAction/")]
     [ApiController]
     public class StudentsController : ControllerBase
     {
-        private readonly StudentServices _studentServices;
-        public StudentsController(StudentServices studentServices)
-        {
-            _studentServices = studentServices;
-        }
+        private readonly IServicesManager _manager;
 
-        [HttpPost]
-        public void AddStudent(Student student)
+        public StudentsController(IServicesManager manager)
         {
-            _studentServices.create(student);
+            _manager = manager;
         }
+        #region Create 
+        //[HttpPost("{trackActionId}/[controller]/")]
+        //public async Task AddStudent(int trackActionId, [FromBody] StudentManipulationDto student)
+        //{
+        //    await _manager.StudentServices.Create(trackActionId, student);
+        //}
+        #endregion
+
+        #region Read
+        [HttpGet("{trackActionId}/[controller]/")]
+        public async Task<IActionResult> GetStudentsForTrack(int trackActionId)
+        {
+            var students = await _manager.StudentServices.GetStudentsForTrack(trackActionId);
+            
+            if(students != null)
+            return Ok(students);
+            else
+                return NotFound();
+        }
+        [HttpGet("/[controller]/{studentId}")]
+        public async Task<IActionResult> GetStudentPerId(int studentId)
+        {
+
+            var student = await _manager.StudentServices.GetStudent(studentId);
+
+            return student== null ? NotFound() : Ok(student);
+        }
+        #endregion
+
+        #region update
+        [HttpPut("/[controller]/{studentId}")]
+
+        public async Task<IActionResult> UpdateStudentForTrack(int studentId, [FromBody] StudentManipulationDto student)
+        {
+            try
+            {
+                await _manager.StudentServices.Update(studentId, student);
+                return NoContent();
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "Internal server error" });
+            }
+        }
+        #endregion
+
+        #region Delete
+        [HttpDelete("/[controller]/{studentId}")]
+
+        public async Task<IActionResult> DeleteStudentForTrack(int studentId)
+        {
+            try
+            {
+                await _manager.StudentServices.Delete(studentId);
+                return NoContent();
+            }
+            catch (BadHttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = "Internal server error" });
+            }
+        }
+        #endregion
     }
 }
