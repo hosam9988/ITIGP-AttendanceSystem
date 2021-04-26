@@ -10,6 +10,7 @@ namespace Domain.Dtos.AuthDtos
     public class LoginCreateDto
     {
         [Required(ErrorMessage ="Username is required")]
+        [EmailAddress]
         public string UserName { get; set; }
         [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
