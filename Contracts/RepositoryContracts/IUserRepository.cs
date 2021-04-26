@@ -12,6 +12,7 @@ namespace Contracts.RepositoryContracts
         //Task<List<AppUser>> GetStudents(int trackActionId, bool trackChanges);
         Task<AppUser> GetUserAsync(string username, string password, bool trackChanges);
         void CreateUser(AppUser user);
+        public Task<AppUser> UserExists(string userName);
 
     }
 }
